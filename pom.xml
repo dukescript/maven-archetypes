@@ -42,9 +42,9 @@
     </properties>
     <modules>
         <module>crud-archetype</module>
-        <module>crud-archetype-test</module>
+        <!--<module>crud-archetype-test</module>-->
         <module>ko-archetype</module>
-        <module>ko-archetype-test</module>
+        <!--<module>ko-archetype-test</module>-->
     </modules>
     <licenses>
         <license>
