@@ -35,7 +35,7 @@
         <net.java.html.version>1.1</net.java.html.version>
         <nb.html.version>1.0</nb.html.version>
         <presenters.version>0.7</presenters.version>
-        <bck2brwsr.version>0.12</bck2brwsr.version>
+        <bck2brwsr.version>0.13</bck2brwsr.version>
         <jersey.version>2.13</jersey.version>
         <license>COPYING</license>
         <netbeans.compile.on.save>none</netbeans.compile.on.save>
