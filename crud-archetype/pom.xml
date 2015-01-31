@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+      <groupId>com.dukescript.archetype</groupId>
+    <artifactId>pom</artifactId>
+    <version>0.7-SNAPSHOT</version>
+  </parent>
+  <groupId>com.dukescript.archetype</groupId>
+    <artifactId>crud4j-archetype</artifactId>
+  <version>0.7-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>CRUD for HTML/Java Maven Archetype</name>
+  <description>
+      HTML page with master/detail showing results obtains
+      for a Jersey server. Everything written in Java. 
+      Use your favorite language to code. Run the same code 
+      on server as well as client. Use
+      HTML as a lightweight rendering toolkit. Deploy to desktop,
+      Android, iOS, HTML5 browser. 
+  </description>
+  <build>
+      <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+            <includes>
+                <include>**/pom.xml</include>
+            </includes>
+          </resource>
+          <resource>
+            <directory>src/main/resources</directory>
+            <filtering>false</filtering>
+            <excludes>
+                <exclude>**/pom.xml</exclude>
+            </excludes>
+          </resource>
+      </resources>      
+      <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-resources-plugin</artifactId>
+              <version>2.6</version>
+              <configuration>
+                  <escapeString>\</escapeString>
+                  <target>1.6</target>
+              </configuration>
+          </plugin>
+          <plugin>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <version>2.9</version>
+              <configuration>
+                  <subpackages />
+                  <skip>true</skip>
+              </configuration>
+          </plugin>          
+      </plugins>
+  </build>
+</project>
