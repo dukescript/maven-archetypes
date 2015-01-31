@@ -6,7 +6,9 @@
     <version>0.7</version>
     <packaging>pom</packaging>
     <name>Archetypes for HTML/Java APIs</name>
-    
+    <url>http://dukescript.com</url>
+     
+    <description>Archetypes for DukeScript Applications</description>
     <developers>
         <developer>
             <id>eppleton</id>
