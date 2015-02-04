@@ -4,11 +4,11 @@
     <parent>
         <groupId>com.dukescript.archetype</groupId>
         <artifactId>pom</artifactId>
-        <version>0.7-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
     <groupId>com.dukescript.archetype</groupId>
     <artifactId>crud-archetype-test</artifactId>
-    <version>0.7-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <name>CRUD for HTML/Java Archetype Test</name>
     <url>http://maven.apache.org</url>
     <description>Verifies the Knockout &amp; net.java.html.json archetype behaves properly.</description>
