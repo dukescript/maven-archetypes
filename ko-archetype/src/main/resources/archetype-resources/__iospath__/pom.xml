@@ -69,15 +69,16 @@
                     <outputDirectory>target/web/pages</outputDirectory>
                     <includes>*/**</includes>
                 </configuration>
-            </plugin>            
+            </plugin>
             <plugin>
                 <groupId>com.filmon.maven</groupId>
                 <artifactId>image-maven-plugin</artifactId>
-                <version>1.1</version>
+                <version>1.2.1</version>
                 <executions>
                     <execution>
                         <goals>
                             <goal>scale</goal>
+                            <goal>crop</goal>
                         </goals>
                         <configuration>
                             <outputDirectory>target/images</outputDirectory>
@@ -111,6 +112,30 @@
                                     <source>src/main/icons/launcher.png</source>
                                     <destination>Icon-76.png</destination>
                                     <width>76</width>
+                                </image>
+                                <image>
+                                    <source>src/main/icons/launcher.png</source>
+                                    <destination>Default@2x.png</destination>
+                                    <width>240</width>
+                                    <cropWidth>640</cropWidth>
+                                    <cropHeight>960</cropHeight>
+                                    <color>white</color>
+                                </image>
+                                <image>
+                                    <source>src/main/icons/launcher.png</source>
+                                    <destination>Default-568h@2x.png</destination>
+                                    <width>240</width>
+                                    <cropWidth>640</cropWidth>
+                                    <cropHeight>1136</cropHeight>
+                                    <color>white</color>
+                                </image>
+                                <image>
+                                    <source>src/main/icons/launcher.png</source>
+                                    <destination>Default.png</destination>
+                                    <width>120</width>
+                                    <cropWidth>320</cropWidth>
+                                    <cropHeight>480</cropHeight>
+                                    <color>white</color>
                                 </image>
                             </images>
                         </configuration>
