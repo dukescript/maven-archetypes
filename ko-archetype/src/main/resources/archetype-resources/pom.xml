@@ -9,24 +9,6 @@
   <packaging>pom</packaging>
 
   <name>\${artifactId}</name>
-
-    <repositories>
-        <repository>
-            <id>jersey</id>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <url>https://maven.java.net/content/repositories/snapshots/</url>
-        </repository>
-      <repository>
-          <id>netbeans</id>
-          <name>NetBeans</name>
-          <url>http://bits.netbeans.org/maven2/</url>
-      </repository>
-    </repositories>
     <modules>
         <module>client</module>
 #if ($webpath.indexOf("target/") != 0)
@@ -41,6 +23,7 @@
 #if ($iospath.indexOf("target/") != 0)
         <module>$iospath</module>
 #end
+        <module>js</module>
     </modules>
     <properties>
         <net.java.html.version>${net.java.html.version}</net.java.html.version>

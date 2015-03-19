@@ -4,6 +4,7 @@ import net.java.html.json.ComputedProperty;
 import net.java.html.json.Function;
 import net.java.html.json.Model;
 import net.java.html.json.Property;
+import ${package}.js.Dialogs;
 
 /** Model annotation generates class Data with 
  * one message property, boolean property and read only words property
@@ -27,7 +28,7 @@ final class DataModel {
     }
     
     @Function static void turnAnimationOff(final Data model) {
-        confirmByUser("Really turn off?", new Runnable() {
+        Dialogs.confirmByUser("Really turn off?", new Runnable() {
             @Override
             public void run() {
                 model.setRotating(false);
@@ -47,28 +48,6 @@ final class DataModel {
     }
     
     @Function static void showScreenSize(Data model) {
-        model.setMessage(screenSize());
+        model.setMessage(Dialogs.screenSize());
     }
-    
-    /** Shows direct interaction with JavaScript */
-    @net.java.html.js.JavaScriptBody(
-        args = { "msg", "callback" }, 
-        javacall = true, 
-        body = "if (confirm(msg)) {\n"
-             + "  callback.@java.lang.Runnable::run()();\n"
-             + "}\n"
-    )
-    static native void confirmByUser(String msg, Runnable callback);
-    @net.java.html.js.JavaScriptBody(
-        args = {}, body = 
-        "var w = window,\n" +
-        "    d = document,\n" +
-        "    e = d.documentElement,\n" +
-        "    g = d.getElementsByTagName('body')[0],\n" +
-        "    x = w.innerWidth || e.clientWidth || g.clientWidth,\n" +
-        "    y = w.innerHeight|| e.clientHeight|| g.clientHeight;\n" +
-        "\n" +
-        "return 'Screen size is ' + x + ' times ' + y;\n"
-    )
-    static native String screenSize();
 }

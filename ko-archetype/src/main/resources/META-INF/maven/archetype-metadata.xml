@@ -86,6 +86,24 @@
       </includes>
     </fileSet>
     <fileSet filtered="true">
+        <directory>js</directory>
+        <includes>
+            <include>pom.xml</include>
+        </includes>
+    </fileSet>
+    <fileSet filtered="true" packaged="true">
+        <directory>js/src/main/java</directory>
+        <includes>
+            <include>**/*.java</include>
+        </includes>
+    </fileSet>
+    <fileSet filtered="true" packaged="true">
+        <directory>js/src/test/java</directory>
+        <includes>
+            <include>**/*Test.java</include>
+        </includes>
+    </fileSet>
+    <fileSet filtered="true">
         <directory>__webpath__</directory>
         <includes>
             <include>nbactions*.xml</include>

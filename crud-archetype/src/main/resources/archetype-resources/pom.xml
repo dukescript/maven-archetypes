@@ -10,23 +10,6 @@
 
   <name>\${artifactId}</name>
 
-    <repositories>
-        <repository>
-            <id>jersey</id>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <url>https://maven.java.net/content/repositories/snapshots/</url>
-        </repository>
-      <repository>
-          <id>netbeans</id>
-          <name>NetBeans</name>
-          <url>http://bits.netbeans.org/maven2/</url>
-      </repository>
-    </repositories>
     <modules>
         <module>shared</module>
         <module>client</module>
