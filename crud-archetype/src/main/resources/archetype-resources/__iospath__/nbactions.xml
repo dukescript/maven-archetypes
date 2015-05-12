@@ -18,6 +18,9 @@
         </goals>
         <properties>
             <skipTests>true</skipTests>
+            <robovm.debug>clientmode</robovm.debug>
+            <robovm.debugPort>${jpda.address}</robovm.debugPort>
+            <jpda.listen>true</jpda.listen>
         </properties>
     </action>
     <action>

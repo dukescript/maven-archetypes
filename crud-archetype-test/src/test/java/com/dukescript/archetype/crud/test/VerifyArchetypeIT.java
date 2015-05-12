@@ -25,9 +25,12 @@ package com.dukescript.archetype.crud.test;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
@@ -38,6 +41,7 @@ import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -106,10 +110,12 @@ public class VerifyArchetypeIT {
                 fail("No pre-compilaton:\n" + l);
             }
         }
-        
-        v.verifyTextInLog("fxcompile/o-a-test/client/target/o-a-test-1.0-SNAPSHOT-javafx.zip");
-        
+        verifyFileInLog(v, "fxcompile/o-a-test/client/target/o-a-test-1.0-SNAPSHOT-javafx.zip");
         v.assertFilePresent("server/nbactions.xml");
+    }
+
+    private void verifyFileInLog(Verifier v, final String t) throws VerificationException {
+        v.verifyTextInLog(t.replace('/', File.separatorChar));
     }
     
     @Test public void iosProjectCompiles() throws Exception {
@@ -141,7 +147,7 @@ public class VerifyArchetypeIT {
         v.executeGoal("install");
         
         v.verifyErrorFreeLog();
-        v.verifyTextInLog("icompile/o-b-test/client/target/o-b-test-1.0-SNAPSHOT-javafx.zip");
+        verifyFileInLog(v, "icompile/o-b-test/client/target/o-b-test-1.0-SNAPSHOT-javafx.zip");
         
         File client = new File(created, "client-ios");
         assertTrue(client.isDirectory(), "Subproject dir found: " + client);
@@ -248,7 +254,7 @@ public class VerifyArchetypeIT {
         v.executeGoal("package");
         
         v.verifyErrorFreeLog();
-        v.verifyTextInLog("noicompile/m-n-test/client/target/m-n-test-1.0-SNAPSHOT-javafx.zip");
+        verifyFileInLog(v, "noicompile/m-n-test/client/target/m-n-test-1.0-SNAPSHOT-javafx.zip");
         
         File nbactions = new File(created, "nbactions.xml");
         assertTrue(nbactions.isFile(), "Actions file is in there");
@@ -263,6 +269,12 @@ public class VerifyArchetypeIT {
         assertTrue(created.isDirectory(), "Project created");
         assertTrue(new File(created, "pom.xml").isFile(), "Pom file is in there");
 
+        File index = new File(new File(new File(new File(new File(
+            created, "src"), "main"), "webapp"), "pages"), "index.html");
+        assertTrue(index.exists(), "HTML page found " + index);
+        File bin = new File(index.getParentFile(), "index.bin");
+        writeBinary(bin);
+        
         File and = new File(new File(dir, "d-l-test"), "android-test");
         assertTrue(and.isDirectory(), "Project created");
         assertTrue(new File(and, "pom.xml").isFile(), "Pom file is in there");
@@ -301,6 +313,9 @@ public class VerifyArchetypeIT {
         
         JarFile jf = new JarFile(apk);
         assertNotNull(jf.getEntry("assets/pages/index.html"), "index.html is included in " + apk);
+        ZipEntry indexBin = jf.getEntry("assets/pages/index.bin");
+        assertNotNull(indexBin, "binary file found in " + apk);
+        assertBinary(jf.getInputStream(indexBin));
         jf.close();
     }
 
@@ -325,7 +340,7 @@ public class VerifyArchetypeIT {
         v.executeGoal("verify");
         
         v.verifyErrorFreeLog();
-        v.verifyTextInLog("wandroidcmp/w-d-test/client/target/w-d-test-1.0-SNAPSHOT-javafx.zip");
+        verifyFileInLog(v, "wandroidcmp/w-d-test/client/target/w-d-test-1.0-SNAPSHOT-javafx.zip");
     }
 
     @Test
@@ -336,14 +351,17 @@ public class VerifyArchetypeIT {
         File created = new File(new File(dir, "b-p-test"), "client");
         assertTrue(created.isDirectory(), "Project created");
         assertTrue(new File(created, "pom.xml").isFile(), "Pom file is in there");
-        
-        File web = new File(new File(dir, "b-p-test"), "test-web");
-        assertTrue(web.isDirectory(), "Project created");
-        assertTrue(new File(web, "pom.xml").isFile(), "Pom file is in there");
-        
+
         File main = new File(new File(created, "src"), "main");
         File pages = new File(new File(main, "webapp"), "pages");
         File index = new File(pages, "index.html");
+        assertTrue(index.exists(), "HTML page found " + index);
+        File bin = new File(index.getParentFile(), "index.bin");
+        writeBinary(bin);
+                
+        File web = new File(new File(dir, "b-p-test"), "test-web");
+        assertTrue(web.isDirectory(), "Project created");
+        assertTrue(new File(web, "pom.xml").isFile(), "Pom file is in there");
         
         String indexContent = Files.readFile(index);
         assertTrue(indexContent.contains("src=\"bck2brwsr.js\""), "There should be bck2brwsr.js reference in " + index);
@@ -360,7 +378,7 @@ public class VerifyArchetypeIT {
         v.executeGoal("package");
         
         v.verifyErrorFreeLog();
-        v.verifyTextInLog("b2bcmp/b-p-test/test-web/target/b-p-test-web-1.0-SNAPSHOT-bck2brwsr.zip");
+        verifyFileInLog(v, "b2bcmp/b-p-test/test-web/target/b-p-test-web-1.0-SNAPSHOT-bck2brwsr.zip");
         
         v.assertFileNotPresent("target/res/drawable-hdpi/ic_launcher.png");
         v.assertFileNotPresent("target/res/drawable-mdpi/ic_launcher.png");
@@ -372,6 +390,10 @@ public class VerifyArchetypeIT {
         v.assertFilePresent("target/b-p-test-web-1.0-SNAPSHOT-bck2brwsr.zip");
         v.assertFilePresent("target/b-p-test.js");
         v.assertFilePresent("target/b-p-test-web-1.0-SNAPSHOT-bck2brwsr/public_html/index.html");
+        v.assertFilePresent("target/b-p-test-web-1.0-SNAPSHOT-bck2brwsr/public_html/index.bin");
+        File indexBin = new File(new File(new File(new File(web, "target"), "b-p-test-web-1.0-SNAPSHOT-bck2brwsr"), "public_html"), "index.bin");
+        assertTrue(indexBin.exists(), "index.bin really exists");
+        assertBinary(new FileInputStream(indexBin));
 
         File nbactions = new File(web, "nbactions.xml");
         assertTrue(nbactions.isFile(), "Actions file is in there");
@@ -419,7 +441,7 @@ public class VerifyArchetypeIT {
             v.executeGoal("package");
 
             v.verifyErrorFreeLog();
-            v.verifyTextInLog("BandN/b-n-test/for-web/target/b-n-test-web-1.0-SNAPSHOT-bck2brwsr.zip");
+            verifyFileInLog(v, "BandN/b-n-test/for-web/target/b-n-test-web-1.0-SNAPSHOT-bck2brwsr.zip");
 
             v.assertFileNotPresent("target/res/drawable-hdpi/ic_launcher.png");
             v.assertFileNotPresent("target/res/drawable-mdpi/ic_launcher.png");
@@ -565,4 +587,20 @@ public class VerifyArchetypeIT {
         Document dom = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(u.openStream());
         return xp.evaluate(dom);
     }    
+    
+    static void writeBinary(File out) throws IOException {
+        FileOutputStream fos = new FileOutputStream(out);
+        for (int i = 0; i < 256; i++) {
+            fos.write(i);
+        }
+        fos.close();
+    }
+    
+    static void assertBinary(InputStream is) throws IOException {
+        for (int i = 0; i < 256; i++) {
+            int b = is.read();
+            assertEquals((byte)b, (byte)i, i + "th byte of the stream should be equal");
+        }
+        is.close();
+    }
 }
