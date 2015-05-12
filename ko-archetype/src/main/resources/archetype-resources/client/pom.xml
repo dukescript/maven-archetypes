@@ -14,7 +14,7 @@
   <version>\${version}</version>
   <packaging>bundle</packaging>
 
-  <name>\${artifactId} Client for JavaFX</name>
+  <name>\${artifactId} General Client Code</name>
 
   <properties>
     <netbeans.compile.on.save>all</netbeans.compile.on.save>
