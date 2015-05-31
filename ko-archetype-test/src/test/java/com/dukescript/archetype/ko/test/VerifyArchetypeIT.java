@@ -371,7 +371,7 @@ public class VerifyArchetypeIT {
         assertTrue(new File(web, "pom.xml").isFile(), "Pom file is in there");
 
         String indexContent = Files.readFile(index);
-        assertTrue(indexContent.contains("src=\"bck2brwsr.js\""), "There should be bck2brwsr.js reference in " + index);
+        assertTrue(indexContent.contains("${browser.bootstrap}"), "There should be bck2brwsr.js placeholder in " + index);
 
         {
             Verifier v = new Verifier(created.getParent());
@@ -402,6 +402,10 @@ public class VerifyArchetypeIT {
         File indexBin = new File(genRoot, "index.bin");
         assertTrue(indexBin.exists(), "index.bin really exists");
         assertBinary(new FileInputStream(indexBin));
+
+        File indexGen = new File(genRoot, "index.html");
+        String indexGenContent = Files.readFile(indexGen);
+        assertTrue(indexGenContent.contains("src=\"bck2brwsr.js\""), "There should be bck2brwsr.js reference in " + indexGen);
 
         File nbactions = new File(web, "nbactions.xml");
         assertTrue(nbactions.isFile(), "Actions file is in there");
@@ -436,7 +440,7 @@ public class VerifyArchetypeIT {
         File index = new File(pages, "index.html");
 
         String indexContent = Files.readFile(index);
-        assertTrue(indexContent.contains("src=\"bck2brwsr.js\""), "There should be bck2brwsr.js reference in " + index);
+        assertTrue(indexContent.contains("${browser.bootstrap}"), "There should be bck2brwsr.js placeholder in " + index);
 
         {
             Verifier v = new Verifier(created.getParent());
@@ -463,6 +467,11 @@ public class VerifyArchetypeIT {
             v.assertFilePresent("target/b-n-test-web-1.0-SNAPSHOT-bck2brwsr.zip");
             v.assertFilePresent("target/b-n-test.js");
             v.assertFilePresent("target/b-n-test-web-1.0-SNAPSHOT-bck2brwsr/public_html/index.html");
+
+            File genRoot = new File(new File(new File(forWeb, "target"), "b-n-test-web-1.0-SNAPSHOT-bck2brwsr"), "public_html");
+            File indexGen = new File(genRoot, "index.html");
+            String indexGenContent = Files.readFile(indexGen);
+            assertTrue(indexGenContent.contains("src=\"bck2brwsr.js\""), "There should be bck2brwsr.js reference in " + indexGen);
 
             File nbactions = new File(forWeb, "nbactions.xml");
             assertTrue(nbactions.isFile(), "Actions file is in there");

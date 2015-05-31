@@ -6,7 +6,7 @@
         <style>
 table, th, td {
    border: 1px solid black;
-}    
+}
 table {
     border-collapse: collapse;
     width: 100%;
@@ -20,13 +20,13 @@ th {
     background-color: greenyellow;
 }
 input {
-    border: 3px solid gray; 
+    border: 3px solid gray;
     padding: 5px;
     background: linen;
     margin: 0 0 10px 0;
 }
 select {
-    border: 3px solid gray; 
+    border: 3px solid gray;
     padding: 5px;
     background: linen;
     margin: 0 0 10px 0;
@@ -48,7 +48,7 @@ button {
     </head>
     <body>
         <h1>Create, Read, Update, Delete</h1>
-        
+
         <script type="text/html" id="list-contacts">
         <table>
             <tr>
@@ -103,10 +103,10 @@ button {
 
         <div data-bind="template: { name: 'list-contacts', if: !edited() }">
         </div>
-        
+
         <div data-bind="template: { name: 'edit-contact', if: edited, data: edited }">
         </div>
-        
+
 
         <hr>
         <div>
@@ -114,18 +114,12 @@ button {
         <input data-bind="textInput: url" size="60">
         <button data-bind="click: connect">Connect</button>
         </div>
-        
+
         <br>
         <div data-bind="text: message"></div>
-        
+
 #if ($webpath.indexOf("target/") != 0)
-        <!-- boot bck2brwsr -->
-        <script type="text/javascript" src="bck2brwsr.js"></script>
-        <script>
-            var vm = bck2brwsr('${artifactId}.js');
-            var c = vm.loadClass('${package}.BrowserMain');
-            c.invoke('main');
-        </script>
-#end        
+<!-- ${browser.bootstrap} -->
+#end
     </body>
 </html>

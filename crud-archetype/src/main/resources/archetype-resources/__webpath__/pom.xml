@@ -8,7 +8,7 @@
         <artifactId>\${artifactId}-pom</artifactId>
         <version>\${version}</version>
     </parent>
-    
+
     <groupId>\${groupId}</groupId>
     <artifactId>\${artifactId}-web</artifactId>
     <version>\${version}</version>
@@ -19,6 +19,14 @@
     <properties>
         <netbeans.compile.on.save>none</netbeans.compile.on.save>
         <project.mainclass>\${package}.BrowserMain</project.mainclass>
+        <browser.bootstrap>initialize bck2brwsr --&gt;
+&lt;script type="text/javascript" src="bck2brwsr.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    var vm = bck2brwsr('\${artifactId}.js');
+    var c = vm.loadClass('\${package}.BrowserMain');
+    c.invoke('main');
+&lt;/script&gt;
+&lt;!-- end of initialization </browser.bootstrap>
     </properties>
     <build>
         <plugins>
@@ -34,7 +42,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>          
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -101,8 +109,8 @@
                             </descriptors>
                         </configuration>
                     </execution>
-                </executions>                
-            </plugin>      
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -123,7 +131,7 @@
                     <outputDirectory>target/web/pages</outputDirectory>
                     <includes>*/**</includes>
                 </configuration>
-            </plugin>            
+            </plugin>
         </plugins>
     </build>
     <dependencies>
