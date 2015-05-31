@@ -5,6 +5,6 @@ public class BrowserMain {
     }
 
     public static void main(String... args) throws Exception {
-        UIModel.onPageLoad();
+        Main.onPageLoad();
     }
 }
