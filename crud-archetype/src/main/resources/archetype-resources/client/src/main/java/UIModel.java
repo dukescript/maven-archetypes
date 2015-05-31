@@ -22,19 +22,19 @@ import net.java.html.json.Property;
     @Property(name = "edited", type = Contact.class)
 })
 final class UIModel {
-    
+
     //
     // REST API callbacks
     //
-    
-    @OnReceive(url = "{url}", onError = "cannotConnect") 
+
+    @OnReceive(url = "{url}", onError = "cannotConnect")
     static void loadContacts(UI ui, List<Contact> arr) {
         ui.getContacts().clear();
         ui.getContacts().addAll(arr);
         ui.setMessage("Loaded " + arr.size() + " contact(s).");
     }
 
-    @OnReceive(method = "POST", url = "{url}", data = Contact.class, onError = "cannotConnect") 
+    @OnReceive(method = "POST", url = "{url}", data = Contact.class, onError = "cannotConnect")
     static void addContact(UI ui, List<Contact> updatedOnes, Contact newOne) {
         ui.getContacts().clear();
         ui.getContacts().addAll(updatedOnes);
@@ -42,7 +42,7 @@ final class UIModel {
         ui.setSelected(null);
         ui.setEdited(null);
     }
-    @OnReceive(method = "PUT", url = "{url}/{id}", data = Contact.class, onError = "cannotConnect") 
+    @OnReceive(method = "PUT", url = "{url}/{id}", data = Contact.class, onError = "cannotConnect")
     static void updateContact(UI ui, List<Contact> updatedOnes, Contact original) {
         ui.getContacts().clear();
         ui.getContacts().addAll(updatedOnes);
@@ -50,8 +50,8 @@ final class UIModel {
         ui.setSelected(null);
         ui.setEdited(null);
     }
-    
-    @OnReceive(method = "DELETE", url = "{url}/{id}", onError = "cannotConnect") 
+
+    @OnReceive(method = "DELETE", url = "{url}/{id}", onError = "cannotConnect")
     static void deleteContact(UI ui, List<Contact> remainingOnes, Contact original) {
         ui.getContacts().clear();
         ui.getContacts().addAll(remainingOnes);
@@ -61,11 +61,11 @@ final class UIModel {
     static void cannotConnect(UI data, Exception ex) {
         data.setMessage("Cannot connect " + ex.getMessage() + ". Should not you start the server project first?");
     }
-    
+
     //
     // UI callback bindings
     //
-    
+
     @ModelOperation @Function static void connect(UI data) {
         final String u = data.getUrl();
         if (u.endsWith("/")) {
@@ -73,14 +73,14 @@ final class UIModel {
         }
         data.loadContacts(data.getUrl());
     }
-    
+
     @Function static void addNew(UI ui) {
         ui.setSelected(null);
         final Contact c = new Contact();
         c.getPhones().add(new Phone("+420 000 000 000", PhoneType.HOME));
         ui.setEdited(c);
     }
-    
+
     @Function static void edit(UI ui, Contact data) {
         ui.setSelected(data);
         ui.setEdited(data.clone());
@@ -89,12 +89,12 @@ final class UIModel {
     @Function static void delete(UI ui, Contact data) {
         ui.deleteContact(ui.getUrl(), data.getId(), data);
     }
-    
+
     @Function static void cancel(UI ui) {
         ui.setEdited(null);
         ui.setSelected(null);
     }
-    
+
     @Function static void commit(UI ui) {
         final Contact e = ui.getEdited();
         if (e == null) {
@@ -111,12 +111,12 @@ final class UIModel {
                 break;
             }
         }
-        if (invalid != null && !Dialogs.confirm("Not all data are valid (" + 
+        if (invalid != null && !Dialogs.confirm("Not all data are valid (" +
                 invalid + "). Do you want to proceed?", null
         )) {
             return;
         }
-        
+
         final Contact s = ui.getSelected();
         if (s != null) {
             ui.updateContact(ui.getUrl(), s.getId(), e, e);
@@ -124,7 +124,7 @@ final class UIModel {
             ui.addContact(ui.getUrl(), e, e);
         }
     }
-    
+
     @Function static void addPhoneEdited(UI ui) {
         final List<Phone> phones = ui.getEdited().getPhones();
         PhoneType t = PhoneType.values()[phones.size() % PhoneType.values().length];
@@ -134,4 +134,19 @@ final class UIModel {
     @Function static void removePhoneEdited(UI ui, Phone data) {
         ui.getEdited().getPhones().remove(data);
     }
+
+    private static UI uiModel;
+    /**
+     * Called when the page is ready.
+     */
+    static void onPageLoad() throws Exception {
+        uiModel = new UI();
+        final String baseUrl = "http://localhost:8080/contacts/";
+        uiModel.setUrl(baseUrl);
+        uiModel.setEdited(null);
+        uiModel.setSelected(null);
+        uiModel.applyBindings();
+        uiModel.connect();
+    }
+
 }

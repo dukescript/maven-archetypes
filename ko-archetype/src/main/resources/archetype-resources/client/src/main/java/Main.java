@@ -5,7 +5,7 @@ import net.java.html.boot.BrowserBuilder;
 public final class Main {
     private Main() {
     }
-    
+
     public static void main(String... args) throws Exception {
         BrowserBuilder.newBrowser().
             loadPage("pages/index.html").
@@ -19,9 +19,7 @@ public final class Main {
      * Called when the page is ready.
      */
     public static void onPageLoad() throws Exception {
-        Data d = new Data();
-        d.setMessage("Hello World from HTML and Java!");
-        d.applyBindings();
+        DataModel.onPageLoad();
     }
-    
+
 }

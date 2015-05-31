@@ -6,7 +6,7 @@ import net.java.html.json.Model;
 import net.java.html.json.Property;
 import ${package}.js.Dialogs;
 
-/** Model annotation generates class Data with 
+/** Model annotation generates class Data with
  * one message property, boolean property and read only words property
  */
 @Model(className = "Data", targetId="", properties = {
@@ -22,11 +22,11 @@ final class DataModel {
         }
         return java.util.Arrays.asList(arr);
     }
-    
+
     @Function static void turnAnimationOn(Data model) {
         model.setRotating(true);
     }
-    
+
     @Function static void turnAnimationOff(final Data model) {
         Dialogs.confirmByUser("Really turn off?", new Runnable() {
             @Override
@@ -35,7 +35,7 @@ final class DataModel {
             }
         });
     }
-    
+
     @Function static void rotate5s(final Data model) {
         model.setRotating(true);
         java.util.Timer timer = new java.util.Timer("Rotates a while");
@@ -46,8 +46,18 @@ final class DataModel {
             }
         }, 5000);
     }
-    
+
     @Function static void showScreenSize(Data model) {
         model.setMessage(Dialogs.screenSize());
+    }
+
+    private static Data ui;
+    /**
+     * Called when the page is ready.
+     */
+    static void onPageLoad() throws Exception {
+        ui = new Data();
+        ui.setMessage("Hello World from HTML and Java!");
+        ui.applyBindings();
     }
 }
