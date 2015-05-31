@@ -20,7 +20,7 @@
     <netbeans.compile.on.save>all</netbeans.compile.on.save>
     <project.mainclass>\${package}.Main</project.mainclass>
     <exec.java.bin>\${java.home}/bin/java</exec.java.bin>
-    <exec.debug.arg>-Ddebug=false</exec.debug.arg>    
+    <exec.debug.arg>-Ddebug=false</exec.debug.arg>
   </properties>
   <build>
       <plugins>
@@ -34,7 +34,7 @@
                       <Export-Package>\${package}</Export-Package>
                       <Bundle-SymbolicName>\${package}</Bundle-SymbolicName>
                   </instructions>
-              </configuration>                
+              </configuration>
           </plugin>
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
@@ -66,6 +66,7 @@
               <version>1.2.1</version>
                 <configuration>
                    <executable>\${exec.java.bin}</executable>
+                   <classpathScope>test</classpathScope>
                    <arguments>
                        <argument>-classpath</argument>
                        <classpath/>
@@ -77,7 +78,7 @@
                        <argument>\${project.mainclass}</argument>
                    </arguments>
                 </configuration>
-          </plugin>      
+          </plugin>
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-dependency-plugin</artifactId>
@@ -104,7 +105,7 @@
                       </configuration>
                   </execution>
               </executions>
-          </plugin>          
+          </plugin>
           <plugin>
               <artifactId>maven-assembly-plugin</artifactId>
               <version>2.4</version>
@@ -121,20 +122,8 @@
                           </descriptors>
                       </configuration>
                   </execution>
-                  <execution>
-                      <id>distro-assembly</id>
-                      <phase>package</phase>
-                      <goals>
-                          <goal>single</goal>
-                      </goals>
-                      <configuration>
-                          <descriptors>
-                              <descriptor>src/main/assembly/javafx.xml</descriptor>
-                          </descriptors>
-                      </configuration>
-                  </execution>
-              </executions>                
-          </plugin>      
+              </executions>
+          </plugin>
       </plugins>
   </build>
   <dependencies>
@@ -181,21 +170,46 @@
         <artifactId>\${artifactId}-js</artifactId>
         <version>\${project.version}</version>
     </dependency>
+    <dependency>
+        <groupId>org.netbeans.html</groupId>
+        <artifactId>net.java.html.boot.fx</artifactId>
+        <version>\${net.java.html.version}</version>
+        <scope>provided</scope>
+    </dependency>
   </dependencies>
   <profiles>
-        <profile>
-            <id>fxbrwsr</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.netbeans.html</groupId>
-                    <artifactId>net.java.html.boot.fx</artifactId>
-                    <version>\${net.java.html.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-           </dependencies>
-       </profile>      
-  </profiles>  
+      <profile>
+          <id>desktop</id>
+          <dependencies>
+              <dependency>
+                  <groupId>org.netbeans.html</groupId>
+                  <artifactId>net.java.html.boot.fx</artifactId>
+                  <version>\${net.java.html.version}</version>
+                  <scope>runtime</scope>
+              </dependency>
+          </dependencies>
+          <build>
+              <plugins>
+                  <plugin>
+                      <artifactId>maven-assembly-plugin</artifactId>
+                      <version>2.4</version>
+                      <executions>
+                          <execution>
+                              <id>distro-assembly</id>
+                              <phase>package</phase>
+                              <goals>
+                                  <goal>single</goal>
+                              </goals>
+                              <configuration>
+                                  <descriptors>
+                                      <descriptor>src/main/assembly/javafx.xml</descriptor>
+                                  </descriptors>
+                              </configuration>
+                          </execution>
+                      </executions>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
+  </profiles>
 </project>
