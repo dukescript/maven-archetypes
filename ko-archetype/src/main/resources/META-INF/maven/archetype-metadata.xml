@@ -38,6 +38,9 @@
     <requiredProperty key="netbeanspath">
         <defaultValue>target/client-netbeans</defaultValue>
     </requiredProperty>  
+    <requiredProperty key="example">
+        <defaultValue>true</defaultValue>
+    </requiredProperty>  
   </requiredProperties>
   <fileSets>
     <fileSet filtered="true">

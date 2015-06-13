@@ -6,14 +6,19 @@ import net.java.html.json.Model;
 import net.java.html.json.Property;
 import ${package}.js.Dialogs;
 
+#if ($example.equals("true"))
 /** Model annotation generates class Data with
  * one message property, boolean property and read only words property
  */
+#end
 @Model(className = "Data", targetId="", properties = {
+#if ($example.equals("true"))
     @Property(name = "message", type = String.class),
     @Property(name = "rotating", type = boolean.class)
+#end
 })
 final class DataModel {
+#if ($example.equals("true"))
     @ComputedProperty static java.util.List<String> words(String message) {
         String[] arr = new String[6];
         String[] words = message == null ? new String[0] : message.split(" ", 6);
@@ -50,14 +55,16 @@ final class DataModel {
     @Function static void showScreenSize(Data model) {
         model.setMessage(Dialogs.screenSize());
     }
-
+#end
     private static Data ui;
     /**
      * Called when the page is ready.
      */
     static void onPageLoad() throws Exception {
         ui = new Data();
+#if ($example.equals("true"))
         ui.setMessage("Hello World from HTML and Java!");
+#end        
         ui.applyBindings();
     }
 }

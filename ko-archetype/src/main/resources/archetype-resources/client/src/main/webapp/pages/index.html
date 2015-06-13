@@ -3,7 +3,7 @@
     <head>
         <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+#if ($example.equals("true"))
         <style type="text/css">
             @-webkit-keyframes spin {
                 0% { -webkit-transform: rotate(0deg); }
@@ -53,9 +53,10 @@
             #words span:nth-child(6) { left: 80%; top: 200px; }
 
         </style>
-
+#end
     </head>
     <body>
+#if ($example.equals("true"))
         <h1>Words Demo</h1>
         <input data-bind="value: message, valueUpdate: 'afterkeydown'">
         <br>
@@ -69,6 +70,7 @@
                 <span data-bind="text: $data, css: { 'rotate' : $root.rotating } "></span>
             </span>
         </div>
+#end        
 #if ($webpath.indexOf("target/") != 0)
 <!-- ${browser.bootstrap} -->
 #end
