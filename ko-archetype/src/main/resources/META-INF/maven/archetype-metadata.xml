@@ -24,7 +24,7 @@
     THE SOFTWARE.
 
 -->
-<archetype-descriptor name="CRUD for HTML/Java Example">
+<archetype-descriptor name="Knockout 4 Java Archetype">
   <requiredProperties>
     <requiredProperty key="iospath">
         <defaultValue>target/client-ios</defaultValue>
