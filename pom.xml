@@ -38,7 +38,7 @@
         <nb.html.version>1.0</nb.html.version>
         <presenters.version>0.8.1</presenters.version>
         <robovm.version>1.2.0</robovm.version>
-        <bck2brwsr.version>0.14</bck2brwsr.version>
+        <bck2brwsr.version>0.15</bck2brwsr.version>
         <jersey.version>2.13</jersey.version>
         <license>COPYING</license>
         <netbeans.compile.on.save>none</netbeans.compile.on.save>
