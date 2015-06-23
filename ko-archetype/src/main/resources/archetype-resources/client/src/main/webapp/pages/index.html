@@ -58,7 +58,7 @@
     <body>
 #if ($example.equals("true"))
         <h1>Words Demo</h1>
-        <input data-bind="value: message, valueUpdate: 'afterkeydown'">
+        <input data-bind="textInput:  message">
         <br>
         <button data-bind="enable: !rotating(), click: $root.turnAnimationOn">Start</button>
         <button data-bind="enable: rotating, click: $root.turnAnimationOff">Stop</button>
