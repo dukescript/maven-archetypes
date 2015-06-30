@@ -95,7 +95,7 @@
                               <artifactItem>
                                   <groupId>org.springframework</groupId>
                                   <artifactId>springloaded</artifactId>
-                                  <version>1.2.1.RELEASE</version>
+                                  <version>1.2.3.RELEASE</version>
                                   <type>jar</type>
                                   <overWrite>false</overWrite>
                                   <destFileName>springloaded.jar</destFileName>
