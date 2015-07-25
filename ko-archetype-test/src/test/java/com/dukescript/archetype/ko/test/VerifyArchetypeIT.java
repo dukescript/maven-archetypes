@@ -122,7 +122,7 @@ public class VerifyArchetypeIT {
 
         final String t = "o-a-test-1.0-SNAPSHOT-javafx.zip";
         verifyFileInLog(v, t);
-        
+
         final File webpages = new File(new File(new File(created, "client"), "target"), getClass().getSimpleName() + "-o-a-test-1.0-SNAPSHOT-webpages.zip");
         assertTrue(webpages.exists(), "Web pages file created: " + webpages);
         JarFile jf = new JarFile(webpages);
@@ -420,6 +420,76 @@ public class VerifyArchetypeIT {
         File nbactions = new File(web, "nbactions.xml");
         assertTrue(nbactions.isFile(), "Actions file is in there");
         assertTrue(Files.readFile(nbactions).contains("bck2brwsr"), "There should bck2brwsr goal in " + nbactions);
+
+        for (String line : v.loadFile(v.getBasedir(), v.getLogFileName(), false)) {
+            if (line.matches(".*Generating.*emul.*")) {
+                fail("Don't generate emul: " + line);
+            }
+            if (line.matches(".*Generating.*net.java.html.*")) {
+                fail("Don't generate HTML/Java libraries: " + line);
+            }
+        }
+
+        assertNoTextInSubdir("boot.fx", genRoot);
+    }
+
+    @Test
+    public void teaVMwebProjectCompiles() throws Exception {
+        final File dir = new File("target/tests/teavmcmp/").getAbsoluteFile();
+        File gen = generateFromArchetype("t-p-test", dir, "-Dwebpath=test-web");
+
+        File created = new File(gen, "client");
+        assertTrue(created.isDirectory(), "Project created");
+        assertTrue(new File(created, "pom.xml").isFile(), "Pom file is in there");
+
+        File main = new File(new File(created, "src"), "main");
+        File pages = new File(new File(main, "webapp"), "pages");
+        File index = new File(pages, "index.html");
+        assertTrue(index.exists(), "HTML page found " + index);
+        File bin = new File(index.getParentFile(), "index.bin");
+        writeBinary(bin);
+
+        File web = new File(gen, "test-web");
+        assertTrue(web.isDirectory(), "Project created");
+        assertTrue(new File(web, "pom.xml").isFile(), "Pom file is in there");
+
+        String indexContent = Files.readFile(index);
+        assertTrue(indexContent.contains("${browser.bootstrap}"), "There should be teavm.js placeholder in " + index);
+
+        {
+            Verifier v = new Verifier(created.getParent());
+            v.addCliOption("-Pteavm");
+            v.addCliOption("-DskipTests=true");
+            v.executeGoal("install");
+            v.verifyErrorFreeLog();
+        }
+
+        Verifier v = new Verifier(web.getAbsolutePath());
+        v.addCliOption("-Pteavm");
+        v.executeGoals(Arrays.asList("clean", "package"));
+
+        v.verifyErrorFreeLog();
+        verifyFileInLog(v, "t-p-test-web-1.0-SNAPSHOT-teavm.zip");
+
+        v.assertFilePresent("target/" + getClass().getSimpleName() + "-t-p-test-web-1.0-SNAPSHOT-teavm/");
+        v.assertFilePresent("target/" + getClass().getSimpleName() + "-t-p-test-web-1.0-SNAPSHOT-teavm/public_html/teavm.js");
+        v.assertFilePresent("target/" + getClass().getSimpleName() + "-t-p-test-web-1.0-SNAPSHOT-teavm.zip");
+// bck2brwsr:aot should not be executed when TeaVM is on:
+//        v.assertFileNotPresent("target/" + getClass().getSimpleName() + "-t-p-test.js");
+        v.assertFilePresent("target/" + getClass().getSimpleName() + "-t-p-test-web-1.0-SNAPSHOT-teavm/public_html/index.html");
+        v.assertFilePresent("target/" + getClass().getSimpleName() + "-t-p-test-web-1.0-SNAPSHOT-teavm/public_html/index.bin");
+        File genRoot = new File(new File(new File(web, "target"), getClass().getSimpleName() + "-t-p-test-web-1.0-SNAPSHOT-teavm"), "public_html");
+        File indexBin = new File(genRoot, "index.bin");
+        assertTrue(indexBin.exists(), "index.bin really exists");
+        assertBinary(new FileInputStream(indexBin));
+
+        File indexGen = new File(genRoot, "index.html");
+        String indexGenContent = Files.readFile(indexGen);
+        assertTrue(indexGenContent.contains("src=\"teavm.js\""), "There should be bck2brwsr.js reference in " + indexGen);
+
+        File nbactions = new File(web, "nbactions.xml");
+        assertTrue(nbactions.isFile(), "Actions file is in there");
+        assertTrue(Files.readFile(nbactions).contains("teavm"), "There should teavm goal in " + nbactions);
 
         for (String line : v.loadFile(v.getBasedir(), v.getLogFileName(), false)) {
             if (line.matches(".*Generating.*emul.*")) {
