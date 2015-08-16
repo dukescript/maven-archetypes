@@ -383,9 +383,22 @@ public class VerifyArchetypeIT {
         String indexContent = Files.readFile(index);
         assertTrue(indexContent.contains("${browser.bootstrap}"), "There should be bck2brwsr.js placeholder in " + index);
 
+        File jsDir = new File(gen, "js");
+        assertTrue(jsDir.isDirectory(), "Directory is found");
+
+        File jsFile = new File(new File(new File(new File(new File(new File(new File(new File(new File(jsDir, "src"), "main"), "java"), "org"), "someuser"), "test"), "oat"), "js"), "Dialogs.java");
+        assertTrue(jsFile.isFile(), "File found");
+
+        String jsCode = Files.readFile(jsFile);
+        final String replace = "w.innerWidth";
+        int where = jsCode.indexOf(replace);
+        jsCode = jsCode.substring(0, where) + "w.reallyNonExistingAttr" + jsCode.substring(where + replace.length());
+        FileWriter w = new FileWriter(jsFile);
+        w.write(jsCode);
+        w.close();
+
         {
             Verifier v = new Verifier(created.getParent());
-            v.addCliOption("-Dbck2brwsr.obfuscationlevel=NONE");
             v.addCliOption("-DskipTests=true");
             v.executeGoal("install");
             v.verifyErrorFreeLog();
@@ -412,6 +425,11 @@ public class VerifyArchetypeIT {
         File indexBin = new File(genRoot, "index.bin");
         assertTrue(indexBin.exists(), "index.bin really exists");
         assertBinary(new FileInputStream(indexBin));
+
+        File genJSLib = new File(new File(genRoot, "lib"), getClass().getSimpleName() + "-b-p-test-js-1.0-SNAPSHOT.js");
+        assertTrue(genJSLib.exists(), "JsLib file found: " + genJSLib);
+        String genJSCode = Files.readFile(genJSLib);
+        assertTrue(genJSCode.contains("w.reallyNonExistingAttr"), "w.reallyNonExistingAttr found in\n" + genJSCode);
 
         File indexGen = new File(genRoot, "index.html");
         String indexGenContent = Files.readFile(indexGen);

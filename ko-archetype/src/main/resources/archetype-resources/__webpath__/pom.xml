@@ -177,6 +177,14 @@
             <classifier>bck2brwsr</classifier>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>\${groupId}</groupId>
+            <artifactId>\${artifactId}-js</artifactId>
+            <version>\${project.version}</version>
+            <classifier>bck2brwsr</classifier>
+            <scope>provided</scope>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <profiles>
         <profile>
