@@ -171,6 +171,14 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>\${groupId}</groupId>
+            <artifactId>\${artifactId}-js</artifactId>
+            <version>\${project.version}</version>
+            <classifier>bck2brwsr</classifier>
+            <scope>provided</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
             <groupId>org.apidesign.bck2brwsr</groupId>
             <artifactId>ko-bck2brwsr</artifactId>
             <version>\${bck2brwsr.version}</version>
