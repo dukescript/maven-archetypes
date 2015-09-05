@@ -357,8 +357,9 @@ public class VerifyArchetypeIT {
     public void webProjectCompiles() throws Exception {
         final File dir = new File("target/tests/b2bcmp/").getAbsoluteFile();
         generateFromArchetype("b-p-test", dir, "-Dwebpath=test-web");
+        final File gen = new File(dir, "b-p-test");
 
-        File created = new File(new File(dir, "b-p-test"), "client");
+        File created = new File(gen, "client");
         assertTrue(created.isDirectory(), "Project created");
         assertTrue(new File(created, "pom.xml").isFile(), "Pom file is in there");
 
@@ -369,16 +370,29 @@ public class VerifyArchetypeIT {
         File bin = new File(index.getParentFile(), "index.bin");
         writeBinary(bin);
 
-        File web = new File(new File(dir, "b-p-test"), "test-web");
+        File web = new File(gen, "test-web");
         assertTrue(web.isDirectory(), "Project created");
         assertTrue(new File(web, "pom.xml").isFile(), "Pom file is in there");
 
         String indexContent = Files.readFile(index);
         assertTrue(indexContent.contains("${browser.bootstrap}"), "There should be bck2brwsr.js placeholder in " + index);
 
+        File jsDir = new File(gen, "js");
+        assertTrue(jsDir.isDirectory(), "Directory is found");
+
+        File jsFile = new File(new File(new File(new File(new File(new File(new File(new File(new File(jsDir, "src"), "main"), "java"), "org"), "someuser"), "test"), "oat"), "js"), "Dialogs.java");
+        assertTrue(jsFile.isFile(), "File found");
+
+        String jsCode = Files.readFile(jsFile);
+        final String replace = "confirm(msg);";
+        int where = jsCode.indexOf(replace);
+        jsCode = jsCode.substring(0, where) + "window.confirm(msg);window.reallyNonExistingAttr;" + jsCode.substring(where + replace.length());
+        FileWriter w = new FileWriter(jsFile);
+        w.write(jsCode);
+        w.close();
+
         {
             Verifier v = new Verifier(created.getParent());
-            v.addCliOption("-Dbck2brwsr.obfuscationlevel=NONE");
             v.addCliOption("-DskipTests=true");
             v.executeGoal("install");
             v.verifyErrorFreeLog();
@@ -409,6 +423,11 @@ public class VerifyArchetypeIT {
         File nbactions = new File(web, "nbactions.xml");
         assertTrue(nbactions.isFile(), "Actions file is in there");
         assertTrue(Files.readFile(nbactions).contains("bck2brwsr"), "There should bck2brwsr goal in " + nbactions);
+
+        File genJSLib = new File(new File(genRoot, "lib"), "b-p-test-js-1.0-SNAPSHOT.js");
+        assertTrue(genJSLib.exists(), "JsLib file found: " + genJSLib);
+        String genJSCode = Files.readFile(genJSLib);
+        assertTrue(genJSCode.contains("w.reallyNonExistingAttr"), "w.reallyNonExistingAttr found in\n" + genJSCode);
 
         File indexGen = new File(genRoot, "index.html");
         String indexGenContent = Files.readFile(indexGen);
