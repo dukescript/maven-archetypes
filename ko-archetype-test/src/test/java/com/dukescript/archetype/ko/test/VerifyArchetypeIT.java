@@ -190,6 +190,9 @@ public class VerifyArchetypeIT {
         v2.assertFilePresent("target/images/Default.png");
         v2.assertFilePresent("target/images/Default@2x.png");
         v2.assertFilePresent("target/images/Default-568h@2x.png");
+        v2.assertFilePresent("target/images/Default-Landscape.png");
+        v2.assertFilePresent("target/images/Default@2x-Landscape.png");
+        v2.assertFilePresent("target/images/Default-568h@2x-Landscape.png");
     }
 
     @Test public void iosVerifyRoboVMPlugin() throws Exception {

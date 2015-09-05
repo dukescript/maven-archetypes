@@ -137,6 +137,30 @@
                                     <cropHeight>480</cropHeight>
                                     <color>white</color>
                                 </image>
+                                <image>
+                                    <source>src/main/icons/launcher.png</source>
+                                    <destination>Default@2x-Landscape.png</destination>
+                                    <width>240</width>
+                                    <cropWidth>960</cropWidth>
+                                    <cropHeight>640</cropHeight>
+                                    <color>white</color>
+                                </image>
+                                <image>
+                                    <source>src/main/icons/launcher.png</source>
+                                    <destination>Default-568h@2x-Landscape.png</destination>
+                                    <width>240</width>
+                                    <cropWidth>1136</cropWidth>
+                                    <cropHeight>640</cropHeight>
+                                    <color>white</color>
+                                </image>
+                                <image>
+                                    <source>src/main/icons/launcher.png</source>
+                                    <destination>Default-Landscape.png</destination>
+                                    <width>120</width>
+                                    <cropWidth>480</cropWidth>
+                                    <cropHeight>320</cropHeight>
+                                    <color>white</color>
+                                </image>
                             </images>
                         </configuration>
                     </execution>
