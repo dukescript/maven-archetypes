@@ -24,41 +24,11 @@
 package com.dukescript.archetype.ko.test;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
-import java.nio.file.FileVisitResult;
-import java.nio.file.FileVisitor;
-import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Arrays;
 import java.util.Properties;
-import java.util.jar.JarFile;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-import javax.xml.xpath.XPathFactoryConfigurationException;
-import org.apache.maven.it.VerificationException;
-import org.apache.maven.it.Verifier;
 import static org.testng.Assert.*;
-import org.testng.SkipException;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import org.testng.reporters.Files;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 /**
  *
