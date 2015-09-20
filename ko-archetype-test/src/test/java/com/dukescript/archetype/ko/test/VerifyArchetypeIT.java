@@ -130,6 +130,7 @@ public class VerifyArchetypeIT {
         assertNotNull(indexHTML, "index.html in ZIP found");
         InputStream is = jf.getInputStream(indexHTML);
         assertHTMLContent(is);
+        assertDialogsEmpty(dir);
         is.close();
         jf.close();
     }
@@ -334,6 +335,7 @@ public class VerifyArchetypeIT {
         final ZipEntry indexHTML = jf.getEntry("assets/pages/index.html");
         assertNotNull(indexHTML, "index.html is included in " + apk);
         assertHTMLContent(jf.getInputStream(indexHTML));
+        assertDialogsEmpty(created);
         ZipEntry indexBin = jf.getEntry("assets/pages/index.bin");
         assertNotNull(indexBin, "binary file found in " + apk);
         assertBinary(jf.getInputStream(indexBin));
@@ -395,10 +397,17 @@ public class VerifyArchetypeIT {
         String jsCode = Files.readFile(jsFile);
         final String replace = "w.innerWidth";
         int where = jsCode.indexOf(replace);
-        jsCode = jsCode.substring(0, where) + "w.reallyNonExistingAttr" + jsCode.substring(where + replace.length());
-        FileWriter w = new FileWriter(jsFile);
-        w.write(jsCode);
-        w.close();
+        boolean checkForNonExistingAttr;
+        if (where < 0) {
+            assertTrue(assertDialogsEmpty(dir));
+            checkForNonExistingAttr = false;
+        } else {
+            jsCode = jsCode.substring(0, where) + "w.reallyNonExistingAttr" + jsCode.substring(where + replace.length());
+            FileWriter w = new FileWriter(jsFile);
+            w.write(jsCode);
+            w.close();
+            checkForNonExistingAttr = true;
+        }
 
         {
             Verifier v = new Verifier(created.getParent());
@@ -431,8 +440,10 @@ public class VerifyArchetypeIT {
 
         File genJSLib = new File(new File(genRoot, "lib"), getClass().getSimpleName() + "-b-p-test-js-1.0-SNAPSHOT.js");
         assertTrue(genJSLib.exists(), "JsLib file found: " + genJSLib);
-        String genJSCode = Files.readFile(genJSLib);
-        assertTrue(genJSCode.contains("w.reallyNonExistingAttr"), "w.reallyNonExistingAttr found in\n" + genJSCode);
+        if (checkForNonExistingAttr) {
+            String genJSCode = Files.readFile(genJSLib);
+            assertTrue(genJSCode.contains("w.reallyNonExistingAttr"), "w.reallyNonExistingAttr found in\n" + genJSCode);
+        }
 
         File indexGen = new File(genRoot, "index.html");
         String indexGenContent = Files.readFile(indexGen);
@@ -755,5 +766,9 @@ public class VerifyArchetypeIT {
     }
 
     protected void adjustArchetype(Properties sysProp) {
+    }
+
+    protected boolean assertDialogsEmpty(File dir) throws IOException {
+        return false;
     }
 }

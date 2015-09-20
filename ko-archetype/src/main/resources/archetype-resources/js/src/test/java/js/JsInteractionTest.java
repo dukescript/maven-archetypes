@@ -22,7 +22,7 @@ public class JsInteractionTest {
     @AfterMethod public void shutdownJSEngine() throws Exception {
         jsEngine.close();
     }
-    
+#if ($example.equals("true"))
     @Test public void testCallbackFromJavaScript() throws Exception {
         class R implements Runnable {
             int called;
@@ -38,4 +38,5 @@ public class JsInteractionTest {
         
         assertEquals(callback.called, 1, "One immediate callback");
     }
-  }
+#end
+}

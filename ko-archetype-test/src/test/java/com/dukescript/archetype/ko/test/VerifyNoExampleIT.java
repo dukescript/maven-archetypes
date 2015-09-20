@@ -24,11 +24,13 @@
 package com.dukescript.archetype.ko.test;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 import static org.testng.Assert.*;
+import org.testng.reporters.Files;
 
 /**
  *
@@ -54,6 +56,28 @@ public class VerifyNoExampleIT extends VerifyArchetypeIT {
     protected void adjustArchetype(Properties sysProp) {
         sysProp.put("example", "false");
     }
-    
-    
+
+    @Override
+    protected boolean assertDialogsEmpty(File dir) throws IOException {
+        File dialogs = findDialogs(dir);
+        assertNotNull(dialogs, "Dialogs file found");
+        String text = Files.readFile(dialogs);
+        assertEquals(text.indexOf("confirmByUser"), -1, "Do method confirmByUser in the file: " + dialogs);
+        assertEquals(text.indexOf("screenSize"), -1, "Do method screenSize in the file: " + dialogs);
+        return true;
+    }
+
+    private File findDialogs(File root) {
+        if (root.isDirectory()) {
+            for (File f : root.listFiles()) {
+                File r = findDialogs(f);
+                if (r != null) {
+                    return r;
+                }
+            }
+        } else if (root.getName().equals("Dialogs.java")) {
+            return root;
+        }
+        return null;
+    }
 }

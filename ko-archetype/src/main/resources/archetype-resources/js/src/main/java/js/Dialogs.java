@@ -2,17 +2,21 @@ package ${package}.js;
 
 import net.java.html.js.JavaScriptBody;
 
+/** Use {@link JavaScriptBody} annotation on methods to
+ * directly interact with JavaScript. See
+ * http://bits.netbeans.org/html+java/1.2/net/java/html/js/package-summary.html
+ * to understand how.
+ */
 public final class Dialogs {
     private Dialogs() {
     }
     
+#if ($example.equals("true"))
     /** Shows confirmation dialog to the user.
      * 
      * @param msg the message
      * @param callback called back when the use accepts (can be null)
-     * @return true or false
      */
-    /** Shows direct interaction with JavaScript */
     @JavaScriptBody(
         args = { "msg", "callback" }, 
         javacall = true, 
@@ -34,4 +38,5 @@ public final class Dialogs {
         "return 'Screen size is ' + x + ' times ' + y;\n"
     )
     public static native String screenSize();
+#end
 }
