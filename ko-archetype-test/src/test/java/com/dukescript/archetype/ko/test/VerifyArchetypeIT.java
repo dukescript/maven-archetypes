@@ -169,6 +169,14 @@ public class VerifyArchetypeIT {
         v.verifyErrorFreeLog();
 
         File client = new File(created, "client-ios");
+        File useIos = new File(new File(new File(new File(client, "src"), "main"), "java"), "Test.java");
+        w = new FileWriter(useIos);
+        w.append("class Test {\n");
+        w.append("  static Object webView = org.robovm.apple.uikit.UIWebView.class;\n");
+        w.append("  static Object natObj = org.robovm.rt.bro.NativeObject.class;\n");
+        w.append("  static Object objC = org.robovm.objc.ObjCObject.class;\n");
+        w.append("}\n");
+        w.close();
         assertTrue(client.isDirectory(), "Subproject dir found: " + client);
         Verifier v2 = new Verifier(client.getAbsolutePath());
         try {

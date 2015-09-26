@@ -19,6 +19,7 @@
     <properties>
         <project.mainclass>\${package}.iOSMain</project.mainclass>
         <netbeans.compile.on.save>none</netbeans.compile.on.save>
+        <robovm.version>${robovm.version}</robovm.version>
     </properties>
     <build>
         <plugins>
@@ -169,7 +170,7 @@
             <plugin>
                 <groupId>org.robovm</groupId>
                 <artifactId>robovm-maven-plugin</artifactId>
-                <version>${robovm.version}</version>
+                <version>\${robovm.version}</version>
                 <configuration>
                     <config>
                         <mainClass>\${project.mainclass}</mainClass>
@@ -237,6 +238,18 @@
             <artifactId>net.java.html.geo</artifactId>
             <version>\${net.java.html.version}</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.robovm</groupId>
+            <artifactId>robovm-cocoatouch</artifactId>
+            <version>\${robovm.version}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.robovm</groupId>
+            <artifactId>robovm-rt</artifactId>
+            <version>\${robovm.version}</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 </project>
