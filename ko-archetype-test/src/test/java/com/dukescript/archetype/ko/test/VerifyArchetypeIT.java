@@ -625,14 +625,16 @@ public class VerifyArchetypeIT {
         }
 
 
-        Verifier v = new Verifier(nb.getAbsolutePath());
-        v.executeGoal("package");
+        {
+            Verifier v = new Verifier(nb.getAbsolutePath());
+            v.executeGoal("package");
 
-        v.verifyErrorFreeLog();
+            v.verifyErrorFreeLog();
 
-        v.assertFilePresent("target/classes/META-INF/generated-layer.xml");
-        v.assertFilePresent("target/classes/org/someuser/test/oat/index.html");
-        v.assertFilePresent("target/classes/org/someuser/test/oat/plus.css");
+            v.assertFilePresent("target/classes/META-INF/generated-layer.xml");
+            v.assertFilePresent("target/classes/org/someuser/test/oat/index.html");
+            v.assertFilePresent("target/classes/org/someuser/test/oat/plus.css");
+        }
 
         File jar = new File(new File(nb, "target"), getClass().getSimpleName() + "-n-p-test-nb-1.0-SNAPSHOT.jar");
         assertTrue(jar.exists(), "File is created: " + jar);
@@ -642,7 +644,44 @@ public class VerifyArchetypeIT {
 
         File nbactions = new File(nb, "nbactions.xml");
         assertTrue(nbactions.isFile(), "Actions file is in there");
-        assertTrue(Files.readFile(nbactions).contains("nbm"), "There should nbm goal in " + nbactions);
+        final String nbActionsContent = Files.readFile(nbactions);
+        assertTrue(nbActionsContent.contains("nbm"), "There should nbm goal in " + nbactions);
+        assertTrue(nbActionsContent.contains("nbm:cluster"), "There should nbm:cluster goal in " + nbactions);
+        assertTrue(nbActionsContent.contains("nbm:run-platform"), "There should nbm:run-platform goal in " + nbactions);
+
+        {
+            File closeJava = new File(new File(new File(new File(new File(
+                new File(new File(new File(nb, "src"), "main"), "java"),
+                "org"), "someuser"), "test"), "oat"),"Close.java"
+            );
+            FileWriter w = new FileWriter(closeJava);
+            w.write(
+"package org.someuser.test.oat;\n" +
+"import java.lang.reflect.Method;\n" +
+"import org.openide.windows.OnShowing;\n" +
+"\n" +
+"@OnShowing\n" +
+"public final class CloseTestApp implements Runnable {\n" +
+"    @Override\n" +
+"    public void run() {\n" +
+"        try {\n" +
+"            Class<?> lm = Class.forName(\"org.openide.LifecycleManager\");\n" +
+"            Method gd = lm.getMethod(\"getDefault\");\n" +
+"            Method ex = lm.getMethod(\"exit\", int.class);\n" +
+"            Object lmInst = gd.invoke(null);\n" +
+"            ex.invoke(lmInst, 0);\n" +
+"        } catch (Exception ex) {\n" +
+"            throw new IllegalStateException(ex);\n" +
+"        }\n" +
+"    }\n" +
+"}\n" +
+"\n"
+            );
+            w.close();
+
+            Verifier v = new Verifier(nb.getAbsolutePath());
+            v.executeGoals(Arrays.asList("package", "nbm:cluster", "nbm:run-platform"));
+        }
     }
 
     @Test
