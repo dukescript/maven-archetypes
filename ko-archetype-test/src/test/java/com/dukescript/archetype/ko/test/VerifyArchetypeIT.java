@@ -660,7 +660,7 @@ public class VerifyArchetypeIT {
         {
             File closeJava = new File(new File(new File(new File(new File(
                 new File(new File(new File(nb, "src"), "main"), "java"),
-                "org"), "someuser"), "test"), "oat"),"Close.java"
+                "org"), "someuser"), "test"), "oat"),"CloseTestApp.java"
             );
             FileWriter w = new FileWriter(closeJava);
             w.write(
