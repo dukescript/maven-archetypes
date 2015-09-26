@@ -8,15 +8,16 @@
         <artifactId>\${artifactId}-pom</artifactId>
         <version>\${version}</version>
     </parent>
-    
+
     <groupId>\${groupId}</groupId>
     <artifactId>\${artifactId}-nb</artifactId>
     <version>\${version}</version>
-    <packaging>nbm</packaging>
+    <packaging>nbm-application</packaging>
 
     <name>\${artifactId} Client for NetBeans</name>
 
     <properties>
+        <netbeans.version>dev-SNAPSHOT</netbeans.version>
         <netbeans.compile.on.save>none</netbeans.compile.on.save>
         <project.mainclass>\${package}.NbMain</project.mainclass>
     </properties>
@@ -25,6 +26,14 @@
             <id>netbeans</id>
             <name>NetBeans</name>
             <url>http://bits.netbeans.org/maven2/</url>
+        </repository>
+        <repository>
+            <id>dev</id>
+            <name>NetBeans</name>
+            <url>http://bits.netbeans.org/nexus/content/repositories/snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
     </repositories>
     <build>
@@ -41,11 +50,20 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>          
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.3</version>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
@@ -55,6 +73,19 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>jar</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- to have the jar plugin pickup the nbm generated manifest -->
+                    <useDefaultManifestFile>true</useDefaultManifestFile>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -63,7 +94,7 @@
                 <executions>
                     <execution>
                         <id>unpack</id>
-                        <phase>process-resources</phase>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
@@ -82,11 +113,11 @@
                         </artifactItem>
                     </artifactItems>
                 </configuration>
-            </plugin>            
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>nbm-maven-plugin</artifactId>
-                <version>3.13</version>
+                <version>3.14.1</version>
                 <extensions>true</extensions>
                 <executions>
                     <execution>
@@ -101,7 +132,7 @@
                             <cluster>\${artifactId}</cluster>
                             <verifyIntegrity>false</verifyIntegrity>
                         </configuration>
-                    </execution>                       
+                    </execution>
                     <execution>
                         <id>default-nbm</id>
                         <phase>package</phase>
@@ -117,18 +148,10 @@
                 </executions>
                 <configuration>
                     <useOSGiDependencies>true</useOSGiDependencies>
-                    <brandingToken>\${artifactId}</brandingToken>
+                    <brandingToken>netbeans</brandingToken>
                     <cluster>\${artifactId}</cluster>
                     <verifyIntegrity>false</verifyIntegrity>
-                </configuration>
-            </plugin>                      
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <!-- to have the jar plugin pickup the nbm generated manifest -->
-                    <useDefaultManifestFile>true</useDefaultManifestFile>
+                    <nbmBuildDir>\${project.build.directory}</nbmBuildDir>
                 </configuration>
             </plugin>
             <plugin>
@@ -162,26 +185,6 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>org.netbeans.html</groupId>
-            <artifactId>nbrwsr</artifactId>
-            <version>\${nb.html.version}</version>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.oracle</groupId>
-                    <artifactId>javafx</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.netbeans.html</groupId>
-                    <artifactId>net.java.html.boot</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.netbeans.html</groupId>
-                    <artifactId>net.java.html.boot.fx</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>\${groupId}</groupId>
             <artifactId>\${artifactId}</artifactId>
             <version>\${project.version}</version>
@@ -202,6 +205,17 @@
             <artifactId>net.java.html.boot.fx</artifactId>
             <version>\${net.java.html.version}</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-netbeans-api-htmlui</artifactId>
+            <version>\${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.cluster</groupId>
+            <artifactId>platform</artifactId>
+            <version>\${netbeans.version}</version>
+            <type>pom</type>
         </dependency>
     </dependencies>
 </project>

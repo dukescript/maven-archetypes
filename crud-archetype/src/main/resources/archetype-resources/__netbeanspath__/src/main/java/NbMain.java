@@ -1,6 +1,6 @@
 package ${package};
 
-import org.netbeans.api.nbrwsr.OpenHTMLRegistration;
+import org.netbeans.api.htmlui.OpenHTMLRegistration;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;

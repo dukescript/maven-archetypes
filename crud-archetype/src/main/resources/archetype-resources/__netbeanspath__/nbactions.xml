@@ -3,10 +3,9 @@
     <action>
         <actionName>run</actionName>
         <goals>
-            <goal>clean</goal>
             <goal>package</goal>
             <goal>nbm:cluster</goal>
-            <goal>nbm:run-ide</goal>
+            <goal>nbm:run-platform</goal>
         </goals>
         <properties>
             <skipTests>true</skipTests>
@@ -15,13 +14,15 @@
     <action>
         <actionName>debug</actionName>
         <goals>
-            <goal>clean</goal>
             <goal>package</goal>
             <goal>nbm:cluster</goal>
-            <goal>nbm:run-ide</goal>
+            <goal>nbm:run-platform</goal>
         </goals>
         <properties>
             <skipTests>true</skipTests>
+            <jpda.listen>true</jpda.listen>
+            <netbeans.run.params.debug>-J-Xdebug -J-Xrunjdwp:transport=dt_socket,suspend=n,server=n,address=${jpda.address}</netbeans.run.params.debug>
+            <firebug.lite>true</firebug.lite>
         </properties>
     </action>
     <action>
