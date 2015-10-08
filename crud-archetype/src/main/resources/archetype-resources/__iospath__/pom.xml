@@ -189,6 +189,7 @@
                                 </includes>
                             </resource>
                         </resources>
+                        <os>ios</os>
                     </config>
                     <includeJFX>false</includeJFX>
                 </configuration>
