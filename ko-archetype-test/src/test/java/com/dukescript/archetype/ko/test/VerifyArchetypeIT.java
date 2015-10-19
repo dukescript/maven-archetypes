@@ -184,7 +184,7 @@ public class VerifyArchetypeIT {
         } catch (VerificationException ex) {
             // OK, the run should fail on other systems than mac
         }
-        v2.verifyTextInLog("Building RoboVM app for: ios (x86)");
+        v2.verifyTextInLog("Building RoboVM app for: ios (x86");
 
         File nbactions = new File(client, "nbactions.xml");
         assertTrue(nbactions.isFile(), "Actions file is in there");
