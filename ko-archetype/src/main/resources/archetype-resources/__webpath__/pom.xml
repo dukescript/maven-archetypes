@@ -231,7 +231,7 @@
                             <execution>
                                 <id>generate-teavm</id>
                                 <goals>
-                                    <goal>build-javascript</goal>
+                                    <goal>compile</goal>
                                 </goals>
                                 <phase>process-classes</phase>
                                 <configuration>
@@ -249,10 +249,11 @@
                                     <targetFileName>teavm.js</targetFileName>
                                     <targetDirectory>\${project.build.directory}/teavm</targetDirectory>
                                     <!-- This transformer adds null checks before virtual calls. It is not included
-                                    by default as we don't always need these null checks -->
+                                    by default as we don't always need these null checks
                                     <transformers>
                                         <param>org.teavm.javascript.NullPointerExceptionTransformer</param>
                                     </transformers>
+                                    -->
                                 </configuration>
                             </execution>
                         </executions>
