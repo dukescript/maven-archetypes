@@ -39,7 +39,7 @@
         <robovm.version>1.8.0</robovm.version>
         <bck2brwsr.version>0.16</bck2brwsr.version>
         <netbeans.version>RELEASE81</netbeans.version>
-        <teavm.version>0.3.1</teavm.version>
+        <teavm.version>0.4.0</teavm.version>
         <jersey.version>2.13</jersey.version>
         <license>COPYING</license>
         <netbeans.compile.on.save>none</netbeans.compile.on.save>
