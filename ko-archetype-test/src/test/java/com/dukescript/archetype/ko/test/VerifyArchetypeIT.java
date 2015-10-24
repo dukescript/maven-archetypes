@@ -496,6 +496,10 @@ public class VerifyArchetypeIT {
         String indexContent = Files.readFile(index);
         assertTrue(indexContent.contains("${browser.bootstrap}"), "There should be teavm.js placeholder in " + index);
 
+        if (System.getProperty("java.version").startsWith("1.7")) {
+            throw new SkipException("TeaVM doesn't run on 1.7");
+        }
+
         {
             Verifier v = new Verifier(created.getParent());
             v.addCliOption("-Pteavm");
