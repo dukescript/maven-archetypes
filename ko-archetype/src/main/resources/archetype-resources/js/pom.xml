@@ -53,10 +53,11 @@
                   <target>1.7</target>
               </configuration>
           </plugin>
+#if ($webpath.indexOf("target/") != 0)
           <plugin>
               <groupId>org.apidesign.bck2brwsr</groupId>
               <artifactId>bck2brwsr-maven-plugin</artifactId>
-              <version>${bck2brwsr.version}</version>
+              <version>\${bck2brwsr.version}</version>
               <executions>
                   <execution>
                       <goals>
@@ -68,6 +69,7 @@
                   <obfuscation>NONE</obfuscation>
               </configuration>
           </plugin>
+#end
       </plugins>
   </build>
   <dependencies>
