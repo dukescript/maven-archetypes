@@ -101,6 +101,7 @@ public class VerifyArchetypeIT {
         assertTrue(new File(created, "pom.xml").isFile(), "Pom file is in there");
 
         Verifier v = new Verifier(created.getAbsolutePath());
+        v.getCliOptions().add("-Denforcer.fail=true");
         v.executeGoal("verify");
 
         v.verifyErrorFreeLog();
@@ -116,6 +117,7 @@ public class VerifyArchetypeIT {
 
         v = new Verifier(created.getAbsolutePath());
         v.addCliOption("-Pdesktop");
+        v.getCliOptions().add("-Denforcer.fail=true");
         v.executeGoals(Arrays.asList("clean", "package"));
 
         v.verifyErrorFreeLog();
@@ -164,6 +166,7 @@ public class VerifyArchetypeIT {
         w.close();
 
         Verifier v = new Verifier(created.getAbsolutePath());
+        v.getCliOptions().add("-Denforcer.fail=true");
         v.executeGoal("install");
 
         v.verifyErrorFreeLog();
@@ -179,6 +182,7 @@ public class VerifyArchetypeIT {
         w.close();
         assertTrue(client.isDirectory(), "Subproject dir found: " + client);
         Verifier v2 = new Verifier(client.getAbsolutePath());
+        v2.getCliOptions().add("-Denforcer.fail=true");
         try {
             v2.executeGoals(Arrays.asList("package", "robovm:ipad-sim"));
         } catch (VerificationException ex) {
@@ -219,10 +223,12 @@ public class VerifyArchetypeIT {
 
         {
             Verifier v = new Verifier(client.getParent());
+            v.getCliOptions().add("-Denforcer.fail=true");
             v.executeGoal("install");
         }
         {
             Verifier v = new Verifier(client.getAbsolutePath());
+            v.getCliOptions().add("-Denforcer.fail=true");
             v.addCliOption("-Doutput=" + eff);
             v.executeGoal("help:effective-pom");
         }
@@ -239,6 +245,7 @@ public class VerifyArchetypeIT {
         assertNotNull(prev, "Plugin version must be found");
 
         Verifier d = new Verifier(client.getAbsolutePath());
+        d.getCliOptions().add("-Denforcer.fail=true");
         d.addCliOption("-X");
         d.executeGoal("dependency:tree");
 
@@ -280,6 +287,7 @@ public class VerifyArchetypeIT {
         assertFalse(Files.readFile(pom).contains("ios"), "There should be no mention of ios in " + pom);
 
         Verifier v = new Verifier(created.getParent());
+        v.getCliOptions().add("-Denforcer.fail=true");
         v.executeGoal("package");
 
         v.verifyErrorFreeLog();
@@ -314,6 +322,7 @@ public class VerifyArchetypeIT {
 
         {
             Verifier v = new Verifier(created.getParent());
+            v.getCliOptions().add("-Denforcer.fail=true");
             v.addCliOption("-DskipTests=true");
             v.addCliOption("-Dandroid.sdk.path=" + sdk);
             v.executeGoal("install");
@@ -321,6 +330,7 @@ public class VerifyArchetypeIT {
         }
 
         Verifier v = new Verifier(and.getAbsolutePath());
+        v.getCliOptions().add("-Denforcer.fail=true");
         v.addCliOption("-Dandroid.sdk.path=" + sdk);
         v.executeGoal("verify");
 
@@ -332,6 +342,7 @@ public class VerifyArchetypeIT {
         v.assertFilePresent("target/res/drawable-xxhdpi/ic_launcher.png");
 
         Verifier v2 = new Verifier(and.getAbsolutePath());
+        v2.getCliOptions().add("-Denforcer.fail=true");
         v2.addCliOption("-Dandroid.sdk.path=" + sdk);
         v2.executeGoal("package");
         v2.verifyTextInLog("android-maven-plugin");
@@ -362,12 +373,14 @@ public class VerifyArchetypeIT {
 
         {
             Verifier v = new Verifier(created.getParent());
+            v.getCliOptions().add("-Denforcer.fail=true");
             v.addCliOption("-DskipTests=true");
             v.executeGoal("install");
             v.verifyErrorFreeLog();
         }
 
         Verifier v = new Verifier(created.getAbsolutePath());
+        v.getCliOptions().add("-Denforcer.fail=true");
         v.executeGoal("verify");
 
         v.verifyErrorFreeLog();
@@ -419,12 +432,14 @@ public class VerifyArchetypeIT {
 
         {
             Verifier v = new Verifier(created.getParent());
+            v.getCliOptions().add("-Denforcer.fail=true");
             v.addCliOption("-DskipTests=true");
             v.executeGoal("install");
             v.verifyErrorFreeLog();
         }
 
         Verifier v = new Verifier(web.getAbsolutePath());
+        v.getCliOptions().add("-Denforcer.fail=true");
         v.executeGoal("package");
 
         v.verifyErrorFreeLog();
@@ -502,6 +517,7 @@ public class VerifyArchetypeIT {
 
         {
             Verifier v = new Verifier(created.getParent());
+            v.getCliOptions().add("-Denforcer.fail=true");
             v.addCliOption("-Pteavm");
             v.addCliOption("-DskipTests=true");
             v.executeGoal("install");
@@ -509,6 +525,7 @@ public class VerifyArchetypeIT {
         }
 
         Verifier v = new Verifier(web.getAbsolutePath());
+        v.getCliOptions().add("-Denforcer.fail=true");
         v.addCliOption("-Pteavm");
         v.executeGoals(Arrays.asList("clean", "package"));
 
@@ -568,6 +585,7 @@ public class VerifyArchetypeIT {
 
         {
             Verifier v = new Verifier(created.getParent());
+            v.getCliOptions().add("-Denforcer.fail=true");
             v.addCliOption("-DskipTests=true");
             v.addCliOption("-Dbck2brwsr.obfuscationlevel=NONE");
             v.executeGoal("install");
@@ -576,6 +594,7 @@ public class VerifyArchetypeIT {
 
         {
             Verifier v = new Verifier(forWeb.getAbsolutePath());
+            v.getCliOptions().add("-Denforcer.fail=true");
             v.executeGoal("package");
 
             v.verifyErrorFreeLog();
@@ -631,6 +650,7 @@ public class VerifyArchetypeIT {
 
         {
             Verifier v = new Verifier(nb.getParent());
+            v.getCliOptions().add("-Denforcer.fail=true");
             v.addCliOption("-DskipTests=true");
             v.executeGoal("install");
             v.verifyErrorFreeLog();
@@ -639,6 +659,7 @@ public class VerifyArchetypeIT {
 
         {
             Verifier v = new Verifier(nb.getAbsolutePath());
+            v.getCliOptions().add("-Denforcer.fail=true");
             v.executeGoal("package");
 
             v.verifyErrorFreeLog();
@@ -692,6 +713,7 @@ public class VerifyArchetypeIT {
             w.close();
 
             Verifier v = new Verifier(nb.getAbsolutePath());
+            v.getCliOptions().add("-Denforcer.fail=true");
             v.executeGoals(Arrays.asList("package", "nbm:cluster", "nbm:run-platform"));
         }
     }
@@ -719,10 +741,12 @@ public class VerifyArchetypeIT {
 
         {
             Verifier v = new Verifier(created.getParent());
+            v.getCliOptions().add("-Denforcer.fail=true");
             v.executeGoal("install");
             v.verifyErrorFreeLog();
         }
         Verifier v = new Verifier(nb.getAbsolutePath());
+        v.getCliOptions().add("-Denforcer.fail=true");
         v.executeGoal("install");
 
         v.verifyErrorFreeLog();
@@ -736,6 +760,7 @@ public class VerifyArchetypeIT {
 
     private File generateFromArchetype(String aId, final File dir, String... params) throws Exception {
         Verifier v = new Verifier(dir.getAbsolutePath());
+        v.getCliOptions().add("-Denforcer.fail=true");
         v.setAutoclean(false);
         v.setLogFileName("generate.log");
         v.deleteDirectory("");
