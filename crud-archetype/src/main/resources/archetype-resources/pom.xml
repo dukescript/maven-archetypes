@@ -35,6 +35,7 @@
         <bck2brwsr.obfuscationlevel>FULL</bck2brwsr.obfuscationlevel>
 #end    
         <jersey.version>${jersey.version}</jersey.version>
+        <enforcer.fail>false</enforcer.fail>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencyManagement>
@@ -63,7 +64,7 @@
                             <rules>
                                 <DependencyConvergence/>
                             </rules>
-                            <fail>false</fail>
+                            <fail>${enforcer.fail}</fail>
                         </configuration>
                     </execution>
                 </executions>              
