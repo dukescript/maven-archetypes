@@ -1,29 +1,25 @@
 package ${package}.js;
 
-import java.io.Closeable;
-import net.java.html.boot.script.Scripts;
-import org.netbeans.html.boot.spi.Fn;
-import static org.testng.Assert.assertEquals;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import net.java.html.junit.BrowserRunner;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-/** Tests for behavior of @JavaScriptBody methods. Set your JavaScript 
- * environment up (for example define <code>alert</code> or use some
- * emulation library like <em>env.js</em>), register script presenter 
- * and then you can call methods that deal with JavaScript in your tests.
+/** Tests for behavior of @JavaScriptBody methods. The {@link BrowserRunner}
+ * selects all possible presenters from your <code>pom.xml</code> and
+ * runs the tests inside of them.
+ *
+ * See your <code>pom.xml</code> dependency section for details.
  */
+@RunWith(BrowserRunner.class)
 public class JsInteractionTest {
-    private Closeable jsEngine;
-    @BeforeMethod public void initializeJSEngine() throws Exception {
-        jsEngine = Fn.activate(Scripts.createPresenter());
+    @Test
+    public void emptyTest() {
     }
-    
-    @AfterMethod public void shutdownJSEngine() throws Exception {
-        jsEngine.close();
-    }
+
 #if ($example.equals("true"))
-    @Test public void testCallbackFromJavaScript() throws Exception {
+    @Test
+    public void testCallbackFromJavaScript() throws Exception {
         class R implements Runnable {
             int called;
 
@@ -36,7 +32,7 @@ public class JsInteractionTest {
         
         Dialogs.confirmByUser("Hello", callback);
         
-        assertEquals(callback.called, 1, "One immediate callback");
+        assertEquals("One immediate callback", callback.called, 1);
     }
 #end
 }
