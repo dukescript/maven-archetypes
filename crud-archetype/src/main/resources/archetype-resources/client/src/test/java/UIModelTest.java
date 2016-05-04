@@ -2,22 +2,33 @@ package ${package};
 
 import ${package}.shared.Contact;
 import ${package}.shared.PhoneType;
-import static org.testng.Assert.*;
-import org.testng.annotations.Test;
+import net.java.html.junit.BrowserRunner;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+/** Tests for behavior in real environments. The {@link BrowserRunner}
+ * selects all possible presenters from your <code>pom.xml</code> and
+ * runs the tests inside of them.
+ *
+ * See your <code>pom.xml</code> dependency section for details.
+ */
+@RunWith(BrowserRunner.class)
 public class UIModelTest {
     @Test public void addNewSetsEdited() {
         UI model = new UI();
         Contact c = new Contact();
         UIModel.edit(model, c);
-        assertEquals(model.getEdited(), c, "c is now edited");
+        assertEquals("c is now edited", model.getEdited(), c);
 
-        assertTrue(model.getEdited().getPhones().isEmpty(), "No phone yet");
+        assertTrue("No phone yet", model.getEdited().getPhones().isEmpty());
         UIModel.addPhoneEdited(model);
-        assertEquals(model.getEdited().getPhones().size(), 1, "One phone added");
-        assertEquals(model.getEdited().getPhones().get(0).getType(), PhoneType.HOME, "First is home phone");
+        assertEquals("One phone added", model.getEdited().getPhones().size(), 1);
+        assertEquals("First is home phone", model.getEdited().getPhones().get(0).getType(), PhoneType.HOME);
 
         UIModel.addPhoneEdited(model);
-        assertEquals(model.getEdited().getPhones().size(), 2, "2nd phone added");
-        assertEquals(model.getEdited().getPhones().get(1).getType(), PhoneType.WORK, "2nd is work phone");    }
+        assertEquals("2nd phone added", model.getEdited().getPhones().size(), 2);
+        assertEquals("2nd is work phone", model.getEdited().getPhones().get(1).getType(), PhoneType.WORK);
+    }
 }

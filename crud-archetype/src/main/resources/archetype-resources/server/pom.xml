@@ -38,8 +38,8 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
+            <groupId>com.dukescript.api</groupId>
+            <artifactId>junit-osgi</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -94,6 +94,14 @@
                   <mainClass>${package}.server.Main</mainClass>
               </configuration>
           </plugin>      
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <version>2.19.1</version>
+              <configuration>
+                  <junitArtifactName>com.dukescript.api:junit-osgi</junitArtifactName>
+              </configuration>
+          </plugin>
         </plugins>
     </build>
 </project>
