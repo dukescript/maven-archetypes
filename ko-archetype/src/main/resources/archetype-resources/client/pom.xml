@@ -51,6 +51,9 @@
               <version>2.19.1</version>
               <configuration>
                   <junitArtifactName>com.dukescript.api:junit-osgi</junitArtifactName>
+                  <systemPropertyVariables>
+                      <fxpresenter.headless>true</fxpresenter.headless>
+                  </systemPropertyVariables>
               </configuration>
           </plugin>
           <plugin>
