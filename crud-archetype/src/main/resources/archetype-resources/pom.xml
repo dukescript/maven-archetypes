@@ -32,7 +32,7 @@
         <net.java.html.version>${net.java.html.version}</net.java.html.version>
 #if ($webpath.indexOf("target/") != 0)
         <bck2brwsr.version>${bck2brwsr.version}</bck2brwsr.version>
-        <bck2brwsr.obfuscationlevel>FULL</bck2brwsr.obfuscationlevel>
+        <bck2brwsr.obfuscationlevel>MINIMAL</bck2brwsr.obfuscationlevel>
 #end    
         <junit.browser.version>0.7</junit.browser.version>
         <jersey.version>${jersey.version}</jersey.version>
