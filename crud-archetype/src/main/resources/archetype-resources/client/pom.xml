@@ -205,7 +205,7 @@
         <type>jar</type>
     </dependency>
 
-    <!-- Nashorn presenter for BrowserRunner -->
+    <!-- Nashorn presenter for BrowserRunner
     <dependency>
        <groupId>org.netbeans.html</groupId>
        <artifactId>net.java.html.boot.script</artifactId>
@@ -213,6 +213,7 @@
        <scope>test</scope>
        <type>jar</type>
      </dependency>
+    -->
 #if ($webpath.indexOf("target/") != 0)
 
     <!-- Bck2Brwsr VM presenter for BrowserRunner -->
