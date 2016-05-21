@@ -70,6 +70,7 @@
                     <overWrite>true</overWrite>
                     <outputDirectory>target/generated-sources/combined-assets/pages</outputDirectory>
                     <includes>*/**</includes>
+                    <includeGroupIds>\${project.groupId}</includeGroupIds>
                 </configuration>
             </plugin>            
             <plugin>

@@ -130,6 +130,7 @@
                     <overWrite>true</overWrite>
                     <outputDirectory>target/web/pages</outputDirectory>
                     <includes>*/**</includes>
+                    <includeGroupIds>\${project.groupId}</includeGroupIds>
                 </configuration>
             </plugin>
         </plugins>

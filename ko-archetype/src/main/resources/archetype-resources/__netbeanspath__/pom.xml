@@ -110,6 +110,7 @@
                             <classifier>webpages</classifier>
                             <overWrite>true</overWrite>
                             <outputDirectory>\${project.build.directory}/classes/${package.replace('.','/')}</outputDirectory>
+                            <includeGroupIds>\${project.groupId}</includeGroupIds>
                         </artifactItem>
                     </artifactItems>
                 </configuration>
