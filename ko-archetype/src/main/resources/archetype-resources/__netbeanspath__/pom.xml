@@ -96,23 +96,17 @@
                         <id>unpack</id>
                         <phase>generate-sources</phase>
                         <goals>
-                            <goal>unpack</goal>
+                            <goal>unpack-dependencies</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <artifactItems>
-                        <artifactItem>
-                            <groupId>\${groupId}</groupId>
-                            <artifactId>\${artifactId}</artifactId>
-                            <version>\${project.version}</version>
-                            <type>zip</type>
-                            <classifier>webpages</classifier>
-                            <overWrite>true</overWrite>
-                            <outputDirectory>\${project.build.directory}/classes/${package.replace('.','/')}</outputDirectory>
-                            <includeGroupIds>\${project.groupId}</includeGroupIds>
-                        </artifactItem>
-                    </artifactItems>
+                    <type>zip</type>
+                    <classifier>webpages</classifier>
+                    <overWrite>true</overWrite>
+                    <outputDirectory>\${project.build.directory}/classes/${package.replace('.','/')}</outputDirectory>
+                    <includes>*/**</includes>
+                    <includeGroupIds>\${project.groupId}</includeGroupIds>
                 </configuration>
             </plugin>
             <plugin>
