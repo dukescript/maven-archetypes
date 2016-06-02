@@ -64,6 +64,7 @@
                   </systemPropertyVariables>
               </configuration>
           </plugin>
+#if ($webpath.indexOf("target/") != 0)
           <plugin>
               <groupId>org.apidesign.bck2brwsr</groupId>
               <artifactId>bck2brwsr-maven-plugin</artifactId>
@@ -79,6 +80,7 @@
                   <obfuscation>NONE</obfuscation>
               </configuration>
           </plugin>
+#end
       </plugins>
   </build>
   <dependencies>
