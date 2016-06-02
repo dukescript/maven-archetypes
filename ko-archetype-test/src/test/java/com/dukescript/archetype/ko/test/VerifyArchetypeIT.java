@@ -864,6 +864,9 @@ public class VerifyArchetypeIT {
             return;
         }
         for (File ch : children) {
+            if (ch.getName().equals("target")) {
+                continue;
+            }
             if (ch.isDirectory()) {
                 assertPomVersions(ch);
                 continue;
