@@ -20,6 +20,7 @@
         <project.mainclass>\${package}.iOSMain</project.mainclass>
         <netbeans.compile.on.save>none</netbeans.compile.on.save>
         <robovm.version>${robovm.version}</robovm.version>
+        <presenters.version>${presenters.version}</presenters.version>
     </properties>
     <build>
         <plugins>
@@ -222,7 +223,7 @@
         <dependency>
             <groupId>com.dukescript.presenters</groupId>
             <artifactId>ios</artifactId>
-            <version>${presenters.version}</version>
+            <version>\${presenters.version}</version>
             <scope>runtime</scope>
             <exclusions>
                 <exclusion>

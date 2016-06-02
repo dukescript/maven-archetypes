@@ -18,6 +18,7 @@
 
     <properties>
         <platform.version>4.1.1.4</platform.version>
+        <presenters.version>${presenters.version}</presenters.version>
         <android.plugin.version>4.2.0</android.plugin.version>
         <android.platform.version>19</android.platform.version>
         <debug>false</debug>
@@ -162,7 +163,7 @@
         <dependency>
             <groupId>com.dukescript.presenters</groupId>
             <artifactId>android</artifactId>
-            <version>${presenters.version}</version>
+            <version>\${presenters.version}</version>
             <type>jar</type> 
             <exclusions>
                 <exclusion>

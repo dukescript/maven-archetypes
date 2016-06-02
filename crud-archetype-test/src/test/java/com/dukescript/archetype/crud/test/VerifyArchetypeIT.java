@@ -687,6 +687,7 @@ public class VerifyArchetypeIT {
         }
         v.executeGoal("archetype:generate");
         v.verifyErrorFreeLog();
+        assertPomVersions(dir);
         return v;
     }
 
@@ -735,4 +736,63 @@ public class VerifyArchetypeIT {
     private Verifier createVerifier(String path) throws VerificationException {
         return new MavenRunner(path);
     }
-}
+
+    private static void assertPomVersions(File root) throws IOException {
+        File[] children = root.listFiles();
+        if (children == null) {
+            return;
+        }
+        for (File ch : children) {
+            if (ch.isDirectory()) {
+                assertPomVersions(ch);
+                continue;
+            }
+            if (!ch.getName().equals("pom.xml")) {
+                continue;
+            }
+            Pattern artifact = Pattern.compile("<artifactId>(.*)</artifactId>");
+            Pattern pattern = Pattern.compile("<version>(.*)</version>");
+            BufferedReader r = new BufferedReader(new FileReader(ch));
+            String lastArtifact = "";
+            for (int lineNo = 1; ;lineNo++) {
+                String line = r.readLine();
+                if (line == null) {
+                    break;
+                }
+                Matcher artiMatcher = artifact.matcher(line);
+                if (artiMatcher.find()) {
+                    lastArtifact = artiMatcher.group(1);
+                }
+                Matcher matcher = pattern.matcher(line);
+                if (matcher.find()) {
+                    String version = matcher.group(1);
+                    if (version.startsWith("${")) {
+                        continue;
+                    }
+                    if (version.equals("1.0-SNAPSHOT")) {
+                        continue;
+                    }
+                    if (lastArtifact.startsWith("maven-") && lastArtifact.endsWith("-plugin")) {
+                        continue;
+                    }
+                    if ("nbm-maven-plugin".equals(lastArtifact)) {
+                        continue;
+                    }
+                    if ("exec-maven-plugin".equals(lastArtifact)) {
+                        continue;
+                    }
+                    if ("image-maven-plugin".equals(lastArtifact)) {
+                        continue;
+                    }
+                    if (version.equals("4.12") && "junit-osgi".equals(lastArtifact)) {
+                        continue;
+                    }
+                    if (version.equals("1.2.3.RELEASE") && "springloaded".equals(lastArtifact)) {
+                        continue;
+                    }
+                    fail("Hardcoded version " + version + " for " + lastArtifact + " line " + lineNo + " in " + ch);
+                }
+            }
+            r.close();
+        }
+    }}
