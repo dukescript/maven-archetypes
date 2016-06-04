@@ -12,7 +12,7 @@ There is simple archetype to create a basic application:
 mvn archetype:generate 
 	-DarchetypeGroupId=com.dukescript.archetype
 	-DarchetypeArtifactId=knockout4j-archetype 
-	-DarchetypeVersion=0.9
+	-DarchetypeVersion=0.13
 ```
 
 There is another, more complex archetype to generate skeleton of a CRUD application that shows how you can do 
@@ -23,7 +23,7 @@ code on both ends:
 mvn archetype:generate 
 	-DarchetypeGroupId=com.dukescript.archetype
 	-DarchetypeArtifactId=crud4j-archetype 
-	-DarchetypeVersion=0.9
+	-DarchetypeVersion=0.13
 ```
 
 Both archetypes can generate subprojects for each of the supported platforms. Currently we support 
