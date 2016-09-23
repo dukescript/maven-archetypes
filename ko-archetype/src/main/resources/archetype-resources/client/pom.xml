@@ -80,7 +80,7 @@
                        <argument>-classpath</argument>
                        <classpath/>
                        <argument>-javaagent:\${project.build.directory}/springloaded.jar</argument>
-                       <argument>-noverify</argument>
+                       <argument>-Xverify:none</argument>
                        <argument>-Dbrowser.rootdir=\${basedir}/src/main/webapp/</argument>
                        <argument>-Dnetbeans.inspect.port=\${netbeans.inspect.port}</argument>
                        <argument>\${exec.debug.arg}</argument>
