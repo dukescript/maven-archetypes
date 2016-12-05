@@ -123,7 +123,7 @@ public class VerifyArchetypeIT {
         v = createVerifier(created.getAbsolutePath());
         v.addCliOption("-Pdesktop");
         v.getCliOptions().add("-Denforcer.fail=true");
-        v.executeGoals(Arrays.asList("clean", "package"));
+        v.executeGoals(Arrays.asList("clean", "install"));
 
         v.verifyErrorFreeLog();
 
@@ -140,6 +140,34 @@ public class VerifyArchetypeIT {
         assertDialogsEmpty(dir);
         is.close();
         jf.close();
+
+        File main = new File(new File(new File(new File(new File(new File(new File(new File(new File(
+            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "oat"), "Main.java"
+        );
+        assertTrue(main.isFile(), "Java file exists: " + main);
+        String mainSrc = Files.readFile(main);
+        int bootMethod = mainSrc.indexOf("onPageLoad()");
+        assertNotEquals(bootMethod, -1, "onPageLoad method present: " + mainSrc);
+        int bootMethodEnd = mainSrc.indexOf("}", bootMethod);
+        assertNotEquals(bootMethodEnd, -1, "onPageLoad method present: " + mainSrc);
+
+        StringBuilder mainSb = new StringBuilder(mainSrc);
+        mainSb.insert(bootMethodEnd, "\n"
+          +  "ClassLoader loader = Main.class.getClassLoader();\n"
+          +  "if (loader == ClassLoader.getSystemClassLoader()) {\n"
+          + "  System.exit(0);\n"
+          + "} else {\n"
+          + "  throw new IllegalStateException(\"wrong classloader:\" + loader);\n"
+          + "}\n"
+        );
+
+        FileWriter w = new FileWriter(main);
+        w.write(mainSb.toString());
+        w.close();
+
+        Verifier v2 = createVerifier(new File(created.getAbsoluteFile(), "client").getPath());
+        v2.localRepo = v.localRepo;
+        v2.executeGoals(Arrays.asList("package", "exec:exec"));
     }
 
     private void verifyFileInLog(Verifier v, final String t) throws VerificationException {
