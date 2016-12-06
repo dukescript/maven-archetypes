@@ -125,6 +125,12 @@
         <include>**/*.java</include>
       </includes>
     </fileSet>
+    <fileSet filtered="true" packaged="true">
+      <directory>__webpath__/src/test/java</directory>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+    </fileSet>
     <fileSet filtered="true">
         <directory>__netbeanspath__</directory>
         <includes>
