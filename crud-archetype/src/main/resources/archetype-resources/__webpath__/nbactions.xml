@@ -47,5 +47,8 @@
             <goal>clean</goal>
             <goal>package</goal>
         </goals>
+        <properties>
+            <skipTests>true</skipTests>
+        </properties>
     </action>
 </actions>
