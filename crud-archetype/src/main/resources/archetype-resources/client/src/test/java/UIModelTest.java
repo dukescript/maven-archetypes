@@ -8,12 +8,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-/** Tests for behavior in real environments. The {@link BrowserRunner}
- * selects all possible presenters from your <code>pom.xml</code> and
- * runs the tests inside of them.
- *
- * See your <code>pom.xml</code> dependency section for details.
- */
+/** Tests for behavior of your application in isolation. Verify
+ * behavior of your MVVC code in a unit test.
+  */
 @RunWith(BrowserRunner.class)
 public class UIModelTest {
     @Test public void addNewSetsEdited() {
