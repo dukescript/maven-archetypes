@@ -219,6 +219,12 @@
             <artifactId>net.java.html.boot.fx</artifactId>
             <version>\${net.java.html.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.oracle</groupId>
+                    <artifactId>javafx</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- run in pluginless browser -->
