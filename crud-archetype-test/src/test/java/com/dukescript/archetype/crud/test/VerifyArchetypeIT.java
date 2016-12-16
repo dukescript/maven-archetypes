@@ -38,6 +38,7 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -476,8 +477,8 @@ public class VerifyArchetypeIT {
     @Test public void bck2brwsrAndNbrwsrProjectCompiles() throws Exception {
         final File dir = new File("target/tests/BandN/").getAbsoluteFile();
         generateFromArchetype("b-n-test", dir, "-Dwebpath=for-web", "-Dnetbeanspath=for-nb");
-
-        final File created = new File(new File(dir, "b-n-test"), "client");
+        final File gen = new File(dir, "b-n-test");
+        final File created = new File(gen, "client");
         assertTrue(created.isDirectory(), "Project created");
         assertTrue(new File(created, "pom.xml").isFile(), "Pom file is in there");
 
@@ -530,6 +531,51 @@ public class VerifyArchetypeIT {
             final String cntnt = Files.readFile(nbactions);
             assertTrue(cntnt.contains("bck2brwsr"), "There should bck2brwsr goal in " + nbactions);
             assertTrue(cntnt.contains("CUSTOM-bck2brwsr-web"), "An action to generate a web in " + nbactions);
+        }
+
+        {
+            final File forNb = new File(gen, "for-nb");
+            assertTrue(forNb.isDirectory(), "Nb Project created");
+            assertTrue(new File(forNb, "pom.xml").isFile(), "Pom file is in there");
+
+            Verifier v = createVerifier(forNb.getAbsolutePath());
+            v.executeGoals(Arrays.asList("package", "nbm:cluster"));
+
+            final File netbeans = new File(new File(forNb, "target"), "netbeans");
+            assertTrue(netbeans.isDirectory(), netbeans + " is in there");
+
+            final String[] sharedVersion = { null };
+            java.nio.file.Files.walkFileTree(netbeans.toPath(), new FileVisitor<Path>() {
+                public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                    return FileVisitResult.CONTINUE;
+                }
+
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    if (file.toString().endsWith(".jar")) {
+                        JarFile jf = new JarFile(file.toFile());
+                        final Attributes mainAttributes = jf.getManifest().getMainAttributes();
+                        String name = mainAttributes.getValue("Bundle-SymbolicName");
+                        if (name != null && name.contains("html")) {
+                            String version = mainAttributes.getValue("Bundle-Version");
+                            if (sharedVersion[0] == null) {
+                                sharedVersion[0] = version;
+                            } else {
+                                assertEquals(version, sharedVersion[0], "Proper version for " + file.getFileName());
+                            }
+                        }
+                    }
+                    return FileVisitResult.CONTINUE;
+                }
+
+                public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+                    fail("Cannot visit " + file);
+                    return FileVisitResult.CONTINUE;
+                }
+
+                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                    return FileVisitResult.CONTINUE;
+                }
+            });
         }
     }
 
