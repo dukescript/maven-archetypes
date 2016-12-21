@@ -19,7 +19,8 @@
     <properties>
         <platform.version>4.1.1.4</platform.version>
         <presenters.version>${presenters.version}</presenters.version>
-        <android.plugin.version>4.2.0</android.plugin.version>
+        <android.plugin.version>4.4.3</android.plugin.version>
+        <retrolamda.version>2.3.0</retrolamda.version>
         <android.platform.version>19</android.platform.version>
         <debug>false</debug>
     </properties>
@@ -40,15 +41,6 @@
             </plugin>          
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
             </plugin>
@@ -58,20 +50,47 @@
                 <version>2.9</version>
                 <executions>
                     <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeScope>runtime</includeScope>
+                            <outputDirectory>\${project.build.directory}/classes</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>unpack</id>
                         <phase>process-resources</phase>
                         <goals>
                             <goal>unpack-dependencies</goal>
                         </goals>
+                        <configuration>
+                            <type>zip</type>
+                            <classifier>webpages</classifier>
+                            <overWrite>true</overWrite>
+                            <outputDirectory>target/generated-sources/combined-assets/pages</outputDirectory>
+                            <includes>*/**</includes>
+                    <includeGroupIds>\${project.groupId}</includeGroupIds>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>net.orfjackal.retrolambda</groupId>
+                <artifactId>retrolambda-maven-plugin</artifactId>
+                <version>\${retrolamda.version}</version>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>process-main</goal>
+                        </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <type>zip</type>
-                    <classifier>webpages</classifier>
-                    <overWrite>true</overWrite>
-                    <outputDirectory>target/generated-sources/combined-assets/pages</outputDirectory>
-                    <includes>*/**</includes>
-                    <includeGroupIds>\${project.groupId}</includeGroupIds>
+                    <target>1.6</target>
+                    <defaultMethods>true</defaultMethods>
                 </configuration>
             </plugin>            
             <plugin>
@@ -129,6 +148,7 @@
                         </metaIncludes>
                     </apk>
                     <extractDuplicates>true</extractDuplicates>
+                    <skipDependencies>true</skipDependencies>
                 </configuration>
                 <executions>
                     <execution>

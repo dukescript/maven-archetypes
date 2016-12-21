@@ -337,7 +337,8 @@ public class VerifyArchetypeIT {
 
         File created = new File(generated, "client");
         assertTrue(created.isDirectory(), "Project created");
-        assertTrue(new File(created, "pom.xml").isFile(), "Pom file is in there");
+        final File clientPom = new File(created, "pom.xml");
+        assertTrue(clientPom.isFile(), "Pom file is in there");
 
         File index = new File(new File(new File(new File(new File(
             created, "src"), "main"), "webapp"), "pages"), "index.html");
@@ -352,6 +353,40 @@ public class VerifyArchetypeIT {
         String sdk = System.getProperty("android.sdk.path");
         if (sdk == null) {
             throw new SkipException("No android.sdk.path set, skipping the test");
+        }
+
+        {
+            File main = new File(new File(new File(new File(new File(new File(new File(new File(
+                created, "src"), "main"), "java"), "org"), "someuser"), "test"), "oat"), "Main.java"
+            );
+            String mainSrc = Files.readFile(main);
+            int bootMethod = mainSrc.indexOf("onPageLoad()");
+            StringBuilder mainSb = new StringBuilder(mainSrc.substring(0, bootMethod));
+            mainSb.append("" +
+"onPageLoad() throws Exception {\n" +
+"        java.util.concurrent.Callable<?> run = Main::loonPageLoad;\n" +
+"        run.call();\n" +
+"    }\n" +
+"\n" +
+"    private static Object loonPageLoad() throws Exception {\n" +
+"        DataModel.onPageLoad();\n" +
+"        return null;\n" +
+"    }\n" +
+"\n" +
+"}"
+            );
+
+            FileWriter w = new FileWriter(main);
+            w.write(mainSb.toString());
+            w.close();
+
+            String pomSrc = Files.readFile(clientPom);
+            pomSrc = assertReplace(pomSrc, "<source>1.7</source>", "<source>1.8</source>");
+            pomSrc = assertReplace(pomSrc, "<target>1.7</target>", "<target>1.8</target>");
+
+            w = new FileWriter(clientPom);
+            w.write(pomSrc.toString());
+            w.close();
         }
 
         {
@@ -381,7 +416,7 @@ public class VerifyArchetypeIT {
         v2.executeGoal("package");
         v2.verifyTextInLog("android-maven-plugin");
 
-        File apk = new File(new File(and, "target"), "d-l-test-android-1.0-SNAPSHOT.apk");
+        File apk = new File(new File(and, "target"), "VerifyArchetypeIT-d-l-test-android-1.0-SNAPSHOT.apk");
         assertTrue(apk.isFile(), "apk has been generated: " + apk);
 
         JarFile jf = new JarFile(apk);
@@ -993,5 +1028,11 @@ public class VerifyArchetypeIT {
             }
             r.close();
         }
+    }
+
+    private static String assertReplace(String in, String find, String insert) {
+        int at = in.indexOf(find);
+        assertNotEquals(-1, at, find + " found in " + in);
+        return in.substring(0, at) + insert + in.substring(at + find.length());
     }
 }
