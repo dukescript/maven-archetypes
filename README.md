@@ -4,6 +4,8 @@ DukeScript Archetype
 Maven archetype for [HTML+Java](http://html.java.net) technology with additional
 presenters provided by [DukeScript](http://dukescript.com) organization.
 
+[![Build Status](https://travis-ci.org/dukescript/maven-archetypes.svg?branch=master)](https://travis-ci.org/dukescript/maven-archetypes)
+
 Get started by following the [DukeScript Getting Started](http://dukescript.com/getting_started.html) tutorial.
 Or, if you prefer command line, you can use the [Maven](http://maven.org) archetypes directly. 
 There is simple archetype to create a basic application:
