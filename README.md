@@ -14,18 +14,18 @@ There is simple archetype to create a basic application:
 mvn archetype:generate 
 	-DarchetypeGroupId=com.dukescript.archetype
 	-DarchetypeArtifactId=knockout4j-archetype 
-	-DarchetypeVersion=0.13
+	-DarchetypeVersion=0.14
 ```
 
 There is another, more complex archetype to generate skeleton of a CRUD application that shows how you can do 
-client-server communication and reuse [Model](http://bits.netbeans.org/html+java/1.1/net/java/html/json/Model.html)
+client-server communication and reuse [Model](http://bits.netbeans.org/html+java/1.3/net/java/html/json/Model.html)
 code on both ends:
 
 ```
 mvn archetype:generate 
 	-DarchetypeGroupId=com.dukescript.archetype
 	-DarchetypeArtifactId=crud4j-archetype 
-	-DarchetypeVersion=0.13
+	-DarchetypeVersion=0.14
 ```
 
 Both archetypes can generate subprojects for each of the supported platforms. Currently we support 
