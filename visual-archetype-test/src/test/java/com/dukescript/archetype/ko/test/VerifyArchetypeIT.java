@@ -473,7 +473,7 @@ public class VerifyArchetypeIT {
         File jsDir = new File(gen, "js");
         assertTrue(jsDir.isDirectory(), "Directory is found");
 
-        File jsFile = new File(new File(new File(new File(new File(new File(new File(new File(new File(jsDir, "src"), "main"), "java"), "org"), "someuser"), "test"), "oat"), "js"), "Dialogs.java");
+        File jsFile = new File(new File(new File(new File(new File(new File(new File(new File(new File(jsDir, "src"), "main"), "java"), "org"), "someuser"), "test"), "oat"), "js"), "Elements.java");
         assertTrue(jsFile.isFile(), "File found");
 
         String jsCode = Files.readFile(jsFile);
