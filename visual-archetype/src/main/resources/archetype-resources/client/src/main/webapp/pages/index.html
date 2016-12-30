@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Visual DukeScript Demos</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="map-leaflet.css">
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <div id="toolbar">
+            <button data-bind="click: $root.drawCanvas">Draw!</button>
+            <button data-bind="click: $root.lineChart">Line Chart!</button>
+            <button data-bind="click: $root.pieChart">Pie Chart!</button>
+            <button data-bind="click: $root.map">Map!</button>
+        </div>
+
+        <div id="scene">
+            <canvas id="canvas" data-bind="visible: active() === 'canvas'" 
+                    width="1000" height="1000"
+            ></canvas>
+            <canvas id="lineChart" data-bind="visible: active() === 'lineChart'"></canvas>
+            <canvas id="pieChart" data-bind="visible: active() === 'pieChart'"></canvas>
+            <div id="map" data-bind="visible: active() === 'map'"></div>
+        </div>
+#if ($webpath.indexOf("target/") != 0)
+<!-- ${browser.bootstrap} -->
+#end
+    </body>
+</html>

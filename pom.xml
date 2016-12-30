@@ -49,6 +49,8 @@
         <!--<module>crud-archetype-test</module>-->
         <module>ko-archetype</module>
         <!--<module>ko-archetype-test</module>-->
+        <module>visual-archetype</module>
+        <!--<module>visual-archetype-test</module>-->
     </modules>
     <licenses>
         <license>
@@ -147,6 +149,7 @@
             <modules>
                 <module>ko-archetype-test</module>
                 <module>crud-archetype-test</module>
+                <module>visual-archetype-test</module>
             </modules>
         </profile>
     </profiles>

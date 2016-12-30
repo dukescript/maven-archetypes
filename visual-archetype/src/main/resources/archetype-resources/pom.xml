@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+  <groupId>\${groupId}</groupId>
+  <artifactId>\${artifactId}-pom</artifactId>
+  <version>\${version}</version>
+  <packaging>pom</packaging>
+
+  <name>\${artifactId}</name>
+    <modules>
+        <module>client</module>
+#if ($webpath.indexOf("target/") != 0)
+        <module>$webpath</module>
+#end
+#if ($netbeanspath.indexOf("target/") != 0)
+        <module>$netbeanspath</module>
+#end
+#if ($androidpath.indexOf("target/") != 0)
+        <module>$androidpath</module>
+#end
+#if ($iospath.indexOf("target/") != 0)
+        <module>$iospath</module>
+#end
+        <module>js</module>
+    </modules>
+    <properties>
+        <net.java.html.version>${net.java.html.version}</net.java.html.version>
+#if ($webpath.indexOf("target/") != 0)
+        <bck2brwsr.version>${bck2brwsr.version}</bck2brwsr.version>
+        <bck2brwsr.obfuscationlevel>MINIMAL</bck2brwsr.obfuscationlevel>
+#end    
+        <junit.browser.version>0.9</junit.browser.version>
+        <canvas.version>0.9</canvas.version>
+        <charts.version>0.9</charts.version>
+        <leaflet4j.version>0.7.7</leaflet4j.version>
+        <jersey.version>${jersey.version}</jersey.version>
+        <enforcer.fail>false</enforcer.fail>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.dukescript.api</groupId>
+                <artifactId>junit-osgi</artifactId>
+                <scope>test</scope>
+                <version>4.12</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.3.1</version>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <DependencyConvergence/>
+                            </rules>
+                            <fail>${enforcer.fail}</fail>
+                        </configuration>
+                    </execution>
+                </executions>              
+            </plugin>
+        </plugins>
+    </build>
+</project>

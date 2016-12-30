@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>run</actionName>
+        <goals>
+            <goal>package</goal>
+            <goal>nbm:cluster</goal>
+            <goal>nbm:run-platform</goal>
+        </goals>
+        <properties>
+            <skipTests>true</skipTests>
+        </properties>
+    </action>
+    <action>
+        <actionName>debug</actionName>
+        <goals>
+            <goal>package</goal>
+            <goal>nbm:cluster</goal>
+            <goal>nbm:run-platform</goal>
+        </goals>
+        <properties>
+            <skipTests>true</skipTests>
+            <jpda.listen>true</jpda.listen>
+            <netbeans.run.params.debug>-J-Xdebug -J-Xrunjdwp:transport=dt_socket,suspend=n,server=n,address=${jpda.address}</netbeans.run.params.debug>
+            <firebug.lite>true</firebug.lite>
+        </properties>
+    </action>
+    <action>
+        <actionName>CUSTOM-nbrwsr-run</actionName>
+        <displayName>Run in NetBeans</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>package</goal>
+            <goal>nbm:cluster</goal>
+            <goal>nbm:run-ide</goal>
+        </goals>
+        <properties>
+            <skipTests>true</skipTests>
+        </properties>
+    </action>
+    <action>
+        <actionName>CUSTOM-nbrwsr-nbm</actionName>
+        <displayName>Build NetBeans NBM file</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>install</goal>
+        </goals>
+    </action>
+</actions>
