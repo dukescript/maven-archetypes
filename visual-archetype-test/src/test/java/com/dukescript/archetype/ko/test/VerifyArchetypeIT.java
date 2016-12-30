@@ -379,14 +379,6 @@ public class VerifyArchetypeIT {
             FileWriter w = new FileWriter(main);
             w.write(mainSb.toString());
             w.close();
-
-            String pomSrc = Files.readFile(clientPom);
-            pomSrc = assertReplace(pomSrc, "<source>1.7</source>", "<source>1.8</source>");
-            pomSrc = assertReplace(pomSrc, "<target>1.7</target>", "<target>1.8</target>");
-
-            w = new FileWriter(clientPom);
-            w.write(pomSrc.toString());
-            w.close();
         }
 
         {
@@ -1028,11 +1020,5 @@ public class VerifyArchetypeIT {
             }
             r.close();
         }
-    }
-
-    private static String assertReplace(String in, String find, String insert) {
-        int at = in.indexOf(find);
-        assertNotEquals(-1, at, find + " found in " + in);
-        return in.substring(0, at) + insert + in.substring(at + find.length());
     }
 }
