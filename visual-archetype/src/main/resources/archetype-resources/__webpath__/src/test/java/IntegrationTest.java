@@ -2,7 +2,6 @@ package ${package};
 
 import net.java.html.junit.BrowserRunner;
 import net.java.html.junit.HTMLContent;
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -19,36 +18,38 @@ import org.junit.runner.RunWith;
 @RunWith(BrowserRunner.class)
 @HTMLContent(
     "<h3>Test in JavaFX WebView and pluginless Browser</h3>\n" +
-#if ($example.equals("true"))
-    "<span data-bind='text: message'></span>\n" +
-    "<ul data-bind='foreach: words'>\n" +
-    "  <li>\n" +
-    "    <span data-bind='text: $data'></span>\n" +
-    "  </li>\n" +
-    "</ul>\n" +
-#end
+    "<canvas id='canvas'></canvas>\n" +
+    "<canvas id='pieChart'></canvas>\n" +
+    "<canvas id='lineChart'></canvas>\n" +
+    "<div id='map'></div>\n" +
     "\n"
 )
 public class IntegrationTest {
-    @Test public void testUIModelUI() {
+    @Test public void testDrawingOfACanvas() {
         Data model = new Data();
-#if ($example.equals("true"))
         model.applyBindings();
-        model.setMessage("Hello World by JavaFX WebView");
+        model.drawCanvas();
+    }
 
-        java.util.List<String> arr = model.getWords();
-        assertEquals("Six words always", arr.size(), 6);
-        assertEquals("Hello is the first word", "Hello", arr.get(0));
-        assertEquals("World is the second word", "World", arr.get(1));
-        assertEquals("JavaFX", arr.get(3));
+    @Test public void testLineChart() {
+        Data model = new Data();
+        model.applyBindings();
+        model.lineChart();
+        model.lineChart();
+        model.lineChart();
+    }
 
-        model.setMessage("Hello World by Bck2Brwsr Virtual Machine");
+    @Test public void testMap() {
+        Data model = new Data();
+        model.applyBindings();
+        model.map();
+    }
 
-        arr = model.getWords();
-        assertEquals("Six words always", arr.size(), 6);
-        assertEquals("Hello is the first word", "Hello", arr.get(0));
-        assertEquals("World is the second word", "World", arr.get(1));
-        assertEquals("Bck2Brwsr", arr.get(3));
-#end
+    @Test public void testPieChart() {
+        Data model = new Data();
+        model.applyBindings();
+        model.pieChart();
+        model.pieChart();
+        model.pieChart();
     }
 }
