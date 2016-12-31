@@ -35,7 +35,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <net.java.html.version>1.3</net.java.html.version>
-        <presenters.version>1.0</presenters.version>
+        <presenters.version>1.1</presenters.version>
         <robovm.version>1.8.0</robovm.version>
         <bck2brwsr.version>0.19</bck2brwsr.version>
         <netbeans.version>RELEASE81</netbeans.version>
