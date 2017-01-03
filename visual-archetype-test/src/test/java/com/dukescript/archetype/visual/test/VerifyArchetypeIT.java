@@ -501,6 +501,10 @@ public class VerifyArchetypeIT {
 
         Verifier v = createVerifier(web.getAbsolutePath());
         v.getCliOptions().add("-Denforcer.fail=true");
+        String osName = System.getProperty("os.name");
+        if (osName != null && osName.contains("Mac")) {
+            v.getCliOptions().add("-DskipTests=true");
+        }
         v.executeGoal("package");
 
         v.verifyErrorFreeLog();
