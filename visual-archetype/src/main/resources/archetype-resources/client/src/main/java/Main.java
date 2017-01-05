@@ -7,6 +7,7 @@ public final class Main {
     }
 
     public static void main(String... args) throws Exception {
+        System.setProperty("prism.order", "sw");
         BrowserBuilder.newBrowser().
             loadPage("pages/index.html").
             loadClass(Main.class).
