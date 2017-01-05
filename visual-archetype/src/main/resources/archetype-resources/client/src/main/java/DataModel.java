@@ -61,11 +61,15 @@ final class DataModel {
 
         if (onClick == null) {
             onClick = (ev) -> {
-                ctx.setStrokeStyle(ctx.getWebColor("red"));
-                ctx.setFillStyle(ctx.getWebColor("green"));
+                ctx.setStrokeStyle(ctx.getWebColor("green"));
+                ctx.setFillStyle(ctx.getWebColor("orange"));
                 ctx.beginPath();
-                ctx.arc(ev.getX(), ev.getY() - 25, 50, 0, Math.PI * 2, false);
+                ctx.arc(ev.getX(), ev.getY() - 25, 50, 0, Math.PI, false);
+                ctx.lineTo(ev.getX() - 50, ev.getY() - 100);
+                ctx.arc(ev.getX(), ev.getY() - 100, 50, Math.PI, 2 * Math.PI, false);
+                ctx.closePath();
                 ctx.stroke();
+                ctx.fill();
             };
             Elements.onClick("canvas", onClick);
         }
