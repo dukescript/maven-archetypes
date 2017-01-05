@@ -126,6 +126,7 @@
                             <brandingToken>\${artifactId}</brandingToken>
                             <cluster>\${artifactId}</cluster>
                             <verifyIntegrity>false</verifyIntegrity>
+                            <additionalArguments>-J-Xmx512M</additionalArguments>
                         </configuration>
                     </execution>
                     <execution>
