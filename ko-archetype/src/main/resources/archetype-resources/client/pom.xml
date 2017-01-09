@@ -75,7 +75,7 @@
               <version>1.2.1</version>
                 <configuration>
                    <executable>\${exec.java.bin}</executable>
-                   <classpathScope>test</classpathScope>
+                   <classpathScope>runtime</classpathScope>
                    <arguments>
                        <argument>-classpath</argument>
                        <classpath/>
@@ -95,7 +95,7 @@
               <executions>
                   <execution>
                       <id>copy</id>
-                      <phase>package</phase>
+                      <phase>process-classes</phase>
                       <goals>
                           <goal>copy</goal>
                       </goals>
@@ -227,6 +227,20 @@
   </dependencies>
   <profiles>
       <profile>
+          <id>javafx</id>
+          <activation>
+              <activeByDefault>true</activeByDefault>
+          </activation>
+          <dependencies>
+              <dependency>
+                  <groupId>org.netbeans.html</groupId>
+                  <artifactId>net.java.html.boot.fx</artifactId>
+                  <version>\${net.java.html.version}</version>
+                  <scope>runtime</scope>
+              </dependency>
+          </dependencies>
+      </profile>
+      <profile>
           <id>desktop</id>
           <dependencies>
               <dependency>
@@ -273,6 +287,28 @@
                   </plugin>
               </plugins>
           </build>
+      </profile>
+      <profile>
+          <id>webkit-presenter</id>
+          <dependencies>
+              <dependency>
+                  <groupId>com.dukescript.presenters</groupId>
+                  <artifactId>webkit</artifactId>
+                  <version>\${presenters.version}</version>
+                  <scope>runtime</scope>
+              </dependency>
+          </dependencies>
+      </profile>
+      <profile>
+          <id>browser-presenter</id>
+          <dependencies>
+              <dependency>
+                  <groupId>com.dukescript.presenters</groupId>
+                  <artifactId>browser</artifactId>
+                  <version>\${presenters.version}</version>
+                  <scope>runtime</scope>
+              </dependency>
+          </dependencies>
       </profile>
   </profiles>
 </project>

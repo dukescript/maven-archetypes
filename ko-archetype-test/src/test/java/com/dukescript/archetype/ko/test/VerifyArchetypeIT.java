@@ -156,6 +156,7 @@ public class VerifyArchetypeIT {
         mainSb.insert(bootMethodEnd, "\n"
           +  "ClassLoader loader = Main.class.getClassLoader();\n"
           +  "if (loader == ClassLoader.getSystemClassLoader()) {\n"
+          + "  System.out.println(\"Presenter: \" + org.netbeans.html.boot.spi.Fn.activePresenter().getClass().getName());\n"
           + "  System.exit(0);\n"
           + "} else {\n"
           + "  throw new IllegalStateException(\"wrong classloader:\" + loader);\n"
@@ -166,9 +167,26 @@ public class VerifyArchetypeIT {
         w.write(mainSb.toString());
         w.close();
 
-        Verifier v2 = createVerifier(new File(created.getAbsoluteFile(), "client").getPath());
-        v2.localRepo = v.localRepo;
-        v2.executeGoals(Arrays.asList("package", "exec:exec"));
+        assertPresenter(created, v, null, "org.netbeans.html.boot.fx.FXPresenter");
+        assertPresenter(created, v, "-Pwebkit-presenter", "com.dukescript.presenters.webkit.WebKitPresenter");
+        assertPresenter(created, v, "-Pbrowser-presenter", "com.dukescript.presenters.Browser");
+    }
+
+    private void assertPresenter(File created, Verifier v, String option, String presenter) throws VerificationException {
+        Verifier v3 = createVerifier(new File(created.getAbsoluteFile(), "client").getPath());
+        v3.localRepo = v.localRepo;
+        if (option != null) {
+            v3.addCliOption(option);
+        }
+        v3.executeGoals(Arrays.asList("process-classes", "exec:exec"));
+
+        for (String l : v3.loadFile(v3.getBasedir(), v3.getLogFileName(), false)) {
+            if (l.startsWith("Presenter: ")) {
+                assertTrue(l.contains(presenter), "Right presenters is used in " + l);
+                return;
+            }
+        }
+        fail("No line found in " + v3.getBasedir() + "/" + v3.getLogFileName());
     }
 
     private void verifyFileInLog(Verifier v, final String t) throws VerificationException {
