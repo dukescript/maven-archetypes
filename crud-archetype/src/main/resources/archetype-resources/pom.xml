@@ -36,6 +36,7 @@
 #end    
         <junit.browser.version>0.9</junit.browser.version>
         <jersey.version>${jersey.version}</jersey.version>
+        <presenters.version>${presenters.version}</presenters.version>
         <enforcer.fail>false</enforcer.fail>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

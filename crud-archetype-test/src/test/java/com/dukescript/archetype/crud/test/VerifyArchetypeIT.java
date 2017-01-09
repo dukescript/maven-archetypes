@@ -124,12 +124,58 @@ public class VerifyArchetypeIT {
         v = createVerifier(created.getAbsolutePath());
         v.getCliOptions().add("-Denforcer.fail=true");
         v.addCliOption("-Pdesktop");
-        v.executeGoals(Arrays.asList("clean", "package"));
+        v.executeGoals(Arrays.asList("clean", "install"));
 
         v.verifyErrorFreeLog();
 
         final String t = "fxcompile/o-a-test/client/target/o-a-test-1.0-SNAPSHOT-javafx.zip";
         verifyFileInLog(v, t);
+
+        File main = new File(new File(new File(new File(new File(new File(new File(new File(new File(
+            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "oat"), "Main.java"
+        );
+        assertTrue(main.isFile(), "Java file exists: " + main);
+        String mainSrc = Files.readFile(main);
+        int bootMethod = mainSrc.indexOf("onPageLoad()");
+        assertNotEquals(bootMethod, -1, "onPageLoad method present: " + mainSrc);
+        int bootMethodEnd = mainSrc.indexOf("}", bootMethod);
+        assertNotEquals(bootMethodEnd, -1, "onPageLoad method present: " + mainSrc);
+
+        StringBuilder mainSb = new StringBuilder(mainSrc);
+        mainSb.insert(bootMethodEnd, "\n"
+          +  "ClassLoader loader = Main.class.getClassLoader();\n"
+          +  "if (loader == ClassLoader.getSystemClassLoader()) {\n"
+          + "  System.out.println(\"Presenter: \" + org.netbeans.html.boot.spi.Fn.activePresenter().getClass().getName());\n"
+          + "  System.exit(0);\n"
+          + "} else {\n"
+          + "  throw new IllegalStateException(\"wrong classloader:\" + loader);\n"
+          + "}\n"
+        );
+
+        FileWriter w = new FileWriter(main);
+        w.write(mainSb.toString());
+        w.close();
+
+        assertPresenter(created, v, null, "org.netbeans.html.boot.fx.FXPresenter");
+        assertPresenter(created, v, "-Pwebkit-presenter", "com.dukescript.presenters.webkit.WebKitPresenter");
+        assertPresenter(created, v, "-Pbrowser-presenter", "com.dukescript.presenters.Browser");
+    }
+
+    private void assertPresenter(File created, Verifier v, String option, String presenter) throws VerificationException {
+        Verifier v3 = createVerifier(new File(created.getAbsoluteFile(), "client").getPath());
+        v3.localRepo = v.localRepo;
+        if (option != null) {
+            v3.addCliOption(option);
+        }
+        v3.executeGoals(Arrays.asList("process-classes", "exec:exec"));
+
+        for (String l : v3.loadFile(v3.getBasedir(), v3.getLogFileName(), false)) {
+            if (l.startsWith("Presenter: ")) {
+                assertTrue(l.contains(presenter), "Right presenters is used in " + l);
+                return;
+            }
+        }
+        fail("No line found in " + v3.getBasedir() + "/" + v3.getLogFileName());
     }
 
     private void verifyFileInLog(Verifier v, final String t) throws VerificationException {
