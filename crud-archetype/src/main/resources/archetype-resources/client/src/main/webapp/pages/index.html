@@ -3,61 +3,103 @@
     <head>
         <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="index.css">
+        <link href="pure-release-0.6.2/pure-min.css" rel="stylesheet" type="text/css"/>
+        <link href="pure-release-0.6.2/grids-responsive-min.css" rel="stylesheet" type="text/css"/>
+        <link href="index.css" rel="stylesheet" type="text/css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <h1>Create, Read, Update, Delete</h1>
-
+        <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+            <a class="pure-menu-heading" href="#"><span class="heading-text">Contacts</span></a>
+        </div>
+        <div data-bind="visible: alert" id="alert">
+            <a href="#alert" data-bind="text: message, click: hideAlert, css: {alert: alert}"></a>
+        </div>
+        <div class="spacer"></div>
         <script type="text/html" id="list-contacts">
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Phone info</th>
-                <th>
-                    <a href="#" data-bind="click: $root.addNew">Add new</a>
-                </th>
-            </tr>
-            <tbody data-bind="foreach: contacts">
-                <tr>
-                    <td data-bind="text: fullName"></td>
-                    <td data-bind="with: address">
-                        <span data-bind="text: street"></span>
-                        <span data-bind="text: town"></span>
-                    </td>
-                    <td data-bind="text: callInfo"></td>
-                    <td><center>
-                        <a href="#" data-bind="click: $root.edit">Edit</a>
-                        <a href="#" data-bind="click: $root.delete">Delete</a>
-                    </center></td>
-                </tr>
-            </tbody>
-        </table>
+            <div id="contats-list" data-bind="foreach: contacts">
+                <div class="pure-g">                 
+                    <div class="pure-hidden-xs pure-u-md-1-5"><div class="avatar"><i class="fa fa-address-book" aria-hidden="true"></i></div></div>
+                    <div class="pure-u-4-5">
+                        <div class="contact">
+                            <div data-bind="text: fullName"></div>
+                            <div data-bind="with: address">
+                                <span data-bind="text: street"></span>
+                                <span data-bind="text: town"></span>
+                            </div>
+                            <div data-bind="text: callInfo"></div>
+
+                            <button class="pure-button pure-hidden-xs" data-bind="click: $root.edit"><span>Edit</span></button>
+                            <button class="pure-button pure-hidden-xs" data-bind="click: $root.delete"><span>Delete</span></button>
+                        </div>
+                    </div> 
+                    <div class="pure-hidden-sm pure-hidden-lg pure-hidden-md pure-hidden-xl pure-u-1-5">
+                        <div class="awesome-button"  data-bind="click: $root.edit">
+                            <i class=" fa fa-pencil"></i>  
+                        </div> 
+                        <div class="awesome-button"  data-bind="click: $root.delete">
+                            <i class=" fa fa-trash"></i>  
+                        </div> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="awesome-button" id="sticky-footer-button" data-bind="click: $root.addNew">
+                <i class=" fa fa-plus-circle"></i>  
+            </div> 
         </script>
 
         <script type="text/html" id="edit-contact">
-            First name: <input data-bind="textInput: firstName">
-            Last name: <input data-bind="textInput: lastName">
-            <div data-bind="with: address">
-                Street: <input data-bind="textInput: street">
-                Town: <input data-bind="textInput: town">
-            </div>
-            <span data-bind="foreach: phones">
-                <div></div>
-                Number: <input data-bind="textInput: number">
-                type: <select data-bind="value: type">
-                    <option>HOME</option>
-                    <option>WORK</option>
-                    <option>MOBILE</option>
-                </select>
-                <button data-bind="click: $root.removePhoneEdited">-</button>
-            </span>
-            <button data-bind="click: $root.addPhoneEdited">+</button>
-            <div class="warning" data-bind="text: validate"></div>
-            <div>
-                <button data-bind="click: $root.commit">OK</button>
-                <button data-bind="click: $root.cancel">Cancel</button>
-            </div>
+            <form id="contact-form" class="pure-form pure-form-aligned">
+                <fieldset>
+
+                    <div class="pure-control-group">
+                        <label for="first-name">First Name</label>
+                        <input class="pure-input-1-2" id="first-name" type="text" placeholder="First Name" data-bind="textInput: firstName" required>
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="last-name">First Name</label>
+                        <input class="pure-input-1-2" id="last-name" type="text" placeholder="Last Name" data-bind="textInput: lastName" required>
+                    </div>
+                    <!-- ko with: address -->
+                    <div class="pure-control-group">
+                        <label for="street">Street</label>
+                        <input class="pure-input-1-2" id="street" type="text" placeholder="Street" data-bind="textInput: street" required>
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="town">Town</label>
+                        <input class="pure-input-1-2" id="town" type="text" placeholder="Town" data-bind="textInput: town" required>
+                    </div>
+                    <!-- /ko -->
+                    <!-- ko foreach: phones -->
+                    <div class="pure-control-group">
+                        <label for="number">Number</label>
+                        <input class="pure-input-1-3" id="number" type="tel" placeholder="number" data-bind="textInput: number" required>
+                        <button class="pure-button" data-bind="click: $root.removePhoneEdited"><i class=" fa fa-trash"></i></button>
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="type">Type</label>
+                        <select id="type" data-bind="value: type">
+                            <option>HOME</option>
+                            <option>WORK</option>
+                            <option>MOBILE</option>
+                        </select>                  
+                    </div>
+                    <!-- /ko -->
+                    <div class="pure-controls">
+                        <button class="pure-button" data-bind="click: $root.addPhoneEdited"><i class=" fa fa-phone"></i>&nbsp;Add new number</button>
+                    </div>
+                    <div class="pure-controls">
+                        <button  class="pure-button pure-button-primary" data-bind="click: $root.commit">OK</button>
+                        <button class="pure-button" data-bind="click: $root.cancel">Cancel</button>
+                    </div>
+                    <div class="pure-control-group">
+                        <label data-bind="text: validate"></label>
+                    </div>        
+
+                </fieldset>
+            </form>
         </script>
 
         <div data-bind="template: { name: 'list-contacts', if: !edited() }">
@@ -66,19 +108,16 @@
         <div data-bind="template: { name: 'edit-contact', if: edited, data: edited }">
         </div>
 
-
-        <hr>
-        <div>
-        Server URL:
-        <input data-bind="textInput: url" size="60">
-        <button data-bind="click: connect">Connect</button>
+        <div id="sticky-footer">
+            <form class="pure-form">
+                <fieldset>
+                    <input class="pure-input-2-3" type="url" data-bind="textInput: url" >
+                    <button class="pure-button pure-button-primary" data-bind="click: connect">Connect</button>
+                </fieldset>
+            </form>
         </div>
-
-        <br>
-        <div data-bind="text: message"></div>
-
-#if ($webpath.indexOf("target/") != 0)
-<!-- ${browser.bootstrap} -->
-#end
+        #if ($webpath.indexOf("target/") != 0)
+        <!-- ${browser.bootstrap} -->
+        #end
     </body>
 </html>

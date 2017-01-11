@@ -1,0 +1,26 @@
+diff --git a/crud-archetype/src/main/resources/archetype-resources/client/pom.xml b/crud-archetype/src/main/resources/archetype-resources/client/pom.xml
+index 44f301b..fb1b41a 100644
+--- a/crud-archetype/src/main/resources/archetype-resources/client/pom.xml
++++ b/crud-archetype/src/main/resources/archetype-resources/client/pom.xml
+@@ -14,7 +14,7 @@
+   <version>\${version}</version>
+   <packaging>bundle</packaging>
+ 
+-  <name>\${artifactId} Client for JavaFX</name>
++  <name>\${artifactId} General Client Code</name>
+ 
+   <properties>
+     <netbeans.compile.on.save>all</netbeans.compile.on.save>
+diff --git a/ko-archetype/src/main/resources/archetype-resources/client/pom.xml b/ko-archetype/src/main/resources/archetype-resources/client/pom.xml
+index e11795e..1e86438 100644
+--- a/ko-archetype/src/main/resources/archetype-resources/client/pom.xml
++++ b/ko-archetype/src/main/resources/archetype-resources/client/pom.xml
+@@ -14,7 +14,7 @@
+   <version>\${version}</version>
+   <packaging>bundle</packaging>
+ 
+-  <name>\${artifactId} Client for JavaFX</name>
++  <name>\${artifactId} General Client Code</name>
+ 
+   <properties>
+     <netbeans.compile.on.save>all</netbeans.compile.on.save>

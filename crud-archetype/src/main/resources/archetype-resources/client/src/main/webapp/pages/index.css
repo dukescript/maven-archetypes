@@ -1,40 +1,209 @@
-table, th, td {
-   border: 1px solid black;
+.home-menu {
+    padding: 0.5em;
+    text-align: center;
+    box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
 }
-table {
-    border-collapse: collapse;
-    width: 100%;
+.home-menu {
+    background: #2d3e50;
 }
-td {
-    background-color: linen;
-    color: graytext;
+.pure-menu.pure-menu-fixed {
+    /* Fixed menus normally have a border at the bottom. */
+    border-bottom: none;
+    /* I need a higher z-index here because of the scroll-over effect. */
+    z-index: 4;
 }
-th {
-    height: 50px;
-    background-color: greenyellow;
+
+.home-menu .pure-menu-heading {
+    color: white;
+    font-weight: 400;
+    font-size: 120%;
 }
-input {
-    border: 3px solid gray;
-    padding: 5px;
-    background: linen;
-    margin: 0 0 10px 0;
+
+.home-menu .pure-menu-selected a {
+    color: white;
 }
-select {
-    border: 3px solid gray;
-    padding: 5px;
-    background: linen;
-    margin: 0 0 10px 0;
+
+.home-menu a {
+    color: #6FBEF3;
 }
-button {
-    font-size: 1em;
-    font-weight: bold;
-    color: #ccc;
-    background-color: gray;
-    background: linear-gradient(#888, #555);
-    border: 0 none;
-    border-radius: 3px;
-    cursor: pointer;
+.home-menu li a:hover,
+.home-menu li a:focus {
+    background: none;
+    border: none;
+    color: #AECFE5;
 }
-.warning {
+
+.awesome-button{
+    color: #2d3e50;
+    font-size: 2em;
+    padding: 0.1em;
+}
+
+.avatar{
+    color: #2d3e50;
+    font-size: 6em;
+    padding: 0.1em;
+}
+
+.contact{
+    padding: 1em;
+}
+
+.spacer{
+    height: 4em;
+}
+
+.heading-text{
+    padding-left: 0.5em;
+}
+
+#sticky-footer-button{
+    position: fixed;
+    bottom: 0px;
+    right: 0px; 
+    padding: 1em;
+    padding-bottom: 2em;
+    z-index: 4;
     color: red;
+}
+
+#sticky-footer{
+    position: fixed;
+    bottom: 0px;
+    left: 0px; 
+    right:0px;
+    width:100%;
+    z-index: 0;
+    background: #2d3e50;
+}
+
+#contact-form, #contats-list{
+    padding-bottom: 3em;
+}
+
+#server-form{
+    padding: 0.1em;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 768px;
+}
+
+#alert {
+    position: fixed;
+    width: 100%;
+    z-index: 4;
+}
+
+#alert:hover:after {
+    background: hsla(0,0%,0%,.8);
+    border-radius: 3px;
+    color: #f6f6f6;
+    content: 'Click to dismiss';
+    font: bold 12px/30px sans-serif;
+    height: 30px;
+    left: 50%;
+    margin-left: -60px;
+    position: absolute;
+    text-align: center;
+    top: 50px;
+    width: 120px;
+}
+
+#alert:hover:before {
+    border-bottom: 10px solid hsla(0,0%,0%,.8);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    content: '';
+    height: 0;
+    left: 50%;
+    margin-left: -10px;
+    position: absolute;
+    top: 40px;
+    width: 0;
+}
+
+.alert {
+    background-color: #c4453c;
+    color: #f6f6f6;
+    display: block;
+    font: bold 16px/40px sans-serif;
+    height: 40px;
+    /*position: absolute;*/
+    text-align: center;
+    text-decoration: none;
+    top: -45px;
+    width: 100%;
+    -webkit-animation: alert 1s ease forwards;
+       -moz-animation: alert 1s ease forwards;
+        -ms-animation: alert 1s ease forwards;
+         -o-animation: alert 1s ease forwards;
+            animation: alert 1s ease forwards;
+}
+
+
+@-webkit-keyframes alert {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { top: 0; }
+}
+@-moz-keyframes alert {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { top: 0; }
+}
+@-ms-keyframes alert {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { top: 0; }
+}
+@-o-keyframes alert {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { top: 0; }
+}
+@keyframes alert {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { top: 0; }
+}
+
+/* pure-hidden-xs */
+@media screen and (max-width:567px) {
+    .pure-visible-sm{display:none}
+    .pure-visible-md{display:none}
+    .pure-visible-lg{display:none}
+    .pure-visible-xl{display:none}
+    .pure-hidden-xs{display:none}
+}
+/* pure-hidden-sm */
+@media screen and (min-width:568px) and (max-width:767px) {
+    .pure-visible-xs{display:none}
+    .pure-visible-md{display:none}
+    .pure-visible-lg{display:none}
+    .pure-visible-xl{display:none}
+    .pure-hidden-sm{display:none}
+}
+/* pure-hidden-md */
+@media screen and (min-width:768px) and (max-width:1023px) {
+    .pure-visible-xs{display:none}
+    .pure-visible-sm{display:none}
+    .pure-visible-lg{display:none}
+    .pure-visible-xl{display:none}
+    .pure-hidden-md{display:none}
+}
+/* pure-hidden-lg */
+@media screen and (min-width:1024px) and (max-width:1279px) {
+    .pure-visible-xs{display:none}
+    .pure-visible-sm{display:none}
+    .pure-visible-md{display:none}
+    .pure-visible-xl{display:none}
+    .pure-hidden-lg{display:none}
+}
+/* pure-hidden-xl */
+@media screen and (min-width:1280px) {
+    .pure-visible-xs{display:none}
+    .pure-visible-sm{display:none}
+    .pure-visible-md{display:none}
+    .pure-visible-lg{display:none}
+    .pure-hidden-xl{display:none}
 }

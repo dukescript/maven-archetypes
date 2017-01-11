@@ -8,6 +8,7 @@ import java.util.List;
 import net.java.html.json.Function;
 import net.java.html.json.Model;
 import net.java.html.json.ModelOperation;
+import net.java.html.json.OnPropertyChange;
 import net.java.html.json.OnReceive;
 import net.java.html.json.Property;
 
@@ -17,6 +18,7 @@ import net.java.html.json.Property;
 @Model(className = "UI", targetId="", properties = {
     @Property(name = "url", type = String.class),
     @Property(name = "message", type = String.class),
+    @Property(name = "alert", type = boolean.class),
     @Property(name = "contacts", type = Contact.class, array = true),
     @Property(name = "selected", type = Contact.class),
     @Property(name = "edited", type = Contact.class)
@@ -134,6 +136,14 @@ final class UIModel {
     @Function static void removePhoneEdited(UI ui, Phone data) {
         ui.getEdited().getPhones().remove(data);
     }
+    
+    @Function static void hideAlert(UI ui) {
+        ui.setAlert(false);
+    }
+    
+    @OnPropertyChange(value = "message") static void messageChanged(UI ui) {
+        ui.setAlert(true);
+    }    
 
     private static UI uiModel;
     /**
