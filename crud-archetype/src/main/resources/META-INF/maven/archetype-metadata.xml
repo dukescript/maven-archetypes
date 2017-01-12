@@ -58,6 +58,11 @@
         <include>**/*.xhtml</include>
         <include>**/*.html</include>
         <include>**/*.css</include>
+      </includes>
+    </fileSet>
+    <fileSet filtered="false" packaged="false">
+      <directory>client/src/main/webapp/pages</directory>
+      <includes>
         <include>**/*.otf</include>
         <include>**/*.svg</include>
         <include>**/*.ttf</include>
