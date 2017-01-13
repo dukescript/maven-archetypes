@@ -77,7 +77,7 @@ final class UIModel {
     @Function static void addNew(UI ui) {
         ui.setSelected(null);
         final Contact c = new Contact();
-        c.getPhones().add(new Phone("+420 000 000 000", PhoneType.HOME));
+        c.getPhones().add(new Phone("+49 89 0000 0000", PhoneType.HOME));
         ui.setEdited(c);
     }
 
