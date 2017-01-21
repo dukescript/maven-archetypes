@@ -126,7 +126,6 @@
                             <brandingToken>\${artifactId}</brandingToken>
                             <cluster>\${artifactId}</cluster>
                             <verifyIntegrity>false</verifyIntegrity>
-                            <additionalArguments>-J-Xmx512M</additionalArguments>
                         </configuration>
                     </execution>
                     <execution>
@@ -148,6 +147,7 @@
                     <cluster>\${artifactId}</cluster>
                     <verifyIntegrity>false</verifyIntegrity>
                     <nbmBuildDir>\${project.build.directory}</nbmBuildDir>
+                    <additionalArguments>-J-Xmx512M -J-Dprism.order=sw</additionalArguments>
                 </configuration>
             </plugin>
             <plugin>
