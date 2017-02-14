@@ -38,6 +38,7 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.Random;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
@@ -69,6 +70,7 @@ public class VerifyArchetypeIT {
     @BeforeClass public static void initializeOutput() {
         MavenRunner.initializeOutput();
     }
+    private String oat;
 
     @BeforeMethod public void cleanUpMavenRepo() throws IOException {
         File repo = new File(new File(
@@ -96,6 +98,11 @@ public class VerifyArchetypeIT {
                 }
             });
         }
+    }
+
+    @BeforeMethod
+    public void randomOat() {
+        oat = "oat" + new Random().nextInt(10);
     }
 
     @Test public void defaultProjectCompiles() throws Exception {
@@ -132,7 +139,7 @@ public class VerifyArchetypeIT {
         verifyFileInLog(v, t);
 
         File main = new File(new File(new File(new File(new File(new File(new File(new File(new File(
-            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "oat"), "Main.java"
+            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "Main.java"
         );
         assertTrue(main.isFile(), "Java file exists: " + main);
         String mainSrc = Files.readFile(main);
@@ -191,7 +198,7 @@ public class VerifyArchetypeIT {
         assertTrue(new File(created, "pom.xml").isFile(), "Pom file is in there");
 
         File main = new File(new File(new File(new File(new File(new File(new File(new File(new File(
-            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "oat"), "Main.java"
+            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "Main.java"
         );
         assertTrue(main.isFile(), "Java file exists: " + main);
         String mainSrc = Files.readFile(main);
@@ -366,7 +373,7 @@ public class VerifyArchetypeIT {
 
         {
             File main = new File(new File(new File(new File(new File(new File(new File(new File(
-                created, "src"), "main"), "java"), "org"), "someuser"), "test"), "oat"), "Main.java"
+                created, "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "Main.java"
             );
             String mainSrc = Files.readFile(main);
             int bootMethod = mainSrc.indexOf("onPageLoad()");
@@ -494,7 +501,7 @@ public class VerifyArchetypeIT {
         File jsDir = new File(gen, "js");
         assertTrue(jsDir.isDirectory(), "Directory is found");
 
-        File jsFile = new File(new File(new File(new File(new File(new File(new File(new File(new File(jsDir, "src"), "main"), "java"), "org"), "someuser"), "test"), "oat"), "js"), "Dialogs.java");
+        File jsFile = new File(new File(new File(new File(new File(new File(new File(new File(new File(jsDir, "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "js"), "Dialogs.java");
         assertTrue(jsFile.isFile(), "File found");
 
         String jsCode = Files.readFile(jsFile);
@@ -707,8 +714,8 @@ public class VerifyArchetypeIT {
             v.verifyErrorFreeLog();
 
             v.assertFilePresent("target/classes/META-INF/generated-layer.xml");
-            v.assertFilePresent("target/classes/org/someuser/test/oat/index.html");
-            v.assertFilePresent("target/classes/org/someuser/test/oat/plus.css");
+            v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/index.html");
+            v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/plus.css");
         }
 
         File jar = new File(new File(nb, "target"), "n-p-test-nb-1.0-SNAPSHOT.jar");
@@ -727,11 +734,11 @@ public class VerifyArchetypeIT {
         {
             File closeJava = new File(new File(new File(new File(new File(
                 new File(new File(new File(nb, "src"), "main"), "java"),
-                "org"), "someuser"), "test"), "oat"),"CloseTestApp.java"
+                "org"), "someuser"), "test"), "" + oat + ""),"CloseTestApp.java"
             );
             FileWriter w = new FileWriter(closeJava);
             w.write(
-"package org.someuser.test.oat;\n" +
+"package org.someuser.test." + oat + ";\n" +
 "import java.lang.reflect.Method;\n" +
 "import org.openide.windows.OnShowing;\n" +
 "\n" +
@@ -794,10 +801,10 @@ public class VerifyArchetypeIT {
         v.verifyErrorFreeLog();
 
         v.assertFilePresent("target/a-r-test-nb-1.0-SNAPSHOT.nbm");
-        v.assertFilePresent("target/classes/org/someuser/test/oat/index.html");
-        v.assertFilePresent("target/classes/org/someuser/test/oat/plus.css");
-        v.assertFilePresent("target/classes/org/someuser/test/oat/icon.png");
-        v.assertFilePresent("target/classes/org/someuser/test/oat/icon24.png");
+        v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/index.html");
+        v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/plus.css");
+        v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/icon.png");
+        v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/icon24.png");
     }
 
     private Verifier generateFromArchetype(String aId, final File dir, String... params) throws Exception {
@@ -810,7 +817,7 @@ public class VerifyArchetypeIT {
         Properties sysProp = v.getSystemProperties();
         sysProp.put("groupId", "org.someuser.test");
         sysProp.put("artifactId", aId);
-        sysProp.put("package", "org.someuser.test.oat");
+        sysProp.put("package", "org.someuser.test." + oat + "");
         sysProp.put("archetypeGroupId", "com.dukescript.archetype");
         sysProp.put("archetypeArtifactId", "crud4j-archetype");
         sysProp.put("archetypeVersion", findCurrentVersion());

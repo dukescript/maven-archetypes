@@ -5,7 +5,7 @@ import net.java.html.junit.HTMLContent;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.someuser.test.oat.shared.Contact;
+import ${package}.shared.Contact;
 
 /** Tests for behavior of your application in real systems. The {@link BrowserRunner}
  * selects all possible presenters from your <code>pom.xml</code> and
