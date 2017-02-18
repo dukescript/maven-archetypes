@@ -13,15 +13,20 @@
         android:icon="@drawable/ic_launcher"
         android:label="${artifactId}"
         android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
-        <activity android:name="com.dukescript.presenters.Android" 
+        <activity android:name="${package}.AndroidMain"
                   android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <!-- Configuration section. Defines: 
+        <activity android:name="com.dukescript.presenters.Android"
+                  android:configChanges="orientation|screenSize"
+                  android:exported="false"
+                >
+        </activity>
+
+        <!-- Configuration section. Defines:
            - the HTML page to load on start
            - the class that contains the main initialization method
            - name of the initialization method in the given class

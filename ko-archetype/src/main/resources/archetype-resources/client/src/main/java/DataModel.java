@@ -4,20 +4,25 @@ import net.java.html.json.ComputedProperty;
 import net.java.html.json.Function;
 import net.java.html.json.Model;
 import net.java.html.json.Property;
-import ${package}.js.Dialogs;
+import ${package}.js.PlatformServices;
+import net.java.html.json.ModelOperation;
+import net.java.html.json.OnPropertyChange;
+import ${package}.js.PlatformServices;
 
 #if ($example.equals("true"))
 /** Model annotation generates class Data with
  * one message property, boolean property and read only words property
  */
 #end
-@Model(className = "Data", targetId="", properties = {
+@Model(className = "Data", targetId="", instance=true, properties = {
 #if ($example.equals("true"))
     @Property(name = "message", type = String.class),
     @Property(name = "rotating", type = boolean.class)
 #end
 })
 final class DataModel {
+    private PlatformServices services;
+
 #if ($example.equals("true"))
     @ComputedProperty static java.util.List<String> words(String message) {
         String[] arr = new String[6];
@@ -32,8 +37,9 @@ final class DataModel {
         model.setRotating(true);
     }
 
-    @Function static void turnAnimationOff(final Data model) {
-        Dialogs.confirmByUser("Really turn off?", new Runnable() {
+    @Function
+    void turnAnimationOff(final Data model) {
+        services.confirmByUser("Really turn off?", new Runnable() {
             @Override
             public void run() {
                 model.setRotating(false);
@@ -52,19 +58,44 @@ final class DataModel {
         }, 5000);
     }
 
-    @Function static void showScreenSize(Data model) {
-        model.setMessage(Dialogs.screenSize());
+    @Function
+    void showScreenSize(Data model) {
+        int[] widthHeight = services.getScreenSize();
+        model.setMessage("Screen size is " + widthHeight[0] + " x " + widthHeight[1]);
+    }
+
+    @OnPropertyChange("message")
+    void storeMessage(Data model) {
+        final String msg = model.getMessage();
+        if (services != null && !msg.contains("Screen size")) {
+            services.setPreferences("message", msg);
+        }
+    }
+
+    @ModelOperation
+    void initServices(Data model, PlatformServices services) {
+        this.services = services;
+        String previousMessage = services.getPreferences("message");
+        if (previousMessage != null) {
+            model.setMessage(previousMessage);
+        }
+    }
+#else
+    @ModelOperation
+    void initServices(Data model, PlatformServices services) {
+        this.services = services;
     }
 #end
     private static Data ui;
     /**
      * Called when the page is ready.
      */
-    static void onPageLoad() throws Exception {
+    static void onPageLoad(PlatformServices services) throws Exception {
         ui = new Data();
 #if ($example.equals("true"))
         ui.setMessage("Hello World from HTML and Java!");
 #end        
+        ui.initServices(services);
         ui.applyBindings();
     }
 }

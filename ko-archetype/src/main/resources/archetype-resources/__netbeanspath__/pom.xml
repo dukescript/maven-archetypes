@@ -274,5 +274,15 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util</artifactId>
+            <version>\${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>\${project.groupId}</groupId>
+            <artifactId>\${artifactId}-js</artifactId>
+            <version>\${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

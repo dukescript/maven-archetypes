@@ -1,5 +1,7 @@
 package ${package};
 
+import ${package}.js.PlatformServices;
+import java.util.prefs.Preferences;
 import net.java.html.boot.BrowserBuilder;
 
 public final class Main {
@@ -18,8 +20,25 @@ public final class Main {
     /**
      * Called when the page is ready.
      */
-    public static void onPageLoad() throws Exception {
-        DataModel.onPageLoad();
+    public static void onPageLoad(PlatformServices services) throws Exception {
+        DataModel.onPageLoad(services);
     }
 
+    public static void onPageLoad() throws Exception {
+        DataModel.onPageLoad(new DesktopServices());
+    }
+
+    private static final class DesktopServices extends PlatformServices {
+#if ($example.equals("true"))
+        @Override
+        public String getPreferences(String key) {
+            return Preferences.userNodeForPackage(Main.class).get(key, null);
+        }
+
+        @Override
+        public void setPreferences(String key, String value) {
+            Preferences.userNodeForPackage(Main.class).put(key, value);
+        }
+#end
+    }
 }

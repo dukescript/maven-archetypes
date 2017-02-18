@@ -30,7 +30,8 @@ public class JsInteractionTest {
         }
         R callback = new R();
         
-        Dialogs.confirmByUser("Hello", callback);
+        final PlatformServices services = new PlatformServices();
+        services.confirmByUser("Hello", callback);
         
         assertEquals("One immediate callback", callback.called, 1);
     }
