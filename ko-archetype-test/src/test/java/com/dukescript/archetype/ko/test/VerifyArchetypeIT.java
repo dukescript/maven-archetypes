@@ -146,7 +146,7 @@ public class VerifyArchetypeIT {
         assertNotNull(indexHTML, "index.html in ZIP found");
         InputStream is = jf.getInputStream(indexHTML);
         assertHTMLContent(is);
-        assertDialogsEmpty(dir);
+        assertPlatformServicesEmpty(dir);
         is.close();
         jf.close();
 
@@ -449,7 +449,7 @@ public class VerifyArchetypeIT {
         final ZipEntry indexHTML = jf.getEntry("assets/pages/index.html");
         assertNotNull(indexHTML, "index.html is included in " + apk);
         assertHTMLContent(jf.getInputStream(indexHTML));
-        assertDialogsEmpty(created);
+        assertPlatformServicesEmpty(created);
         ZipEntry indexBin = jf.getEntry("assets/pages/index.bin");
         assertNotNull(indexBin, "binary file found in " + apk);
         assertBinary(jf.getInputStream(indexBin));
@@ -507,7 +507,7 @@ public class VerifyArchetypeIT {
         File jsDir = new File(gen, "js");
         assertTrue(jsDir.isDirectory(), "Directory is found");
 
-        File jsFile = new File(new File(new File(new File(new File(new File(new File(new File(new File(jsDir, "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "js"), "Dialogs.java");
+        File jsFile = new File(new File(new File(new File(new File(new File(new File(new File(new File(jsDir, "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "js"), "PlatformServices.java");
         assertTrue(jsFile.isFile(), "File found");
 
         String jsCode = Files.readFile(jsFile);
@@ -515,7 +515,7 @@ public class VerifyArchetypeIT {
         int where = jsCode.indexOf(replace);
         boolean checkForNonExistingAttr;
         if (where < 0) {
-            assertTrue(assertDialogsEmpty(dir));
+            assertTrue(assertPlatformServicesEmpty(dir));
             checkForNonExistingAttr = false;
         } else {
             jsCode = jsCode.substring(0, where) + "w.reallyNonExistingAttr" + jsCode.substring(where + replace.length());
@@ -985,7 +985,7 @@ public class VerifyArchetypeIT {
     protected void adjustArchetype(Properties sysProp) {
     }
 
-    protected boolean assertDialogsEmpty(File dir) throws IOException {
+    protected boolean assertPlatformServicesEmpty(File dir) throws IOException {
         return false;
     }
 

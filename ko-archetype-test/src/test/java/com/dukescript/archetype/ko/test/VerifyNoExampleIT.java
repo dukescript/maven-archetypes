@@ -58,7 +58,7 @@ public class VerifyNoExampleIT extends VerifyArchetypeIT {
     }
 
     @Override
-    protected boolean assertDialogsEmpty(File dir) throws IOException {
+    protected boolean assertPlatformServicesEmpty(File dir) throws IOException {
         File dialogs = findDialogs(dir);
         assertNotNull(dialogs, "Dialogs file found");
         String text = Files.readFile(dialogs);
@@ -75,7 +75,7 @@ public class VerifyNoExampleIT extends VerifyArchetypeIT {
                     return r;
                 }
             }
-        } else if (root.getName().equals("Dialogs.java")) {
+        } else if (root.getName().equals("PlatformServices.java")) {
             return root;
         }
         return null;
