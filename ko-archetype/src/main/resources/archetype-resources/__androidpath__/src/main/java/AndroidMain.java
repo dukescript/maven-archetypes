@@ -19,12 +19,9 @@ public class AndroidMain extends Activity {
         SharedPreferences prefs = getApplicationContext().getSharedPreferences(AndroidMain.class.getPackage().getName(), 0);
         services = new AndroidServices(prefs);
 
-        try {
-            // delegate to original activity
-            startActivity(new Intent(getApplicationContext(), Class.forName("com.dukescript.presenters.Android")));
-        } catch (ClassNotFoundException ex) {
-            throw new IllegalStateException(ex);
-        }
+        // delegate to original activity
+        startActivity(new Intent(getApplicationContext(), com.dukescript.presenters.Android.class)));
+        
         finish();
     }
 
