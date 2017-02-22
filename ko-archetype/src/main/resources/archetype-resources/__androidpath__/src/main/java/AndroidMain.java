@@ -1,32 +1,16 @@
 package ${package};
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import ${package}.js.PlatformServices;
 
 public class AndroidMain extends Activity {
-    private static AndroidServices services;
-
-    public AndroidMain() {
+    private AndroidMain() {
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        SharedPreferences prefs = getApplicationContext().getSharedPreferences(AndroidMain.class.getPackage().getName(), 0);
-        services = new AndroidServices(prefs);
-
-        // delegate to original activity
-        startActivity(new Intent(getApplicationContext(), com.dukescript.presenters.Android.class)));
-        
-        finish();
-    }
-
-    public static void main(String... args) throws Exception {
-        DataModel.onPageLoad(services);
+    public static void main(android.content.Context context) throws Exception {
+        SharedPreferences prefs = context.getApplicationContext().getSharedPreferences(AndroidMain.class.getPackage().getName(), 0);
+        DataModel.onPageLoad(new AndroidServices(prefs));
     }
 
     private static final class AndroidServices extends PlatformServices {
