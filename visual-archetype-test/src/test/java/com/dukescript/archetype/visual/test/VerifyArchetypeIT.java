@@ -149,12 +149,12 @@ public class VerifyArchetypeIT {
         is.close();
         jf.close();
 
-        File main = new File(new File(new File(new File(new File(new File(new File(new File(new File(
-            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "Main.java"
+        File dataModel = new File(new File(new File(new File(new File(new File(new File(new File(new File(
+            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "DataModel.java"
         );
-        assertTrue(main.isFile(), "Java file exists: " + main);
-        String mainSrc = Files.readFile(main);
-        int bootMethod = mainSrc.indexOf("onPageLoad()");
+        assertTrue(dataModel.isFile(), "Java file exists: " + dataModel);
+        String mainSrc = Files.readFile(dataModel);
+        int bootMethod = mainSrc.indexOf("onPageLoad(");
         assertNotEquals(bootMethod, -1, "onPageLoad method present: " + mainSrc);
         int bootMethodEnd = mainSrc.indexOf("}", bootMethod);
         assertNotEquals(bootMethodEnd, -1, "onPageLoad method present: " + mainSrc);
@@ -170,7 +170,7 @@ public class VerifyArchetypeIT {
           + "}\n"
         );
 
-        FileWriter w = new FileWriter(main);
+        FileWriter w = new FileWriter(dataModel);
         w.write(mainSb.toString());
         w.close();
 
@@ -207,12 +207,12 @@ public class VerifyArchetypeIT {
         assertTrue(created.isDirectory(), "Project created");
         assertTrue(new File(created, "pom.xml").isFile(), "Pom file is in there");
 
-        File main = new File(new File(new File(new File(new File(new File(new File(new File(new File(
-            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "Main.java"
+        File dataModel = new File(new File(new File(new File(new File(new File(new File(new File(new File(
+            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "DataModel.java"
         );
-        assertTrue(main.isFile(), "Java file exists: " + main);
-        String mainSrc = Files.readFile(main);
-        int bootMethod = mainSrc.indexOf("onPageLoad()");
+        assertTrue(dataModel.isFile(), "Java file exists: " + dataModel);
+        String mainSrc = Files.readFile(dataModel);
+        int bootMethod = mainSrc.indexOf("onPageLoad(");
         assertNotEquals(bootMethod, -1, "onPageLoad method present: " + mainSrc);
         int bootMethodEnd = mainSrc.indexOf("}", bootMethod);
         assertNotEquals(bootMethodEnd, -1, "onPageLoad method present: " + mainSrc);
@@ -220,7 +220,7 @@ public class VerifyArchetypeIT {
         StringBuilder mainSb = new StringBuilder(mainSrc);
         mainSb.insert(bootMethodEnd, "System.exit(0);");
 
-        FileWriter w = new FileWriter(main);
+        FileWriter w = new FileWriter(dataModel);
         w.write(mainSb.toString());
         w.close();
 
