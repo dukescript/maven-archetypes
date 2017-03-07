@@ -19,6 +19,7 @@ public final class Main {
      * Called when the page is ready.
      */
     public static void onPageLoad() throws Exception {
+        //  don't put "common" initialization stuff here, other platforms (iOS, Android, Bck2Brwsr) may not call this method. They rather call DataModel.onPageLoad
         UIModel.onPageLoad();
     }
 
