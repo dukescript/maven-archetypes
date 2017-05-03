@@ -1,6 +1,8 @@
 package ${package};
 
+#if ($example.equals("true"))
 import ${package}.js.PlatformServices;
+#end
 import java.util.prefs.Preferences;
 import net.java.html.boot.BrowserBuilder;
 
@@ -17,11 +19,11 @@ public final class Main {
         System.exit(0);
     }
 
+#if ($example.equals("true"))
     /**
      * Called when the page is ready.
      */
     public static void onPageLoad(PlatformServices services) throws Exception {
-        // don't put "common" initialization stuff here, other platforms (iOS, Android, Bck2Brwsr) may not call this method. They rather call DataModel.onPageLoad
         DataModel.onPageLoad(services);
     }
 
@@ -31,7 +33,6 @@ public final class Main {
     }
 
     private static final class DesktopServices extends PlatformServices {
-#if ($example.equals("true"))
         @Override
         public String getPreferences(String key) {
             return Preferences.userNodeForPackage(Main.class).get(key, null);
@@ -41,6 +42,10 @@ public final class Main {
         public void setPreferences(String key, String value) {
             Preferences.userNodeForPackage(Main.class).put(key, value);
         }
-#end
     }
+#else
+    public static void onPageLoad() throws Exception {
+        DataModel.onPageLoad();
+    }
+#end
 }

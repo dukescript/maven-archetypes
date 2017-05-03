@@ -59,25 +59,37 @@ public class VerifyNoExampleIT extends VerifyArchetypeIT {
 
     @Override
     protected boolean assertPlatformServicesEmpty(File dir) throws IOException {
-        File dialogs = findDialogs(dir);
-        assertNotNull(dialogs, "Dialogs file found");
+        StringBuilder sb = new StringBuilder();
+        File dialogs = findDialogs(dir, sb);
+        assertNotNull(dialogs, "PlatformServices file found");
         String text = Files.readFile(dialogs);
         assertEquals(text.indexOf("confirmByUser"), -1, "Do method confirmByUser in the file: " + dialogs);
         assertEquals(text.indexOf("screenSize"), -1, "Do method screenSize in the file: " + dialogs);
+        assertEquals(sb.length(), 0, sb.toString());
         return true;
     }
 
-    private File findDialogs(File root) {
+    private File findDialogs(File root, StringBuilder sb) throws IOException {
         if (root.isDirectory()) {
+            File found = null;
             for (File f : root.listFiles()) {
-                File r = findDialogs(f);
-                if (r != null) {
-                    return r;
+                File r = findDialogs(f, sb);
+                if (r != null && found == null) {
+                    found = r;
                 }
             }
-        } else if (root.getName().equals("PlatformServices.java")) {
-            return root;
+            return found;
+        } else {
+            if (root.getName().equals("PlatformServices.java")) {
+                return root;
+            }
+            if (root.getName().endsWith(".java")) {
+                String text = Files.readFile(root);
+                if (text.contains("PlatformServices")) {
+                    sb.append("No PlatformServices shall be used ").append(root).append("\n");
+                }
+            }
+            return null;
         }
-        return null;
     }
 }

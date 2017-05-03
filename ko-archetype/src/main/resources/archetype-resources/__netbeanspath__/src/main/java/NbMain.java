@@ -1,6 +1,8 @@
 package ${package};
 
+#if ($example.equals("true"))
 import ${package}.js.PlatformServices;
+#end
 import org.netbeans.api.htmlui.OpenHTMLRegistration;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -24,6 +26,7 @@ public class NbMain {
         @ActionReference(path = "Menu/Window"),
         @ActionReference(path = "Toolbars/Games")
     })
+#if ($example.equals("true"))
     public static void onPageLoad() throws Exception {
         Main.onPageLoad(new NbServices());
     }
@@ -32,7 +35,6 @@ public class NbMain {
         public NbServices() {
         }
 
-#if ($example.equals("true"))
         @Override
         public String getPreferences(String key) {
             return NbPreferences.forModule(NbMain.class).get(key, null);
@@ -42,6 +44,10 @@ public class NbMain {
         public void setPreferences(String key, String value) {
             NbPreferences.forModule(NbMain.class).put(key, value);
         }
-#end
     }
+#else
+    public static void onPageLoad() throws Exception {
+        Main.onPageLoad();
+    }
+#end
 }

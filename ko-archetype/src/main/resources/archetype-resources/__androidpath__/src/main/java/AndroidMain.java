@@ -1,13 +1,16 @@
 package ${package};
 
 import android.app.Activity;
+#if ($example.equals("true"))
 import android.content.SharedPreferences;
 import ${package}.js.PlatformServices;
+#end
 
 public class AndroidMain extends Activity {
     private AndroidMain() {
     }
 
+#if ($example.equals("true"))
     public static void main(android.content.Context context) throws Exception {
         SharedPreferences prefs = context.getApplicationContext().getSharedPreferences(AndroidMain.class.getPackage().getName(), 0);
         DataModel.onPageLoad(new AndroidServices(prefs));
@@ -19,7 +22,6 @@ public class AndroidMain extends Activity {
         AndroidServices(SharedPreferences prefs) {
             this.prefs = prefs;
         }
-#if ($example.equals("true"))
         @Override
         public String getPreferences(String key) {
             return prefs.getString(key, null);
@@ -29,6 +31,10 @@ public class AndroidMain extends Activity {
         public void setPreferences(String key, String value) {
             prefs.edit().putString(key, value).apply();
         }
+#else
+    public static void main(android.content.Context context) throws Exception {
+        DataModel.onPageLoad();
+    }
 #end
     }
 }

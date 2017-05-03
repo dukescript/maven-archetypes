@@ -1,8 +1,10 @@
 package ${package};
 
-import ${package}.js.PlatformServices;
 import net.java.html.boot.BrowserBuilder;
+#if ($example.equals("true"))
+import ${package}.js.PlatformServices;
 import org.robovm.apple.foundation.NSUserDefaults;
+#end
 
 public final class iOSMain {
     public static void main(String... args) throws Exception {
@@ -14,12 +16,12 @@ public final class iOSMain {
         System.exit(0);
     }
 
+#if ($example.equals("true"))
     public static void onPageLoad() throws Exception {
         DataModel.onPageLoad(new iOSServices());
     }
 
     private static final class iOSServices extends PlatformServices {
-#if ($example.equals("true"))
         @Override
         public String getPreferences(String key) {
             return NSUserDefaults.getStandardUserDefaults().getString(key);
@@ -29,8 +31,12 @@ public final class iOSMain {
         public void setPreferences(String key, String value) {
             NSUserDefaults.getStandardUserDefaults().put(key, value);
         }
-#end
     }
+#else
+    public static void onPageLoad() throws Exception {
+        DataModel.onPageLoad();
+    }
+#end
 }
 
 
