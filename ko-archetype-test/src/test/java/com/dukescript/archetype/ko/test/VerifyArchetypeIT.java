@@ -311,7 +311,7 @@ public class VerifyArchetypeIT {
 
         File out = new File(new File(d.getBasedir()), d.getLogFileName());
 
-        Pattern p = Pattern.compile(".DEBUG.*org\\.robovm:robo.*:([0-9\\.a-z\\-]*):.*");
+        Pattern p = Pattern.compile(".DEBUG.*com\\.mobidevelop\\.robovm:robo.*:([0-9\\.a-z\\-]*):.*");
         BufferedReader r = new BufferedReader(new FileReader(out));
         int cnt = 0;
         for (;;) {

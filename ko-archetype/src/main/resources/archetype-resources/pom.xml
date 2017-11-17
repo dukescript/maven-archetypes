@@ -31,7 +31,7 @@
         <bck2brwsr.version>${bck2brwsr.version}</bck2brwsr.version>
         <bck2brwsr.obfuscationlevel>MINIMAL</bck2brwsr.obfuscationlevel>
 #end    
-        <junit.browser.version>0.9</junit.browser.version>
+        <junit.browser.version>${junit.browser.version}</junit.browser.version>
         <jersey.version>${jersey.version}</jersey.version>
         <presenters.version>${presenters.version}</presenters.version>
         <enforcer.fail>false</enforcer.fail>
@@ -44,6 +44,27 @@
                 <artifactId>junit-osgi</artifactId>
                 <scope>test</scope>
                 <version>4.12</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dukescript.api</groupId>
+                <artifactId>junit-browser-runner</artifactId>
+                <version>\${junit.browser.version}</version>
+                <scope>test</scope>
+                <type>jar</type>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.netbeans.html</groupId>
+                        <artifactId>net.java.html</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.netbeans.html</groupId>
+                        <artifactId>net.java.html.boot</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apidesign.bck2brwsr</groupId>
+                        <artifactId>emul</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>

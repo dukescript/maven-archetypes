@@ -208,9 +208,7 @@
         <dependency>
             <groupId>com.dukescript.api</groupId>
             <artifactId>junit-browser-runner</artifactId>
-            <version>\${junit.browser.version}</version>
             <scope>test</scope>
-            <type>jar</type>
         </dependency>
 
         <!-- run in JavaFX WebView -->
@@ -242,6 +240,20 @@
             <scope>test</scope>
             <classifier>bck2brwsr</classifier>
             <type>jar</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.netbeans.html</groupId>
+                    <artifactId>net.java.html</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.netbeans.html</groupId>
+                    <artifactId>net.java.html.boot</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apidesign.bck2brwsr</groupId>
+                    <artifactId>emul</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <profiles>
