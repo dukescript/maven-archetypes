@@ -53,6 +53,11 @@ public class VerifyNoExampleIT extends VerifyArchetypeIT {
     }
 
     @Override
+    protected boolean isUsingServices() {
+        return false;
+    }
+
+    @Override
     protected void adjustArchetype(Properties sysProp) {
         sysProp.put("example", "false");
     }

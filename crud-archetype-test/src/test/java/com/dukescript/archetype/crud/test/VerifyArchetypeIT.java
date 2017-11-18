@@ -821,6 +821,7 @@ public class VerifyArchetypeIT {
         sysProp.put("archetypeGroupId", "com.dukescript.archetype");
         sysProp.put("archetypeArtifactId", "crud4j-archetype");
         sysProp.put("archetypeVersion", findCurrentVersion());
+        sysProp.put("archetypeCatalog", "local");
 
         for (String p : params) {
             v.addCliOption(p);

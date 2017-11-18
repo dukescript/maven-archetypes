@@ -832,6 +832,7 @@ public class VerifyArchetypeIT {
         sysProp.put("archetypeGroupId", "com.dukescript.archetype");
         sysProp.put("archetypeArtifactId", "visual-archetype");
         sysProp.put("archetypeVersion", findCurrentVersion());
+        sysProp.put("archetypeCatalog", "local");
         adjustArchetype(sysProp);
 
         for (String p : params) {

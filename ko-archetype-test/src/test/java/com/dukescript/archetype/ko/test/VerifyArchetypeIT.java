@@ -395,7 +395,7 @@ public class VerifyArchetypeIT {
 "    }\n" +
 "\n" +
 "    private static Object loonPageLoad() throws Exception {\n" +
-"        DataModel.onPageLoad();\n" +
+"        DataModel.onPageLoad(" + (isUsingServices()? "null" : "") + ");\n" +
 "        return null;\n" +
 "    }\n" +
 "\n" +
@@ -913,6 +913,7 @@ public class VerifyArchetypeIT {
         sysProp.put("archetypeGroupId", "com.dukescript.archetype");
         sysProp.put("archetypeArtifactId", "knockout4j-archetype");
         sysProp.put("archetypeVersion", findCurrentVersion());
+        sysProp.put("archetypeCatalog", "local");
         adjustArchetype(sysProp);
 
         for (String p : params) {
@@ -980,6 +981,10 @@ public class VerifyArchetypeIT {
                 return;
             }
         }
+    }
+
+    protected boolean isUsingServices() {
+        return true;
     }
 
     protected void adjustArchetype(Properties sysProp) {
