@@ -145,12 +145,11 @@ final class UIModel {
         ui.setAlert(true);
     }    
 
-    private static UI uiModel;
     /**
      * Called when the page is ready.
      */
     static void onPageLoad() throws Exception {
-        uiModel = new UI();
+        UI uiModel = new UI();
         final String baseUrl = "http://localhost:8080/contacts/";
         uiModel.setUrl(baseUrl);
         uiModel.setEdited(null);

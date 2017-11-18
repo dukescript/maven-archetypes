@@ -208,6 +208,18 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <groupId>org.netbeans.html</groupId>
+            <artifactId>xhr4j</artifactId>
+            <version>\${net.java.html.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.html</groupId>
+            <artifactId>net.java.html.geo</artifactId>
+            <version>\${net.java.html.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-api-htmlui</artifactId>
             <version>\${netbeans.version}</version>
@@ -231,6 +243,18 @@
                 <exclusion>
                     <groupId>org.netbeans.external</groupId>
                     <artifactId>org-netbeans-html-ko4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.netbeans.external</groupId>
+                    <artifactId>org-netbeans-html-xhr4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.netbeans.external</groupId>
+                    <artifactId>net-java-html-geo</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.netbeans.external</groupId>
+                    <artifactId>org-netbeans-html-xhr4j</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -271,6 +295,10 @@
                 <exclusion>
                     <groupId>org.netbeans.external</groupId>
                     <artifactId>org-netbeans-html-ko4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.netbeans.external</groupId>
+                    <artifactId>org-netbeans-html-xhr4j</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
