@@ -48,6 +48,65 @@
                 <scope>test</scope>
                 <version>4.12</version>
             </dependency>
+            <dependency>
+                <groupId>com.dukescript.api</groupId>
+                <artifactId>junit-browser-runner</artifactId>
+                <version>\${junit.browser.version}</version>
+                <scope>test</scope>
+                <type>jar</type>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.netbeans.html</groupId>
+                        <artifactId>net.java.html</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.netbeans.html</groupId>
+                        <artifactId>net.java.html.boot</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apidesign.bck2brwsr</groupId>
+                        <artifactId>emul</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.dukescript.api</groupId>
+                <artifactId>charts</artifactId>
+                <version>${charts.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.netbeans.html</groupId>
+                        <artifactId>net.java.html</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.netbeans.html</groupId>
+                        <artifactId>net.java.html.boot</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apidesign.bck2brwsr</groupId>
+                        <artifactId>emul</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.dukescript.api</groupId>
+                <artifactId>leaflet4j</artifactId>
+                <version>${leaflet4j.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.netbeans.html</groupId>
+                        <artifactId>net.java.html</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.netbeans.html</groupId>
+                        <artifactId>net.java.html.boot</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apidesign.bck2brwsr</groupId>
+                        <artifactId>emul</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>

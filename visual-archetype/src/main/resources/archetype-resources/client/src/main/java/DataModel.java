@@ -159,12 +159,11 @@ final class DataModel {
         });
     }
 
-    private static Data ui;
     /**
      * Called when the page is ready.
      */
     static void onPageLoad() throws Exception {
-        ui = new Data();
+        Data ui = new Data();
         ui.applyBindings();
     }
 }
