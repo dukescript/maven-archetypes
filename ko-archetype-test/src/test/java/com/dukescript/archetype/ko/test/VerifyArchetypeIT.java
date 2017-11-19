@@ -442,14 +442,14 @@ public class VerifyArchetypeIT {
         v2.executeGoal("package");
         v2.verifyTextInLog("android-maven-plugin");
 
-        File apk = new File(new File(and, "target"), "VerifyArchetypeIT-d-l-test-android-1.0-SNAPSHOT.apk");
+        File apk = new File(new File(and, "target"), getClass().getSimpleName() + "-d-l-test-android-1.0-SNAPSHOT.apk");
         assertTrue(apk.isFile(), "apk has been generated: " + apk);
 
         JarFile jf = new JarFile(apk);
         final ZipEntry indexHTML = jf.getEntry("assets/pages/index.html");
         assertNotNull(indexHTML, "index.html is included in " + apk);
         assertHTMLContent(jf.getInputStream(indexHTML));
-        assertPlatformServicesEmpty(created);
+        assertPlatformServicesEmpty(generated);
         ZipEntry indexBin = jf.getEntry("assets/pages/index.bin");
         assertNotNull(indexBin, "binary file found in " + apk);
         assertBinary(jf.getInputStream(indexBin));

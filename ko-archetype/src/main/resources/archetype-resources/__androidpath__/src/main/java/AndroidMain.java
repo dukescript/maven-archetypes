@@ -34,7 +34,6 @@ public class AndroidMain extends Activity {
 #else
     public static void main(android.content.Context context) throws Exception {
         DataModel.onPageLoad();
-    }
 #end
     }
 }
