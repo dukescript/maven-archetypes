@@ -268,6 +268,61 @@ public class VerifyArchetypeIT {
         v2.assertFilePresent("target/images/Default-568h@2x-Landscape.png");
     }
 
+    @Test 
+    public void moeProjectCompiles() throws Exception {
+        final File dir = new File("target/tests/moecompile/").getAbsoluteFile();
+        File created = generateFromArchetype("o-b-test", dir, "-Dmoepath=client-moe");
+
+        assertTrue(created.isDirectory(), "Project created");
+        assertTrue(new File(created, "pom.xml").isFile(), "Pom file is in there");
+
+        File dataModel = new File(new File(new File(new File(new File(new File(new File(new File(new File(
+            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "DataModel.java"
+        );
+        assertTrue(dataModel.isFile(), "Java file exists: " + dataModel);
+        String mainSrc = Files.readFile(dataModel);
+        int bootMethod = mainSrc.lastIndexOf("onPageLoad(");
+        assertNotEquals(bootMethod, -1, "onPageLoad method present: " + mainSrc);
+        int bootMethodEnd = mainSrc.indexOf("}", bootMethod);
+        assertNotEquals(bootMethodEnd, -1, "onPageLoad method present: " + mainSrc);
+
+        StringBuilder mainSb = new StringBuilder(mainSrc);
+        mainSb.insert(bootMethodEnd, "System.exit(0);");
+
+        FileWriter w = new FileWriter(dataModel);
+        w.write(mainSb.toString());
+        w.close();
+
+        Verifier v = createVerifier(created.getAbsolutePath());
+        v.getCliOptions().add("-Denforcer.fail=true");
+        v.executeGoal("install");
+
+        v.verifyErrorFreeLog();
+
+        File client = new File(created, "client-moe");
+        File useIos = new File(new File(new File(new File(client, "src"), "main"), "java"), "Test.java");
+        w = new FileWriter(useIos);
+        w.append("class Test {\n");
+        w.append("  static Object webView = org.robovm.apple.uikit.UIWebView.class;\n");
+        w.append("  static Object natObj = org.robovm.rt.bro.NativeObject.class;\n");
+        w.append("  static Object objC = org.robovm.objc.ObjCObject.class;\n");
+        w.append("}\n");
+        w.close();
+        assertTrue(client.isDirectory(), "Subproject dir found: " + client);
+        Verifier v2 = createVerifier(client.getAbsolutePath());
+        v2.getCliOptions().add("-Denforcer.fail=true");
+        try {
+            v2.executeGoals(Arrays.asList("package", "moe:launch"));
+        } catch (VerificationException ex) {
+            // OK, the run should fail on other systems than mac
+        }
+        v2.verifyTextInLog("Building RoboVM app for: ios (x86");
+
+        File nbactions = new File(client, "nbactions.xml");
+        assertTrue(nbactions.isFile(), "Actions file is in there");
+        assertTrue(Files.readFile(nbactions).contains("robovm"), "There should robovm goals in " + nbactions);
+    }
+    
     @Test public void iosVerifyRoboVMPlugin() throws Exception {
         final File dir = new File("target/tests/icompilecheck/").getAbsoluteFile();
         File created = generateFromArchetype("x-v-test", dir, "-Diospath=ios-client");
@@ -1052,6 +1107,9 @@ public class VerifyArchetypeIT {
                         continue;
                     }
                     if (version.equals("1.2.3.RELEASE") && "springloaded".equals(lastArtifact)) {
+                        continue;
+                    }
+                    if (version.equals("5.0") && "asm".equals(lastArtifact)) {
                         continue;
                     }
                     fail("Hardcoded version " + version + " for " + lastArtifact + " line " + lineNo + " in " + ch);
