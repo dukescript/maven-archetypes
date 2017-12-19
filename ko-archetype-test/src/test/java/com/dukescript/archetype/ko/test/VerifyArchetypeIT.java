@@ -297,7 +297,7 @@ public class VerifyArchetypeIT {
         v.getCliOptions().add("-Denforcer.fail=true");
         v.executeGoal("install");
 
-//        v.verifyErrorFreeLog();
+        v.verifyErrorFreeLog();
 
         File client = new File(created, "client-moe");
         File useIos = new File(new File(new File(new File(client, "src"), "main"), "java"), "Test.java");

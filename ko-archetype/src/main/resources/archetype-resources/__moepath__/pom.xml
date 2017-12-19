@@ -96,7 +96,6 @@
                         <id>it</id>
                         <phase>verify</phase>
                         <goals>
-                            <goal>updateXcodeSettings</goal>
                             <goal>simulatorDebugBuild</goal>
                         </goals>
                     </execution>
