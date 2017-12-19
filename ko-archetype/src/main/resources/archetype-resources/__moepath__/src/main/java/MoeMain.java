@@ -10,14 +10,13 @@ public final class MoeMain {
     public static void main(String... args) throws Exception {
         BrowserBuilder.newBrowser().
             loadPage("pages/index.html").
-            loadClass(MoeMain.class).
-            invoke("onPageLoad", args).
+            loadFinished(MoeMain::onPageLoad).
             showAndWait();
         System.exit(0);
     }
 
 #if ($example.equals("true"))
-    public static void onPageLoad() throws Exception {
+    public static void onPageLoad() {
         DataModel.onPageLoad(new MoeServices());
     }
 
@@ -33,7 +32,7 @@ public final class MoeMain {
         }
     }
 #else
-    public static void onPageLoad() throws Exception {
+    public static void onPageLoad() {
         DataModel.onPageLoad();
     }
 #end

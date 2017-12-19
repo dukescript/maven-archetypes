@@ -83,14 +83,14 @@ final class DataModel {
      * Called when the page is ready.
      */
 #if ($example.equals("true"))
-    static void onPageLoad(PlatformServices services) throws Exception {
+    static void onPageLoad(PlatformServices services) {
         Data ui = new Data();
         ui.setMessage("Hello World from HTML and Java!");
         ui.initServices(services);
         ui.applyBindings();
     }
 #else
-    static void onPageLoad() throws Exception {
+    static void onPageLoad() {
         Data ui = new Data();
         ui.applyBindings();
     }

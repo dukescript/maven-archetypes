@@ -297,15 +297,15 @@ public class VerifyArchetypeIT {
         v.getCliOptions().add("-Denforcer.fail=true");
         v.executeGoal("install");
 
-        v.verifyErrorFreeLog();
+//        v.verifyErrorFreeLog();
 
         File client = new File(created, "client-moe");
         File useIos = new File(new File(new File(new File(client, "src"), "main"), "java"), "Test.java");
         w = new FileWriter(useIos);
         w.append("class Test {\n");
-        w.append("  static Object webView = org.robovm.apple.uikit.UIWebView.class;\n");
-        w.append("  static Object natObj = org.robovm.rt.bro.NativeObject.class;\n");
-        w.append("  static Object objC = org.robovm.objc.ObjCObject.class;\n");
+        w.append("  static Object webView = apple.uikit.UIWebView.class;\n");
+        w.append("  static Object natObj = org.moe.natj.general.ann.RegisterOnStartup.class;\n");
+        w.append("  static Object objC = org.moe.natj.objc.ann.ObjCClassName.class;\n");
         w.append("}\n");
         w.close();
         assertTrue(client.isDirectory(), "Subproject dir found: " + client);
@@ -316,11 +316,11 @@ public class VerifyArchetypeIT {
         } catch (VerificationException ex) {
             // OK, the run should fail on other systems than mac
         }
-        v2.verifyTextInLog("Building RoboVM app for: ios (x86");
+        v2.verifyTextInLog(":moeLaunch");
 
         File nbactions = new File(client, "nbactions.xml");
         assertTrue(nbactions.isFile(), "Actions file is in there");
-        assertTrue(Files.readFile(nbactions).contains("robovm"), "There should robovm goals in " + nbactions);
+        assertTrue(Files.readFile(nbactions).contains("moe:launch"), "There should be moe goals in " + nbactions);
     }
     
     @Test public void iosVerifyRoboVMPlugin() throws Exception {
