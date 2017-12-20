@@ -10,6 +10,10 @@ before_script:
 script:
   - jdk_switcher use oraclejdk8 || java -version
   - mvn install -DskipTests
-  - mvn verify
+  - mvn -f $TEST_SUITE-archetype-test verify
 os:
   - linux
+env:
+  - TEST_SUITE=ko
+  - TEST_SUITE=crud
+  - TEST_SUITE=visual
