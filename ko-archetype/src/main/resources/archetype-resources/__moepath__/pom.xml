@@ -92,13 +92,6 @@
                             <goal>setupSDK</goal>
                         </goals>
                     </execution>
-                    <execution>
-                        <id>it</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>simulatorDebugBuild</goal>
-                        </goals>
-                    </execution>
                 </executions>
                 <configuration>
                     <simulatorIds>
@@ -149,4 +142,31 @@
             <scope>runtime</scope>
         </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>moe</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.multi-os-engine</groupId>
+                        <artifactId>moe-maven</artifactId>
+                        <executions>
+                            <execution>
+                                <id>it</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>simulatorDebugBuild</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

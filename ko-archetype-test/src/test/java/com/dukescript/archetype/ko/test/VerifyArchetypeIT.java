@@ -313,10 +313,11 @@ public class VerifyArchetypeIT {
         v2.getCliOptions().add("-Denforcer.fail=true");
         try {
             v2.executeGoals(Arrays.asList("package", "moe:launch"));
+            v2.verifyTextInLog(":moeLaunch");
         } catch (VerificationException ex) {
             // OK, the run should fail on other systems than mac
         }
-        v2.verifyTextInLog(":moeLaunch");
+        v2.verifyTextInLog(":moeGenerateUIObjCInterfaces");
 
         File nbactions = new File(client, "nbactions.xml");
         assertTrue(nbactions.isFile(), "Actions file is in there");
