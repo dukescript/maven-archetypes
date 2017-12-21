@@ -297,7 +297,7 @@ public class VerifyArchetypeIT {
         v.getCliOptions().add("-Denforcer.fail=true");
         v.executeGoal("install");
 
-        v.verifyErrorFreeLog();
+        verifyErrorFreeLogSkipJavaSupport(v);
 
         File client = new File(created, "client-moe");
         File useIos = new File(new File(new File(new File(client, "src"), "main"), "java"), "Test.java");
@@ -1131,5 +1131,21 @@ public class VerifyArchetypeIT {
         int at = in.indexOf(find);
         assertNotEquals(-1, at, find + " found in " + in);
         return in.substring(0, at) + insert + in.substring(at + find.length());
+    }
+
+    private void verifyErrorFreeLogSkipJavaSupport(Verifier v) throws VerificationException {
+        String foundError = null;
+        for (String line : v.loadFile(v.getBasedir(), v.getLogFileName(), false)) {
+            if (line.contains("[ERROR]")) {
+                foundError = line;
+                continue;
+            }
+            if (line.contains("System artifact: moe.sdk:moe.sdk.java8support:jar:1.0:system has no file attached")) {
+                foundError = null;
+            }
+            if (foundError != null) {
+                fail("Found error in the log: " + foundError);
+            }
+        }
     }
 }
