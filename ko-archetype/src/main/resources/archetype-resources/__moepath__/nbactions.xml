@@ -4,6 +4,7 @@
         <actionName>run</actionName>
         <goals>
             <goal>package</goal>
+            <goal>pre-site</goal>
             <goal>moe:launch</goal>
         </goals>
         <properties>
@@ -17,6 +18,7 @@
         <actionName>debug</actionName>
         <goals>
             <goal>package</goal>
+            <goal>pre-site</goal>
             <goal>moe:launch</goal>
         </goals>
         <properties>

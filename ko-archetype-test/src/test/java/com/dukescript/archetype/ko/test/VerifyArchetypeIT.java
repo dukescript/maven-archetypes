@@ -312,6 +312,11 @@ public class VerifyArchetypeIT {
         Verifier v2 = createVerifier(client.getAbsolutePath());
         v2.getCliOptions().add("-Denforcer.fail=true");
         try {
+            v2.executeGoals(Arrays.asList("package", "pre-site"));
+        } catch (VerificationException ex) {
+            v2.verifyTextInLog("Set -Dmoe.launcher.simulators property to ID");
+        }
+        try {
             v2.executeGoals(Arrays.asList("package", "moe:launch"));
             v2.verifyTextInLog(":moeLaunch");
         } catch (VerificationException ex) {
@@ -321,7 +326,9 @@ public class VerifyArchetypeIT {
 
         File nbactions = new File(client, "nbactions.xml");
         assertTrue(nbactions.isFile(), "Actions file is in there");
-        assertTrue(Files.readFile(nbactions).contains("moe:launch"), "There should be moe goals in " + nbactions);
+        final String nbactionsContent = Files.readFile(nbactions);
+        assertTrue(nbactionsContent.contains("pre-site"), "Invoke verification of simulators in " + nbactions);
+        assertTrue(nbactionsContent.contains("moe:launch"), "There should be moe goals in " + nbactions);
     }
     
     @Test public void iosVerifyRoboVMPlugin() throws Exception {

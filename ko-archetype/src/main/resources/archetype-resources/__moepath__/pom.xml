@@ -22,7 +22,6 @@
         <moe.version>${moe.version}</moe.version>
         <moe.maven.version>${moe.maven.version}</moe.maven.version>
         <presenters.version>${presenters.version}</presenters.version>
-        <moe.launcher.simulators>specify -Dmoe.launcher.simulators= property</moe.launcher.simulators>
     </properties>
     <pluginRepositories>
         <pluginRepository>
@@ -162,6 +161,43 @@
                                 <goals>
                                     <goal>simulatorDebugBuild</goal>
                                 </goals>
+                            </execution>
+                            <execution>
+                                <id>list-simulators</id>
+                                <phase>pre-site</phase>
+                                <goals>
+                                    <goal>listSimulators</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <version>3.0.0-M1</version>
+                        <executions>
+                            <execution>
+                                <id>simulators-property</id>
+                                <phase>pre-site</phase>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requireProperty>
+                                            <property>moe.launcher.simulators</property>
+                                            <message>&nbsp;
+
+*******************************************************************************
+Set -Dmoe.launcher.simulators property to ID of one of the available simulators
+in order to execute the project. Use moe:listSimulators to list available IDs.
+*******************************************************************************
+</message>
+                                            <regex>[0-9A-F]+.[0-9A-F]+.*</regex>
+                                        </requireProperty>
+                                    </rules>
+                                    <fail>true</fail>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
