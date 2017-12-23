@@ -35,11 +35,15 @@
         <actionName>CUSTOM-LaunchXcode</actionName>
         <displayName>Launch Xcode</displayName>
         <goals>
+            <goal>help:system</goal>
             <goal>exec:exec</goal>
         </goals>
         <properties>
             <exec.executable>open</exec.executable>
             <exec.args>xcode/ios.xcodeproj</exec.args>
         </properties>
-    </action>    
+        <activatedProfiles>
+            <activatedProfile>moe</activatedProfile>
+        </activatedProfiles>
+    </action>
 </actions>

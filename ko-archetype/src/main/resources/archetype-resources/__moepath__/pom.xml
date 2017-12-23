@@ -201,6 +201,23 @@ in order to execute the project. Use moe:listSimulators to list available IDs.
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-help-plugin</artifactId>
+                        <version>2.2</version>
+                        <executions>
+                            <execution>
+                                <id>list-env</id>
+                                <phase>pre-site</phase>
+                                <goals>
+                                    <goal>system</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <output>build/env</output>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
