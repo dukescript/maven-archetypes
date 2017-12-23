@@ -162,13 +162,6 @@
                                     <goal>simulatorDebugBuild</goal>
                                 </goals>
                             </execution>
-                            <execution>
-                                <id>list-simulators</id>
-                                <phase>pre-site</phase>
-                                <goals>
-                                    <goal>listSimulators</goal>
-                                </goals>
-                            </execution>
                         </executions>
                     </plugin>
                     <plugin>

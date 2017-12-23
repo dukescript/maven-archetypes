@@ -46,4 +46,14 @@
             <activatedProfile>moe</activatedProfile>
         </activatedProfiles>
     </action>
+    <action>
+        <actionName>CUSTOM-ListSimulators</actionName>
+        <displayName>List Simulators</displayName>
+        <goals>
+            <goal>moe:listSimulators</goal>
+        </goals>
+        <activatedProfiles>
+            <activatedProfile>moe</activatedProfile>
+        </activatedProfiles>
+    </action>
 </actions>
