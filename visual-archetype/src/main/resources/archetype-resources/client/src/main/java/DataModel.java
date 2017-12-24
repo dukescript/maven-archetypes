@@ -162,7 +162,7 @@ final class DataModel {
     /**
      * Called when the page is ready.
      */
-    static void onPageLoad() throws Exception {
+    static void onPageLoad() {
         Data ui = new Data();
         ui.applyBindings();
     }
