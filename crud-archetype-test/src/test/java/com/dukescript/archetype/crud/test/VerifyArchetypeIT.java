@@ -257,6 +257,70 @@ public class VerifyArchetypeIT {
         v2.assertFilePresent("target/images/Default-568h@2x-Landscape.png");
     }
 
+    @Test 
+    public void moeProjectCompiles() throws Exception {
+        final File dir = new File("target/tests/moecompile/").getAbsoluteFile();
+        Verifier c = generateFromArchetype("o-b-test", dir, "-Dmoepath=client-moe");
+        File created = new File(c.getBasedir(), "o-b-test");
+
+        assertTrue(created.isDirectory(), "Project created");
+        assertTrue(new File(created, "pom.xml").isFile(), "Pom file is in there");
+
+        File dataModel = new File(new File(new File(new File(new File(new File(new File(new File(new File(
+            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "UIModel.java"
+        );
+        assertTrue(dataModel.isFile(), "Java file exists: " + dataModel);
+        String mainSrc = Files.readFile(dataModel);
+        int bootMethod = mainSrc.lastIndexOf("onPageLoad(");
+        assertNotEquals(bootMethod, -1, "onPageLoad method present: " + mainSrc);
+        int bootMethodEnd = mainSrc.indexOf("}", bootMethod);
+        assertNotEquals(bootMethodEnd, -1, "onPageLoad method present: " + mainSrc);
+
+        StringBuilder mainSb = new StringBuilder(mainSrc);
+        mainSb.insert(bootMethodEnd, "System.exit(0);");
+
+        FileWriter w = new FileWriter(dataModel);
+        w.write(mainSb.toString());
+        w.close();
+
+        Verifier v = createVerifier(created.getAbsolutePath());
+        v.getCliOptions().add("-Denforcer.fail=true");
+        v.executeGoal("install");
+
+        verifyErrorFreeLogSkipJavaSupport(v);
+
+        File client = new File(created, "client-moe");
+        File useIos = new File(new File(new File(new File(client, "src"), "main"), "java"), "Test.java");
+        w = new FileWriter(useIos);
+        w.append("class Test {\n");
+        w.append("  static Object webView = apple.uikit.UIWebView.class;\n");
+        w.append("  static Object natObj = org.moe.natj.general.ann.RegisterOnStartup.class;\n");
+        w.append("  static Object objC = org.moe.natj.objc.ann.ObjCClassName.class;\n");
+        w.append("}\n");
+        w.close();
+        assertTrue(client.isDirectory(), "Subproject dir found: " + client);
+        Verifier v2 = createVerifier(client.getAbsolutePath());
+        v2.getCliOptions().add("-Denforcer.fail=true");
+        try {
+            v2.executeGoals(Arrays.asList("package", "pre-site"));
+        } catch (VerificationException ex) {
+            v2.verifyTextInLog("Set -Dmoe.launcher.simulators property to ID");
+        }
+        try {
+            v2.executeGoals(Arrays.asList("package", "moe:launch"));
+            v2.verifyTextInLog(":moeLaunch");
+        } catch (VerificationException ex) {
+            // OK, the run should fail on other systems than mac
+        }
+        v2.verifyTextInLog(":moeGenerateUIObjCInterfaces");
+
+        File nbactions = new File(client, "nbactions.xml");
+        assertTrue(nbactions.isFile(), "Actions file is in there");
+        final String nbactionsContent = Files.readFile(nbactions);
+        assertTrue(nbactionsContent.contains("pre-site"), "Invoke verification of simulators in " + nbactions);
+        assertTrue(nbactionsContent.contains("moe:launch"), "There should be moe goals in " + nbactions);
+    }
+    
     @Test public void iosVerifyRoboVMPlugin() throws Exception {
         final File dir = new File("target/tests/icompilecheck/").getAbsoluteFile();
         generateFromArchetype("x-v-test", dir, "-Diospath=ios-client");
@@ -934,9 +998,29 @@ public class VerifyArchetypeIT {
                     if (version.equals("1.2.3.RELEASE") && "springloaded".equals(lastArtifact)) {
                         continue;
                     }
+                    if (version.equals("5.0") && "asm".equals(lastArtifact)) {
+                        continue;
+                    }
                     fail("Hardcoded version " + version + " for " + lastArtifact + " line " + lineNo + " in " + ch);
                 }
             }
             r.close();
         }
-    }}
+    }
+
+    private void verifyErrorFreeLogSkipJavaSupport(Verifier v) throws VerificationException {
+        String foundError = null;
+        for (String line : v.loadFile(v.getBasedir(), v.getLogFileName(), false)) {
+            if (line.contains("[ERROR]")) {
+                foundError = line;
+                continue;
+            }
+            if (line.contains("System artifact: moe.sdk:moe.sdk.java8support:jar:1.0:system has no file attached")) {
+                foundError = null;
+            }
+            if (foundError != null) {
+                fail("Found error in the log: " + foundError);
+             }
+         }
+     }
+}

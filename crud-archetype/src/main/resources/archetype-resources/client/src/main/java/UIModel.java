@@ -148,7 +148,7 @@ final class UIModel {
     /**
      * Called when the page is ready.
      */
-    static void onPageLoad() throws Exception {
+    static void onPageLoad() {
         UI uiModel = new UI();
         final String baseUrl = "http://localhost:8080/contacts/";
         uiModel.setUrl(baseUrl);

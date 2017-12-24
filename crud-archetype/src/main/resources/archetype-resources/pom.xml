@@ -25,6 +25,9 @@
 #if ($iospath.indexOf("target/") != 0)
         <module>$iospath</module>
 #end
+#if ($moepath.indexOf("target/") != 0)
+        <module>$moepath</module>
+#end
         <module>server</module>
         <module>js</module>
     </modules>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>run</actionName>
+        <goals>
+            <goal>package</goal>
+            <goal>pre-site</goal>
+            <goal>moe:launch</goal>
+        </goals>
+        <properties>
+            <skipTests>true</skipTests>
+        </properties>
+        <activatedProfiles>
+            <activatedProfile>moe</activatedProfile>
+        </activatedProfiles>
+    </action>
+    <action>
+        <actionName>debug</actionName>
+        <goals>
+            <goal>package</goal>
+            <goal>pre-site</goal>
+            <goal>moe:launch</goal>
+        </goals>
+        <properties>
+            <skipTests>true</skipTests>
+            <moe.options>debug:${jpda.attach.port}</moe.options>
+            <jpda.attach>true</jpda.attach>
+            <jpda.attach.trigger>JDWP will wait for debugger on port</jpda.attach.trigger>
+        </properties>
+        <activatedProfiles>
+            <activatedProfile>moe</activatedProfile>
+        </activatedProfiles>
+    </action>
+    <action>
+        <actionName>CUSTOM-LaunchXcode</actionName>
+        <displayName>Launch Xcode</displayName>
+        <goals>
+            <goal>help:system</goal>
+            <goal>exec:exec</goal>
+        </goals>
+        <properties>
+            <exec.executable>open</exec.executable>
+            <exec.args>xcode/ios.xcodeproj</exec.args>
+        </properties>
+        <activatedProfiles>
+            <activatedProfile>moe</activatedProfile>
+        </activatedProfiles>
+    </action>
+    <action>
+        <actionName>CUSTOM-ListSimulators</actionName>
+        <displayName>List Simulators</displayName>
+        <goals>
+            <goal>moe:listSimulators</goal>
+        </goals>
+        <activatedProfiles>
+            <activatedProfile>moe</activatedProfile>
+        </activatedProfiles>
+    </action>
+</actions>

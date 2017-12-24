@@ -38,6 +38,9 @@
     <requiredProperty key="netbeanspath">
         <defaultValue>target/client-netbeans</defaultValue>
     </requiredProperty>  
+    <requiredProperty key="moepath">
+        <defaultValue>target/client-moe</defaultValue>
+    </requiredProperty>
   </requiredProperties>
   <fileSets>
     <fileSet filtered="true">
@@ -238,5 +241,36 @@
             <include>**/*Test.java</include>
         </includes>
     </fileSet>
+    <fileSet filtered="true">
+         <directory>__moepath__</directory>
+         <includes>
+             <include>nbactions*.xml</include>
+             <include>pom.xml</include>
+             <include>build.gradle</include>
+             <include>proguard.append.cfg</include>
+         </includes>
+     </fileSet>
+     <fileSet filtered="true">
+         <directory>__moepath__</directory>
+         <includes>
+             <include>xcode/**/*.plist</include>
+         </includes>
+     </fileSet>
+     <fileSet filtered="false">
+         <directory>__moepath__</directory>
+         <includes>
+             <include>xcode/**/*</include>
+             <include>gradle/**/*</include>
+         </includes>
+         <excludes>
+             <exclude>xcode/**/*.plist</exclude>
+         </excludes>
+     </fileSet>
+     <fileSet filtered="true" packaged="true">
+       <directory>__moepath__/src/main/java</directory>
+       <includes>
+         <include>**/*.java</include>
+       </includes>
+     </fileSet>    
   </fileSets>    
 </archetype-descriptor>
