@@ -14,7 +14,7 @@
     <version>\${version}</version>
     <packaging>jar</packaging>
 
-    <name>\${artifactId} Client for iOS</name>
+    <name>\${artifactId} Client for RoboVM</name>
 
     <properties>
         <project.mainclass>\${package}.iOSMain</project.mainclass>
