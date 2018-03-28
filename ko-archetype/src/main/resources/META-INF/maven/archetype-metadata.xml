@@ -64,6 +64,7 @@
         <include>**/*.xhtml</include>
         <include>**/*.html</include>
         <include>**/*.css</include>
+        <include>**/*.js</include>
       </includes>
     </fileSet>
     <fileSet filtered="true" packaged="true">
