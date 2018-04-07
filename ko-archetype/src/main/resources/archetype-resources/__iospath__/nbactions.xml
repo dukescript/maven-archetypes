@@ -4,7 +4,7 @@
         <actionName>run</actionName>
         <goals>
             <goal>package</goal>
-            <goal>robovm:ipad-sim</goal>
+            <goal>robovm:iphone-sim</goal>
         </goals>
         <properties>
             <skipTests>true</skipTests>
@@ -14,7 +14,7 @@
         <actionName>debug</actionName>
         <goals>
             <goal>package</goal>
-            <goal>robovm:ipad-sim</goal>
+            <goal>robovm:iphone-sim</goal>
         </goals>
         <properties>
             <skipTests>true</skipTests>

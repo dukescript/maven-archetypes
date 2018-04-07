@@ -233,7 +233,7 @@ public class VerifyArchetypeIT {
         Verifier v2 = createVerifier(client.getAbsolutePath());
         v2.getCliOptions().add("-Denforcer.fail=true");
         try {
-            v2.executeGoals(Arrays.asList("package", "robovm:ipad-sim"));
+            v2.executeGoals(Arrays.asList("package", "robovm:iphone-sim"));
         } catch (VerificationException ex) {
             // OK, the run should fail on other systems than mac
         }
