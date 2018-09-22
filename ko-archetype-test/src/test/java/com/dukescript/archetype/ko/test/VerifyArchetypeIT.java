@@ -38,6 +38,7 @@ import java.nio.file.FileVisitor;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 import java.util.jar.Attributes;
@@ -915,9 +916,16 @@ public class VerifyArchetypeIT {
             );
             w.close();
 
+            final List<String>  finalGoals;
+            if (hasJavaFX()) {
+                finalGoals = Arrays.asList("package", "nbm:cluster", "nbm:run-platform");
+            } else {
+                finalGoals = Arrays.asList("package", "nbm:cluster");
+            }
+
             Verifier v = createVerifier(nb.getAbsolutePath());
             v.getCliOptions().add("-Denforcer.fail=true");
-            v.executeGoals(Arrays.asList("package", "nbm:cluster", "nbm:run-platform"));
+            v.executeGoals(finalGoals);
         }
     }
 
@@ -1146,6 +1154,15 @@ public class VerifyArchetypeIT {
             if (foundError != null) {
                 fail("Found error in the log: " + foundError);
             }
+        }
+    }
+
+    private static boolean hasJavaFX() {
+        try {
+            Class.forName("javafx.application.Application");
+            return true;
+        } catch (ClassNotFoundException ex) {
+            return false;
         }
     }
 }
