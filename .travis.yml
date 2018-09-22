@@ -1,4 +1,7 @@
 language: java
+jdk:
+  - oraclejdk8
+  - openjdk11
 sudo: required
 before_install:
   - sudo apt-get -qq update || echo no sudo apt-get
@@ -8,11 +11,11 @@ before_script:
   - sh -e /etc/init.d/xvfb start || echo No X11
   - sleep 3
 script:
-  - jdk_switcher use oraclejdk8 || java -version
   - mvn install -DskipTests
   - mvn -f $TEST_SUITE-archetype-test verify
 os:
   - linux
+  - osx
 env:
   - TEST_SUITE=ko
   - TEST_SUITE=crud
