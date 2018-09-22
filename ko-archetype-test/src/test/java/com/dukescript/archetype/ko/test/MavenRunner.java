@@ -23,15 +23,21 @@
  */
 package com.dukescript.archetype.ko.test;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.maven.it.VerificationException;
 import org.apache.maven.it.Verifier;
+import org.testng.reporters.Files;
 
 final class MavenRunner extends Verifier {
     private static Logger LOG;
+    private static final Timer TIMEOUT = new Timer("mvn timeout");
 
     static void initializeOutput() {
         if (LOG == null) {
@@ -51,6 +57,20 @@ final class MavenRunner extends Verifier {
     public void executeGoals(List<String> goals, Map envVars) throws VerificationException {
         long now = System.currentTimeMillis();
         LOG.log(Level.INFO, "executeGoals {0} in {1}/{2}", new Object[]{goals, getBasedir(), getLogFileName()});
+        TimerTask tt = new TimerTask() {
+            @Override
+            public void run() {
+                File log = new File(getBasedir(), getLogFileName());
+                String content;
+                try {
+                    content = Files.readFile(log);
+                } catch (IOException ex) {
+                    content = "Cannot read " + log + ": " + ex.getMessage();
+                }
+                LOG.log(Level.WARNING, "Timeout in execution, printing log file\n{0}", content);
+            }
+        };
+        TIMEOUT.schedule(tt, 60 * 1000 * 5);
         try {
             super.executeGoals(goals, envVars);
             LOG.log(Level.INFO, "OK for {0}", goals);
@@ -62,6 +82,7 @@ final class MavenRunner extends Verifier {
             if (took > 10000) {
                 LOG.log(Level.INFO, "Took {0}s", took / 1000);
             }
+            tt.cancel();
         }
     }
 
