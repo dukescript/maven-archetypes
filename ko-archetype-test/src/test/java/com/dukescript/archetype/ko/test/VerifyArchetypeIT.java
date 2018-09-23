@@ -176,7 +176,7 @@ public class VerifyArchetypeIT {
         w.write(mainSb.toString());
         w.close();
 
-        assertPresenter(created, v, null, "org.netbeans.html.boot.fx.FXPresenter");
+        assertPresenter(created, v, "-Pdesktop", "org.netbeans.html.boot.fx.FXPresenter");
         assertPresenter(created, v, "-Pwebkit-presenter", "com.dukescript.presenters.webkit.WebKitPresenter");
         assertPresenter(created, v, "-Pbrowser-presenter", "com.dukescript.presenters.Browser");
     }
