@@ -917,7 +917,7 @@ public class VerifyArchetypeIT {
             w.close();
 
             final List<String>  finalGoals;
-            if (hasJavaFX()) {
+            if (isSafeJavaFX()) {
                 finalGoals = Arrays.asList("package", "nbm:cluster", "nbm:run-platform");
             } else {
                 finalGoals = Arrays.asList("package", "nbm:cluster");
@@ -1157,12 +1157,12 @@ public class VerifyArchetypeIT {
         }
     }
 
-    private static boolean hasJavaFX() {
+    private static boolean isSafeJavaFX() {
         try {
-            Class.forName("javafx.application.Application");
-            return true;
-        } catch (ClassNotFoundException ex) {
+            Class.forName("java.lang.Module");
             return false;
+        } catch (ClassNotFoundException ex) {
+            return true;
         }
     }
 }
