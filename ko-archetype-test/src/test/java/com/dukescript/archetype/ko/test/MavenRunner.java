@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.maven.it.VerificationException;
@@ -56,21 +57,39 @@ final class MavenRunner extends Verifier {
     @Override
     public void executeGoals(List<String> goals, Map envVars) throws VerificationException {
         long now = System.currentTimeMillis();
-        LOG.log(Level.INFO, "executeGoals {0} in {1}/{2}", new Object[]{goals, getBasedir(), getLogFileName()});
+        final File log = new File(getBasedir(), getLogFileName());
+        final AtomicInteger logPos = new AtomicInteger(0);
+        LOG.log(Level.INFO, "executeGoals {0} in {1}", new Object[]{goals, log});
         TimerTask tt = new TimerTask() {
+            int emptyCount;
+
             @Override
             public void run() {
-                File log = new File(getBasedir(), getLogFileName());
+                int at = logPos.get();
+                if (at < 0) {
+                    cancel();
+                    return;
+                }
+
                 String content;
                 try {
-                    content = Files.readFile(log);
+                    final String logContent = Files.readFile(log);
+                    content = logContent.substring(at);
+                    logPos.compareAndSet(at, logContent.length());
                 } catch (IOException ex) {
                     content = "Cannot read " + log + ": " + ex.getMessage();
                 }
-                LOG.log(Level.WARNING, "Timeout in execution, printing log file\n{0}", content);
+                if (content.isEmpty()) {
+                    if (emptyCount++ == 180) {
+                        LOG.log(Level.WARNING, "No log output for three minutes");
+                    }
+                } else {
+                    emptyCount = 0;
+                    LOG.log(Level.WARNING, "\n{0}", content);
+                }
             }
         };
-        TIMEOUT.schedule(tt, 60 * 1000 * 5);
+        TIMEOUT.schedule(tt, 10 * 1000, 1 * 1000);
         try {
             super.executeGoals(goals, envVars);
             LOG.log(Level.INFO, "OK for {0}", goals);
@@ -82,6 +101,7 @@ final class MavenRunner extends Verifier {
             if (took > 10000) {
                 LOG.log(Level.INFO, "Took {0}s", took / 1000);
             }
+            logPos.set(-1);
             tt.cancel();
         }
     }
