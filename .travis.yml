@@ -18,5 +18,5 @@ os:
   - osx
 env:
   - TEST_SUITE=ko
-  - TEST_SUITE=crud
-  - TEST_SUITE=visual
+#  - TEST_SUITE=crud
+#  - TEST_SUITE=visual
