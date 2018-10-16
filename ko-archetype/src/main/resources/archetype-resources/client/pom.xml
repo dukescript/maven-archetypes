@@ -233,9 +233,6 @@
   <profiles>
       <profile>
           <id>desktop</id>
-          <activation>
-              <activeByDefault>true</activeByDefault>
-          </activation>
           <dependencies>
               <dependency>
                   <groupId>org.netbeans.html</groupId>
