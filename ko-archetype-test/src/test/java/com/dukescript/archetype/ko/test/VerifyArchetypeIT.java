@@ -73,11 +73,19 @@ public class VerifyArchetypeIT {
         MavenRunner.initializeOutput();
     }
     private String oat;
+    
+    private static String someuser;
+    
+    @BeforeClass
+    public static void findUser() {
+        String home = System.getProperty("java.home");
+        someuser = "someuser" + Integer.toHexString(home.hashCode());
+    }
 
     @BeforeMethod public void cleanUpMavenRepo() throws IOException {
         File repo = new File(new File(
             new File(new File(System.getProperty("user.home"), ".m2"), "repository"),
-            "org"), "someuser"
+            "org"), someuser
         );
         if (repo.exists()) {
             java.nio.file.Files.walkFileTree(repo.toPath(), new FileVisitor<Path>() {
@@ -152,7 +160,7 @@ public class VerifyArchetypeIT {
         jf.close();
 
         File dataModel = new File(new File(new File(new File(new File(new File(new File(new File(new File(
-            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "DataModel.java"
+            created, "client"), "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "DataModel.java"
         );
         assertTrue(dataModel.isFile(), "Java file exists: " + dataModel);
         String mainSrc = Files.readFile(dataModel);
@@ -210,7 +218,7 @@ public class VerifyArchetypeIT {
         assertTrue(new File(created, "pom.xml").isFile(), "Pom file is in there");
 
         File dataModel = new File(new File(new File(new File(new File(new File(new File(new File(new File(
-            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "DataModel.java"
+            created, "client"), "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "DataModel.java"
         );
         assertTrue(dataModel.isFile(), "Java file exists: " + dataModel);
         String mainSrc = Files.readFile(dataModel);
@@ -278,7 +286,7 @@ public class VerifyArchetypeIT {
         assertTrue(new File(created, "pom.xml").isFile(), "Pom file is in there");
 
         File dataModel = new File(new File(new File(new File(new File(new File(new File(new File(new File(
-            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "DataModel.java"
+            created, "client"), "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "DataModel.java"
         );
         assertTrue(dataModel.isFile(), "Java file exists: " + dataModel);
         String mainSrc = Files.readFile(dataModel);
@@ -447,7 +455,7 @@ public class VerifyArchetypeIT {
 
         {
             File main = new File(new File(new File(new File(new File(new File(new File(new File(
-                created, "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "Main.java"
+                created, "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "Main.java"
             );
             String mainSrc = Files.readFile(main);
             int bootMethod = mainSrc.indexOf("onPageLoad()");
@@ -571,7 +579,7 @@ public class VerifyArchetypeIT {
         File jsDir = new File(gen, "js");
         assertTrue(jsDir.isDirectory(), "Directory is found");
 
-        File jsFile = new File(new File(new File(new File(new File(new File(new File(new File(new File(jsDir, "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "js"), "PlatformServices.java");
+        File jsFile = new File(new File(new File(new File(new File(new File(new File(new File(new File(jsDir, "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "js"), "PlatformServices.java");
         assertTrue(jsFile.isFile(), "File found");
 
         String jsCode = Files.readFile(jsFile);
@@ -869,8 +877,8 @@ public class VerifyArchetypeIT {
             v.verifyErrorFreeLog();
 
             v.assertFilePresent("target/classes/META-INF/generated-layer.xml");
-            v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/index.html");
-            v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/plus.css");
+            v.assertFilePresent("target/classes/org/" + someuser + "/test/" + oat + "/index.html");
+            v.assertFilePresent("target/classes/org/" + someuser + "/test/" + oat + "/plus.css");
         }
 
         File jar = new File(new File(nb, "target"), getClass().getSimpleName() + "-n-p-test-nb-1.0-SNAPSHOT.jar");
@@ -889,11 +897,11 @@ public class VerifyArchetypeIT {
         {
             File closeJava = new File(new File(new File(new File(new File(
                 new File(new File(new File(nb, "src"), "main"), "java"),
-                "org"), "someuser"), "test"), "" + oat + ""),"CloseTestApp.java"
+                "org"), someuser), "test"), "" + oat + ""),"CloseTestApp.java"
             );
             FileWriter w = new FileWriter(closeJava);
             w.write(
-"package org.someuser.test." + oat + ";\n" +
+"package org." + someuser + ".test." + oat + ";\n" +
 "import java.lang.reflect.Method;\n" +
 "import org.openide.windows.OnShowing;\n" +
 "\n" +
@@ -963,10 +971,10 @@ public class VerifyArchetypeIT {
         v.verifyErrorFreeLog();
 
         v.assertFilePresent("target/" + getClass().getSimpleName() + "-a-r-test-nb-1.0-SNAPSHOT.nbm");
-        v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/index.html");
-        v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/plus.css");
-        v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/icon.png");
-        v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/icon24.png");
+        v.assertFilePresent("target/classes/org/" + someuser + "/test/" + oat + "/index.html");
+        v.assertFilePresent("target/classes/org/" + someuser + "/test/" + oat + "/plus.css");
+        v.assertFilePresent("target/classes/org/" + someuser + "/test/" + oat + "/icon.png");
+        v.assertFilePresent("target/classes/org/" + someuser + "/test/" + oat + "/icon24.png");
     }
 
     private File generateFromArchetype(String aId, final File dir, String... params) throws Exception {
@@ -978,9 +986,9 @@ public class VerifyArchetypeIT {
         dir.mkdirs();
         aId = getClass().getSimpleName() + "-" + aId;
         Properties sysProp = v.getSystemProperties();
-        sysProp.put("groupId", "org.someuser.test");
+        sysProp.put("groupId", "org." + someuser + ".test");
         sysProp.put("artifactId", aId);
-        sysProp.put("package", "org.someuser.test." + oat + "");
+        sysProp.put("package", "org." + someuser + ".test." + oat + "");
         sysProp.put("archetypeGroupId", "com.dukescript.archetype");
         sysProp.put("archetypeArtifactId", "knockout4j-archetype");
         sysProp.put("archetypeVersion", findCurrentVersion());
