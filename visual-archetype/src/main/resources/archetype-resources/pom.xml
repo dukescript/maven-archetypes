@@ -35,7 +35,7 @@
         <bck2brwsr.obfuscationlevel>MINIMAL</bck2brwsr.obfuscationlevel>
 #end    
         <junit.browser.version>0.9</junit.browser.version>
-        <canvas.version>0.9</canvas.version>
+        <canvas.version>0.12</canvas.version>
         <events.version>0.3</events.version>
         <charts.version>0.9</charts.version>
         <leaflet4j.version>0.7.7</leaflet4j.version>
