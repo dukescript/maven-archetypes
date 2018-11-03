@@ -171,13 +171,6 @@
         <version>\${project.version}</version>
     </dependency>
     <dependency>
-        <groupId>org.netbeans.html</groupId>
-        <artifactId>net.java.html.boot.fx</artifactId>
-        <version>\${net.java.html.version}</version>
-        <scope>provided</scope>
-    </dependency>
-
-    <dependency>
         <groupId>com.dukescript.api</groupId>
         <artifactId>junit-osgi</artifactId>
         <scope>test</scope>
