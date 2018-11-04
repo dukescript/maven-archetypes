@@ -3,7 +3,6 @@ package ${package};
 import com.dukescript.api.canvas.GraphicsContext2D;
 import com.dukescript.api.events.EventHandler;
 import com.dukescript.api.events.EventSource;
-import com.dukescript.api.events.KeyEvent;
 import com.dukescript.api.events.MouseEvent;
 import ${package}.js.Elements;
 import net.java.html.charts.Chart;
@@ -69,7 +68,7 @@ final class DataModel {
             @Override
             public void handle(MouseEvent event) {
                 GraphicsContext2D g2d = (GraphicsContext2D) event.getSource();
-                g2d.setFillStyle(ctx.getWebColor("orange"));
+                g2d.setFillStyle(g2d.getWebColor("orange"));
                 g2d.fillCircle((float) event.getX(), (float) event.getY(), 10);
             }
         });
