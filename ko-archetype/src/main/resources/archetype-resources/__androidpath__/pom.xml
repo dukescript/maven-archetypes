@@ -19,8 +19,9 @@
     <properties>
         <platform.version>4.1.1.4</platform.version>
         <presenters.version>${presenters.version}</presenters.version>
-        <android.plugin.version>4.4.3</android.plugin.version>
-        <retrolamda.version>2.3.0</retrolamda.version>
+        <android.plugin.version>${android.plugin.version}</android.plugin.version>
+        <retrolamda.version>${retrolamda.version}</retrolamda.version>
+        <retrolamda.commons.version>3.8.1</retrolamda.commons.version>
         <android.platform.version>19</android.platform.version>
         <debug>false</debug>
     </properties>
@@ -80,6 +81,13 @@
                 <groupId>net.orfjackal.retrolambda</groupId>
                 <artifactId>retrolambda-maven-plugin</artifactId>
                 <version>\${retrolamda.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.commons</groupId>
+                        <artifactId>commons-lang3</artifactId>
+                        <version>\${retrolamda.commons.version}</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
                         <phase>process-classes</phase>

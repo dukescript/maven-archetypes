@@ -186,6 +186,10 @@ public class VerifyArchetypeIT {
 
         assertPresenter(created, v, "-Pdesktop", "org.netbeans.html.boot.fx.FXPresenter");
         assertPresenter(created, v, "-Pwebkit-presenter", "com.dukescript.presenters.webkit.WebKitPresenter");
+
+        if (isJDK11Plus() && System.getProperty("os.name").contains("Mac")) {
+            throw new SkipException("Browser presenter 1.5.2 doesn't run on Mac and JDK11");
+        }
         assertPresenter(created, v, "-Pbrowser-presenter", "com.dukescript.presenters.Browser");
     }
 
@@ -485,6 +489,10 @@ public class VerifyArchetypeIT {
             w = new FileWriter(clientPom);
             w.write(pomSrc.toString());
             w.close();
+        }
+
+        if (isJDK11Plus()) {
+            throw new SkipException("Android Maven Plugin doesn't work on JDK11 yet");
         }
 
         {
@@ -925,10 +933,10 @@ public class VerifyArchetypeIT {
             w.close();
 
             final List<String>  finalGoals;
-            if (isSafeJavaFX()) {
-                finalGoals = Arrays.asList("package", "nbm:cluster", "nbm:run-platform");
-            } else {
+            if (isJDK11Plus()) {
                 finalGoals = Arrays.asList("package", "nbm:cluster");
+            } else {
+                finalGoals = Arrays.asList("package", "nbm:cluster", "nbm:run-platform");
             }
 
             Verifier v = createVerifier(nb.getAbsolutePath());
@@ -1165,12 +1173,16 @@ public class VerifyArchetypeIT {
         }
     }
 
-    private static boolean isSafeJavaFX() {
+    private static boolean isJDK11Plus() {
+        String version = System.getProperty("java.version");
+        if (version != null && version.startsWith("11")) {
+            return true;
+        }
         try {
             Class.forName("java.lang.Module");
-            return false;
-        } catch (ClassNotFoundException ex) {
             return true;
+        } catch (ClassNotFoundException ex) {
+            return false;
         }
     }
 }
