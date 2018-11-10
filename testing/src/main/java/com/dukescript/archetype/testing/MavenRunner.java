@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.dukescript.archetype.ko.test;
+package com.dukescript.archetype.testing;
 
 import java.io.File;
 import java.io.IOException;
