@@ -8,6 +8,7 @@
   </parent>
   <groupId>com.dukescript.archetype</groupId>
   <artifactId>visual-archetype</artifactId>
+  <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Visual HTML/Java Maven Archetype</name>
   <description>

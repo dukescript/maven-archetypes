@@ -23,23 +23,21 @@
  */
 package com.dukescript.archetype.visual.test;
 
+import com.dukescript.archetype.testing.VerifyBase;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
-import java.util.Properties;
-import java.util.Random;
+import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
@@ -47,63 +45,23 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import javax.xml.xpath.XPathFactoryConfigurationException;
 import org.apache.maven.it.VerificationException;
 import org.apache.maven.it.Verifier;
 import static org.testng.Assert.*;
 import org.testng.SkipException;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.reporters.Files;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 /**
  *
  * @author Anton Epple
  */
-public class VerifyArchetypeIT {
-    @BeforeClass public static void initializeOutput() {
-        MavenRunner.initializeOutput();
-    }
-    private String oat;
-
-    @BeforeMethod public void cleanUpMavenRepo() throws IOException {
-        File repo = new File(new File(
-            new File(new File(System.getProperty("user.home"), ".m2"), "repository"),
-            "org"), "someuser"
-        );
-        if (repo.exists()) {
-            java.nio.file.Files.walkFileTree(repo.toPath(), new FileVisitor<Path>() {
-                public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                    return FileVisitResult.CONTINUE;
-                }
-
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    java.nio.file.Files.delete(file);
-                    return FileVisitResult.CONTINUE;
-                }
-
-                public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-                    return FileVisitResult.CONTINUE;
-                }
-
-                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                    java.nio.file.Files.delete(dir);
-                    return FileVisitResult.CONTINUE;
-                }
-            });
-        }
-    }
-
-    @BeforeMethod
-    public void randomOat() {
-        oat = "oat" + new Random().nextInt(10);
+public class VerifyArchetypeIT extends VerifyBase {
+    public VerifyArchetypeIT() {
+        super("visual-archetype");
     }
 
     @Test public void defaultProjectCompiles() throws Exception {
@@ -150,7 +108,7 @@ public class VerifyArchetypeIT {
         jf.close();
 
         File dataModel = new File(new File(new File(new File(new File(new File(new File(new File(new File(
-            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "DataModel.java"
+            created, "client"), "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "DataModel.java"
         );
         assertTrue(dataModel.isFile(), "Java file exists: " + dataModel);
         String mainSrc = Files.readFile(dataModel);
@@ -174,8 +132,12 @@ public class VerifyArchetypeIT {
         w.write(mainSb.toString());
         w.close();
 
-        assertPresenter(created, v, null, "org.netbeans.html.boot.fx.FXPresenter");
+        assertPresenter(created, v, "-Pdesktop", "org.netbeans.html.boot.fx.FXPresenter");
         assertPresenter(created, v, "-Pwebkit-presenter", "com.dukescript.presenters.webkit.WebKitPresenter");
+
+        if (isJDK11Plus() && System.getProperty("os.name").contains("Mac")) {
+            throw new SkipException("Browser presenter 1.5.2 doesn't run on Mac and JDK11");
+        }
         assertPresenter(created, v, "-Pbrowser-presenter", "com.dukescript.presenters.Browser");
     }
 
@@ -208,7 +170,7 @@ public class VerifyArchetypeIT {
         assertTrue(new File(created, "pom.xml").isFile(), "Pom file is in there");
 
         File dataModel = new File(new File(new File(new File(new File(new File(new File(new File(new File(
-            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "DataModel.java"
+            created, "client"), "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "DataModel.java"
         );
         assertTrue(dataModel.isFile(), "Java file exists: " + dataModel);
         String mainSrc = Files.readFile(dataModel);
@@ -276,7 +238,7 @@ public class VerifyArchetypeIT {
         assertTrue(new File(created, "pom.xml").isFile(), "Pom file is in there");
 
         File dataModel = new File(new File(new File(new File(new File(new File(new File(new File(new File(
-            created, "client"), "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "DataModel.java"
+            created, "client"), "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "DataModel.java"
         );
         assertTrue(dataModel.isFile(), "Java file exists: " + dataModel);
         String mainSrc = Files.readFile(dataModel);
@@ -445,7 +407,7 @@ public class VerifyArchetypeIT {
 
         {
             File main = new File(new File(new File(new File(new File(new File(new File(new File(
-                created, "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "Main.java"
+                created, "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "Main.java"
             );
             String mainSrc = Files.readFile(main);
             int bootMethod = mainSrc.indexOf("onPageLoad()");
@@ -467,6 +429,10 @@ public class VerifyArchetypeIT {
             FileWriter w = new FileWriter(main);
             w.write(mainSb.toString());
             w.close();
+        }
+
+        if (isJDK11Plus()) {
+            throw new SkipException("Android Maven Plugin doesn't work on JDK11 yet");
         }
 
         {
@@ -561,7 +527,7 @@ public class VerifyArchetypeIT {
         File jsDir = new File(gen, "js");
         assertTrue(jsDir.isDirectory(), "Directory is found");
 
-        File jsFile = new File(new File(new File(new File(new File(new File(new File(new File(new File(jsDir, "src"), "main"), "java"), "org"), "someuser"), "test"), "" + oat + ""), "js"), "Elements.java");
+        File jsFile = new File(new File(new File(new File(new File(new File(new File(new File(new File(jsDir, "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "js"), "Elements.java");
         assertTrue(jsFile.isFile(), "File found");
 
         String jsCode = Files.readFile(jsFile);
@@ -787,8 +753,8 @@ public class VerifyArchetypeIT {
             v.verifyErrorFreeLog();
 
             v.assertFilePresent("target/classes/META-INF/generated-layer.xml");
-            v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/index.html");
-            v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/plus.css");
+            v.assertFilePresent("target/classes/org/" + someuser + "/test/" + oat + "/index.html");
+            v.assertFilePresent("target/classes/org/" + someuser + "/test/" + oat + "/plus.css");
         }
 
         File jar = new File(new File(nb, "target"), getClass().getSimpleName() + "-n-p-test-nb-1.0-SNAPSHOT.jar");
@@ -807,11 +773,11 @@ public class VerifyArchetypeIT {
         {
             File closeJava = new File(new File(new File(new File(new File(
                 new File(new File(new File(nb, "src"), "main"), "java"),
-                "org"), "someuser"), "test"), "" + oat + ""),"CloseTestApp.java"
+                "org"), someuser), "test"), "" + oat + ""),"CloseTestApp.java"
             );
             FileWriter w = new FileWriter(closeJava);
             w.write(
-"package org.someuser.test." + oat + ";\n" +
+"package org." + someuser + ".test." + oat + ";\n" +
 "import java.lang.reflect.Method;\n" +
 "import org.openide.windows.OnShowing;\n" +
 "\n" +
@@ -834,9 +800,16 @@ public class VerifyArchetypeIT {
             );
             w.close();
 
+            final List<String>  finalGoals;
+            if (isJDK11Plus()) {
+                finalGoals = Arrays.asList("package", "nbm:cluster");
+            } else {
+                finalGoals = Arrays.asList("package", "nbm:cluster", "nbm:run-platform");
+            }
+
             Verifier v = createVerifier(nb.getAbsolutePath());
             v.getCliOptions().add("-Denforcer.fail=true");
-            v.executeGoals(Arrays.asList("package", "nbm:cluster", "nbm:run-platform"));
+            v.executeGoals(finalGoals);
         }
     }
 
@@ -874,81 +847,14 @@ public class VerifyArchetypeIT {
         v.verifyErrorFreeLog();
 
         v.assertFilePresent("target/" + getClass().getSimpleName() + "-a-r-test-nb-1.0-SNAPSHOT.nbm");
-        v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/index.html");
-        v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/plus.css");
-        v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/icon.png");
-        v.assertFilePresent("target/classes/org/someuser/test/" + oat + "/icon24.png");
+        v.assertFilePresent("target/classes/org/" + someuser + "/test/" + oat + "/index.html");
+        v.assertFilePresent("target/classes/org/" + someuser + "/test/" + oat + "/plus.css");
+        v.assertFilePresent("target/classes/org/" + someuser + "/test/" + oat + "/icon.png");
+        v.assertFilePresent("target/classes/org/" + someuser + "/test/" + oat + "/icon24.png");
     }
 
-    private File generateFromArchetype(String aId, final File dir, String... params) throws Exception {
-        Verifier v = createVerifier(dir.getAbsolutePath());
-        v.getCliOptions().add("-Denforcer.fail=true");
-        v.setAutoclean(false);
-        v.setLogFileName("generate.log");
-        v.deleteDirectory("");
-        dir.mkdirs();
-        aId = getClass().getSimpleName() + "-" + aId;
-        Properties sysProp = v.getSystemProperties();
-        sysProp.put("groupId", "org.someuser.test");
-        sysProp.put("artifactId", aId);
-        sysProp.put("package", "org.someuser.test." + oat + "");
-        sysProp.put("archetypeGroupId", "com.dukescript.archetype");
-        sysProp.put("archetypeArtifactId", "visual-archetype");
-        sysProp.put("archetypeVersion", findCurrentVersion());
-        sysProp.put("archetypeCatalog", "local");
-        adjustArchetype(sysProp);
-
-        for (String p : params) {
-            v.addCliOption(p);
-        }
-        v.executeGoal("archetype:generate");
-        v.verifyErrorFreeLog();
-        File created = new File(dir, aId);
-        assertTrue(created.exists(), "Directory created: " + created);
-        assertPomVersions(created);
-        return created;
-    }
-
-    static String findCurrentVersion() throws XPathExpressionException, IOException, ParserConfigurationException, SAXException, XPathFactoryConfigurationException {
-        final ClassLoader l = VerifyArchetypeIT.class.getClassLoader();
-        URL u = l.getResource("META-INF/maven/com.dukescript.archetype/visual-archetype/pom.xml");
-        assertNotNull(u, "Own pom found: " + System.getProperty("java.class.path"));
-
-        final XPathFactory fact = XPathFactory.newInstance();
-        fact.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-
-        XPathExpression xp = fact.newXPath().compile("project/parent/version/text()");
-
-        Document dom = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(u.openStream());
-        return xp.evaluate(dom);
-    }
-
-    static void writeBinary(File out) throws IOException {
-        FileOutputStream fos = new FileOutputStream(out);
-        for (int i = 0; i < 256; i++) {
-            fos.write(i);
-        }
-        fos.close();
-    }
-
-    static void assertBinary(InputStream is) throws IOException {
-        for (int i = 0; i < 256; i++) {
-            int b = is.read();
-            assertEquals((byte)b, (byte)i, i + "th byte of the stream should be equal");
-        }
-        is.close();
-    }
-
-    private static void assertNoTextInSubdir(String fx, File genRoot) throws IOException {
-        if (genRoot.isFile()) {
-            if (Files.readFile(genRoot).contains(fx)) {
-                fail("String " + fx + " is in file " + genRoot);
-            }
-        } else {
-            for (File ch : genRoot.listFiles()) {
-                assertNoTextInSubdir(fx, ch);
-            }
-        }
+    protected boolean assertDialogsEmpty(File dir) throws IOException {
+        return false;
     }
 
     protected void assertHTMLContent(InputStream is) throws IOException {
@@ -961,99 +867,6 @@ public class VerifyArchetypeIT {
             if (l.contains("click:") && l.contains("pieChart")) {
                 br.close();
                 return;
-            }
-        }
-    }
-
-    protected void adjustArchetype(Properties sysProp) {
-    }
-
-    protected boolean assertDialogsEmpty(File dir) throws IOException {
-        return false;
-    }
-
-    protected Verifier createVerifier(String path) throws VerificationException {
-        return new MavenRunner(path);
-    }
-
-    private static void assertPomVersions(File root) throws IOException {
-        File[] children = root.listFiles();
-        if (children == null) {
-            return;
-        }
-        for (File ch : children) {
-            if (ch.getName().equals("target")) {
-                continue;
-            }
-            if (ch.isDirectory()) {
-                assertPomVersions(ch);
-                continue;
-            }
-            if (!ch.getName().equals("pom.xml")) {
-                continue;
-            }
-            Pattern artifact = Pattern.compile("<artifactId>(.*)</artifactId>");
-            Pattern pattern = Pattern.compile("<version>(.*)</version>");
-            BufferedReader r = new BufferedReader(new FileReader(ch));
-            String lastArtifact = "";
-            for (int lineNo = 1; ;lineNo++) {
-                String line = r.readLine();
-                if (line == null) {
-                    break;
-                }
-                Matcher artiMatcher = artifact.matcher(line);
-                if (artiMatcher.find()) {
-                    lastArtifact = artiMatcher.group(1);
-                }
-                Matcher matcher = pattern.matcher(line);
-                if (matcher.find()) {
-                    String version = matcher.group(1);
-                    if (version.startsWith("${")) {
-                        continue;
-                    }
-                    if (version.equals("1.0-SNAPSHOT")) {
-                        continue;
-                    }
-                    if (lastArtifact.startsWith("maven-") && lastArtifact.endsWith("-plugin")) {
-                        continue;
-                    }
-                    if ("nbm-maven-plugin".equals(lastArtifact)) {
-                        continue;
-                    }
-                    if ("exec-maven-plugin".equals(lastArtifact)) {
-                        continue;
-                    }
-                    if ("image-maven-plugin".equals(lastArtifact)) {
-                        continue;
-                    }
-                    if (version.equals("4.12") && "junit-osgi".equals(lastArtifact)) {
-                        continue;
-                    }
-                    if (version.equals("1.2.3.RELEASE") && "springloaded".equals(lastArtifact)) {
-                        continue;
-                    }
-                    if (version.equals("5.0") && "asm".equals(lastArtifact)) {
-                        continue;
-                    }                    
-                    fail("Hardcoded version " + version + " for " + lastArtifact + " line " + lineNo + " in " + ch);
-                }
-            }
-            r.close();
-        }
-    }
-
-    private void verifyErrorFreeLogSkipJavaSupport(Verifier v) throws VerificationException {
-        String foundError = null;
-        for (String line : v.loadFile(v.getBasedir(), v.getLogFileName(), false)) {
-            if (line.contains("[ERROR]")) {
-                foundError = line;
-                continue;
-            }
-            if (line.contains("System artifact: moe.sdk:moe.sdk.java8support:jar:1.0:system has no file attached")) {
-                foundError = null;
-            }
-            if (foundError != null) {
-                fail("Found error in the log: " + foundError);
             }
         }
     }

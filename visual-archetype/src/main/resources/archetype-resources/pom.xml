@@ -30,6 +30,7 @@
     </modules>
     <properties>
         <net.java.html.version>${net.java.html.version}</net.java.html.version>
+        <openjfx.version>${openjfx.version}</openjfx.version>
 #if ($webpath.indexOf("target/") != 0)
         <bck2brwsr.version>${bck2brwsr.version}</bck2brwsr.version>
         <bck2brwsr.obfuscationlevel>MINIMAL</bck2brwsr.obfuscationlevel>
@@ -115,6 +116,15 @@
     </dependencyManagement>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
