@@ -21,6 +21,7 @@
     <project.mainclass>\${package}.Main</project.mainclass>
     <exec.java.bin>\${java.home}/bin/java</exec.java.bin>
     <exec.debug.arg>-Ddebug=false</exec.debug.arg>
+    <springloaded.javaagent>-Djavaagent=false</springloaded.javaagent>
   </properties>
   <build>
       <plugins>
@@ -66,7 +67,7 @@
                    <arguments>
                        <argument>-classpath</argument>
                        <classpath/>
-                       <argument>-javaagent:\${project.build.directory}/springloaded.jar</argument>
+                       <argument>\${springloaded.javaagent}</argument>
                        <argument>-Xverify:none</argument>
                        <argument>-Dbrowser.rootdir=\${basedir}/src/main/webapp/</argument>
                        <argument>-Dnetbeans.inspect.port=\${netbeans.inspect.port}</argument>
@@ -180,6 +181,12 @@
         <artifactId>junit-browser-runner</artifactId>
         <scope>test</scope>
     </dependency>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-web</artifactId>
+        <version>\${openjfx.version}</version>
+        <scope>test</scope>
+    </dependency>
 
     <!-- Nashorn presenter for BrowserRunner
     <dependency>
@@ -221,10 +228,7 @@
   </dependencies>
   <profiles>
       <profile>
-          <id>javafx</id>
-          <activation>
-              <activeByDefault>true</activeByDefault>
-          </activation>
+          <id>desktop</id>
           <dependencies>
               <dependency>
                   <groupId>org.netbeans.html</groupId>
@@ -232,15 +236,10 @@
                   <version>\${net.java.html.version}</version>
                   <scope>runtime</scope>
               </dependency>
-          </dependencies>
-      </profile>
-      <profile>
-          <id>desktop</id>
-          <dependencies>
               <dependency>
-                  <groupId>org.netbeans.html</groupId>
-                  <artifactId>net.java.html.boot.fx</artifactId>
-                  <version>\${net.java.html.version}</version>
+                  <groupId>org.openjfx</groupId>
+                  <artifactId>javafx-web</artifactId>
+                  <version>\${openjfx.version}</version>
                   <scope>runtime</scope>
               </dependency>
           </dependencies>
@@ -303,6 +302,15 @@
                   <scope>runtime</scope>
               </dependency>
           </dependencies>
+      </profile>
+      <profile>
+          <id>jdk-8</id>
+          <activation>
+              <jdk>1.8</jdk>
+          </activation>
+          <properties>
+              <springloaded.javaagent>-javaagent:\${project.build.directory}/springloaded.jar</springloaded.javaagent>
+          </properties>
       </profile>
   </profiles>
 </project>
