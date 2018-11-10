@@ -173,7 +173,11 @@
         <version>\${net.java.html.version}</version>
         <scope>provided</scope>
     </dependency>
-    
+    <dependency>
+      <groupId>com.dukescript.events</groupId>
+      <artifactId>events-api</artifactId>
+      <version>${events.version}</version>
+    </dependency>
     <dependency>
       <groupId>com.dukescript.canvas</groupId>
       <artifactId>canvas-api</artifactId>

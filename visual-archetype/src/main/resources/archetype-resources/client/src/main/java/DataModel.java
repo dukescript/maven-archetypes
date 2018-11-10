@@ -1,6 +1,9 @@
 package ${package};
 
 import com.dukescript.api.canvas.GraphicsContext2D;
+import com.dukescript.api.events.EventHandler;
+import com.dukescript.api.events.EventSource;
+import com.dukescript.api.events.MouseEvent;
 import ${package}.js.Elements;
 import net.java.html.charts.Chart;
 import net.java.html.charts.Color;
@@ -28,7 +31,7 @@ import net.java.html.leaflet.event.MouseEvent.Type;
     @Property(name = "active", type = String.class)
 })
 final class DataModel {
-    private Elements.Listener onClick;
+    EventSource<GraphicsContext2D> es;
     private Chart<Values, Config> lineChart;
     private Chart<Segment, Config> pieChart;
     private Map map;
@@ -59,20 +62,16 @@ final class DataModel {
         int[] size = Elements.screenSize();
         ctx.fillText("Hello from DukeScript!" + size[0] + " x " + size[1], 10, height - 30);
 
-        if (onClick == null) {
-            onClick = (ev) -> {
-                ctx.setStrokeStyle(ctx.getWebColor("green"));
-                ctx.setFillStyle(ctx.getWebColor("orange"));
-                ctx.beginPath();
-                ctx.arc(ev.getX(), ev.getY() - 25, 50, 0, Math.PI, false);
-                ctx.lineTo(ev.getX() - 50, ev.getY() - 100);
-                ctx.arc(ev.getX(), ev.getY() - 100, 50, Math.PI, 2 * Math.PI, false);
-                ctx.closePath();
-                ctx.stroke();
-                ctx.fill();
-            };
-            Elements.onClick("canvas", onClick);
-        }
+        es = EventSource.create(ctx, "canvas", true);
+
+        es.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GraphicsContext2D g2d = (GraphicsContext2D) event.getSource();
+                g2d.setFillStyle(g2d.getWebColor("orange"));
+                g2d.fillCircle((float) event.getX(), (float) event.getY(), 10);
+            }
+        });
     }
 
 

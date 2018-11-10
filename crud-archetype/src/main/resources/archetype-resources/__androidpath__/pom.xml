@@ -21,7 +21,7 @@
         <presenters.version>${presenters.version}</presenters.version>
         <android.plugin.version>4.4.3</android.plugin.version>
         <retrolamda.version>2.3.0</retrolamda.version>
-        <android.platform.version>19</android.platform.version>
+        <android.platform.version>26</android.platform.version>
         <debug>false</debug>
     </properties>
     <build>

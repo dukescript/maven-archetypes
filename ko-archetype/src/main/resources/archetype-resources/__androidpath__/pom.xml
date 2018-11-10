@@ -22,7 +22,7 @@
         <android.plugin.version>${android.plugin.version}</android.plugin.version>
         <retrolamda.version>${retrolamda.version}</retrolamda.version>
         <retrolamda.commons.version>3.8.1</retrolamda.commons.version>
-        <android.platform.version>19</android.platform.version>
+        <android.platform.version>26</android.platform.version>
         <debug>false</debug>
     </properties>
     <build>

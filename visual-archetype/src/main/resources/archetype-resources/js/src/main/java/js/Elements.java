@@ -46,43 +46,4 @@ public final class Elements {
         };
     }
 
-    @JavaScriptBody(args = { "id", "listener" }, javacall = true, body = "\n" +
-"    var elem = document.getElementById(id);\n" +
-"    elem.addEventListener('click', function(event) {\n" +
-"        var x = event.pageX - elem.offsetLeft;\n" +
-"        var y = event.pageY - elem.offsetTop;\n" +
-"        x = x / elem.clientWidth * elem.width;\n" +
-"        y = y / elem.clientHeight * elem.height;\n" +
-"        @${package}.js.Elements::dispatch(Ljava/lang/Object;II)(listener, x, y);\n" +
-"    }, false);\n" +
-"\n"
-    )
-    public static native void onClick(String id, Listener listener);
-
-    static void dispatch(Object obj, int x, int y) {
-        Listener listener = (Listener) obj;
-        listener.onEvent(new Event(x, y));
-    }
-
-    public interface Listener {
-        public void onEvent(Event ev);
-    }
-
-    public static final class Event {
-        private final int x;
-        private final int y;
-
-        Event(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-    }
 }
