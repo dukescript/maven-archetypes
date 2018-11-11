@@ -62,7 +62,7 @@ import org.xml.sax.SAXException;
 public abstract class VerifyBase {
     private final String archetypeName;
     protected String oat;
-    protected static String someuser;
+    protected String someuser;
 
     protected VerifyBase(String archetypeName) {
         this.archetypeName = archetypeName;
@@ -73,14 +73,12 @@ public abstract class VerifyBase {
         MavenRunner.initializeOutput();
     }
 
-    @BeforeClass
-    public static void findUser() {
-        String home = System.getProperty("java.home");
-        someuser = "someuser" + Integer.toHexString(home.hashCode());
-    }
-
     @BeforeMethod
     public void cleanUpMavenRepo() throws IOException {
+        String home = System.getProperty("java.home");
+        final int hash = home.hashCode() + getClass().hashCode();
+        someuser = "someuser" + Integer.toHexString(hash);
+
         File repo = new File(new File(
                 new File(new File(System.getProperty("user.home"), ".m2"), "repository"),
                 "org"), someuser
