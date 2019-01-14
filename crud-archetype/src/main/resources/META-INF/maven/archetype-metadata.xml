@@ -254,7 +254,11 @@
          <directory>__moepath__</directory>
          <includes>
              <include>xcode/**/*.plist</include>
+             <include>xcode/**/*.pbxproj</include>
          </includes>
+         <excludes>
+             <exclude>xcode/**/*.txt</exclude>
+         </excludes>
      </fileSet>
      <fileSet filtered="false">
          <directory>__moepath__</directory>
@@ -264,6 +268,8 @@
          </includes>
          <excludes>
              <exclude>xcode/**/*.plist</exclude>
+             <exclude>xcode/**/*.pbxproj</exclude>
+             <exclude>xcode/**/*.txt</exclude>             
          </excludes>
      </fileSet>
      <fileSet filtered="true" packaged="true">

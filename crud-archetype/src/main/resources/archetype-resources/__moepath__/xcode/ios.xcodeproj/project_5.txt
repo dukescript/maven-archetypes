@@ -1,0 +1,40 @@
+				STRIP_STYLE = "non-global";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D89C0CEF2D92F39087157D4 /* Build configuration list for PBXProject "ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				79916686B1B66FB881D7C5F2 /* Debug */,
+				13D2117870D2E8CA9926E29B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B4540BAF300FB0532351348E /* Build configuration list for PBXNativeTarget "ios-Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7BA056067206DA8C43504E52 /* Debug */,
+				4A0551B5C7DC5C931ECBBE17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DCFA5788987A8E3A203A8E05 /* Build configuration list for PBXNativeTarget "ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C86F21BF429A69506AFDEBA7 /* Debug */,
+				7874FB728328F9812397517D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B40DC2A75FA76A57F7C47B5A /* Project object */;
+}
+
