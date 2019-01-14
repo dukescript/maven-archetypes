@@ -63,8 +63,8 @@ public class VerifyArchetypeIT extends VerifyBase {
     public VerifyArchetypeIT() {
         super("knockout4j-archetype");
     }
-    
-    
+
+
     @Test public void defaultProjectCompiles() throws Exception {
         final File dir = new File("target/tests/fxcompile/").getAbsoluteFile();
         File created = generateFromArchetype("o-a-test", dir);
@@ -230,7 +230,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         v2.assertFilePresent("target/images/Default-568h@2x-Landscape.png");
     }
 
-    @Test 
+    @Test
     public void moeProjectCompiles() throws Exception {
         final File dir = new File("target/tests/moecompile/").getAbsoluteFile();
         File created = generateFromArchetype("o-b-test", dir, "-Dmoepath=client-moe");
@@ -291,8 +291,30 @@ public class VerifyArchetypeIT extends VerifyBase {
         final String nbactionsContent = Files.readFile(nbactions);
         assertTrue(nbactionsContent.contains("pre-site"), "Invoke verification of simulators in " + nbactions);
         assertTrue(nbactionsContent.contains("moe:launch"), "There should be moe goals in " + nbactions);
+
+        File xcodePrj = new File(new File(new File(client, "xcode"), "ios.xcodeproj"), "project.pbxproj");
+        assertTrue(xcodePrj.isFile());
+        String xCodeContent = Files.readFile(xcodePrj);
+        Matcher matcher = Pattern.compile("PRODUCT_([A-Z_]+) *= *([^;]*);").matcher(xCodeContent);
+        int matchedCount = 0;
+        while (matcher.find()) {
+            matchedCount++;
+            String type = matcher.group(1);
+            String value = matcher.group(2);
+            switch (type) {
+                case "BUNDLE_IDENTIFIER":
+                    assertNotEquals(value.indexOf("org." + someuser + ".test"), -1, "value for " + type + " is " + value);
+                    break;
+                case "NAME":
+                    assertNotEquals(value.indexOf("o-b-test"), -1, "value for " + type + " is " + value);
+                    break;
+                default:
+                    fail("Unknown PRODUCT_" + type);
+            }
+        }
+        assertEquals(matchedCount, 8, "4x2 values  found");
     }
-    
+
     @Test public void iosVerifyRoboVMPlugin() throws Exception {
         final File dir = new File("target/tests/icompilecheck/").getAbsoluteFile();
         File created = generateFromArchetype("x-v-test", dir, "-Diospath=ios-client");
