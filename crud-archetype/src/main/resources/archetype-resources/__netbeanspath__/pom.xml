@@ -21,21 +21,6 @@
         <netbeans.compile.on.save>none</netbeans.compile.on.save>
         <project.mainclass>\${package}.NbMain</project.mainclass>
     </properties>
-    <repositories>
-        <repository>
-            <id>netbeans</id>
-            <name>NetBeans</name>
-            <url>http://bits.netbeans.org/maven2/</url>
-        </repository>
-        <repository>
-            <id>dev</id>
-            <name>NetBeans</name>
-            <url>http://bits.netbeans.org/nexus/content/repositories/snapshots/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
     <build>
         <plugins>
             <plugin>
