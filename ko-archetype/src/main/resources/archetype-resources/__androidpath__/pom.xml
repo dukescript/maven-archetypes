@@ -58,6 +58,7 @@
                         <configuration>
                             <includeScope>runtime</includeScope>
                             <outputDirectory>\${project.build.directory}/classes</outputDirectory>
+                            <excludes>META-INF/MANIFEST.MF</excludes>
                         </configuration>
                     </execution>
                     <execution>
@@ -150,13 +151,11 @@
                     <sdk>
                         <platform>\${android.platform.version}</platform>
                     </sdk>
-                    <apk>
-                        <metaIncludes>
-                            <metaInclude>services/org.netbeans.**</metaInclude>
-                        </metaIncludes>
-                    </apk>
                     <extractDuplicates>true</extractDuplicates>
                     <skipDependencies>true</skipDependencies>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                    </transformers>
                 </configuration>
                 <executions>
                     <execution>
