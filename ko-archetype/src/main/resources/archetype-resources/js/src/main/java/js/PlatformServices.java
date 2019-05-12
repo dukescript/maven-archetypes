@@ -76,6 +76,18 @@ public class PlatformServices {
     )
     static native void confirmImpl(String msg, Runnable callback);
 
+    /** Makes sure {@code confirm} function is defined. Used from unit tests.
+     */
+    @JavaScriptBody(args = {},
+            body = "\n"
+            + "if (typeof confirm === 'undefined') {\n"
+            + "  confirm = function(ignore) {\n"
+            + "    return true;\n"
+            + "  }\n"
+            + "}\n"
+    )
+    static native void installConfirmPolyfill();
+
     @JavaScriptBody(
             args = {}, body
             = "var w = window,\n"

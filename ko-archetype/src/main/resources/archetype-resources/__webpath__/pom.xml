@@ -295,12 +295,15 @@
                                 <artifactId>teavm-classlib</artifactId>
                                 <version>\${teavm.version}</version>
                             </dependency>
-                            <!-- This module adds html4j support. It mainly includes JavaScriptBuilder support.
-                            Also there are some little patches to JCL emulation, that are required to pass TCK -->
                             <dependency>
                                 <groupId>org.teavm</groupId>
                                 <artifactId>teavm-html4j</artifactId>
                                 <version>\${teavm.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.netbeans.html</groupId>
+                                <artifactId>net.java.html.boot</artifactId>
+                                <version>\${net.java.html.version}</version>
                             </dependency>
                         </dependencies>
                         <executions>

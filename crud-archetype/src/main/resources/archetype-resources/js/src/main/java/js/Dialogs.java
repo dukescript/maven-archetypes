@@ -19,4 +19,16 @@ public final class Dialogs {
             "return ret;"
     )
     public static native boolean confirm(String msg, Runnable callback);
+
+    /** Makes sure {@code confirm} function is defined. Used from unit tests.
+     */
+    @net.java.html.js.JavaScriptBody(args = {},
+            body = "\n"
+            + "if (typeof confirm === 'undefined') {\n"
+            + "  confirm = function(ignore) {\n"
+            + "    return true;\n"
+            + "  }\n"
+            + "}\n"
+    )
+    static native void installConfirmPolyfill();
 }

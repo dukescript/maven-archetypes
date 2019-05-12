@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 @RunWith(BrowserRunner.class)
 public class JsInteractionTest {
     @Test public void testCallbackFromJavaScript() throws Exception {
+        Dialogs.installConfirmPolyfill();
         class R implements Runnable {
             int called;
 

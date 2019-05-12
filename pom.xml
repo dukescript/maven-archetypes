@@ -34,7 +34,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <net.java.html.version>1.5.1</net.java.html.version>
+        <net.java.html.version>1.6.1</net.java.html.version>
         <openjfx.version>11</openjfx.version>
         <presenters.version>1.5.2</presenters.version>
         <android.plugin.version>4.6.0</android.plugin.version>
@@ -43,7 +43,7 @@
         <moe.version>1.4</moe.version>
         <moe.maven.version>1.4.1</moe.maven.version>
         <gradle.version>4.10.2</gradle.version>
-        <bck2brwsr.version>0.30</bck2brwsr.version>
+        <bck2brwsr.version>0.31</bck2brwsr.version>
         <netbeans.version>RELEASE110</netbeans.version>
         <teavm.version>0.4.0</teavm.version>
         <jersey.version>2.13</jersey.version>

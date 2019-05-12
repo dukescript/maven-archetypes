@@ -20,6 +20,7 @@ public class JsInteractionTest {
 #if ($example.equals("true"))
     @Test
     public void testCallbackFromJavaScript() throws Exception {
+        PlatformServices.installConfirmPolyfill();
         class R implements Runnable {
             int called;
 
