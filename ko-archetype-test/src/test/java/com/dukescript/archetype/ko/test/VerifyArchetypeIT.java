@@ -490,7 +490,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         Verifier v2 = createVerifier(and.getAbsolutePath());
         v2.getCliOptions().add("-Denforcer.fail=true");
         v2.addCliOption("-Dandroid.sdk.path=" + sdk);
-        v2.executeGoal("package");
+        v2.executeGoals(Arrays.asList("package", "android:deploy", "android:run"));
         v2.verifyTextInLog("android-maven-plugin");
 
         File apk = new File(new File(and, "target"), getClass().getSimpleName() + "-d-l-test-android-1.0-SNAPSHOT.apk");
