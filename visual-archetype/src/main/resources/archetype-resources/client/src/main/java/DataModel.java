@@ -4,6 +4,7 @@ import com.dukescript.api.canvas.GraphicsContext2D;
 import com.dukescript.api.events.EventHandler;
 import com.dukescript.api.events.EventSource;
 import com.dukescript.api.events.MouseEvent;
+import com.dukescript.api.events.TouchEvent;
 import ${package}.js.Elements;
 import net.java.html.charts.Chart;
 import net.java.html.charts.Color;
@@ -32,6 +33,7 @@ import net.java.html.leaflet.event.MouseEvent.Type;
 })
 final class DataModel {
     EventSource<GraphicsContext2D> es;
+    EventSource<GraphicsContext2D> esTouch;
     private Chart<Values, Config> lineChart;
     private Chart<Segment, Config> pieChart;
     private Map map;
@@ -70,6 +72,15 @@ final class DataModel {
                 GraphicsContext2D g2d = (GraphicsContext2D) event.getSource();
                 g2d.setFillStyle(g2d.getWebColor("orange"));
                 g2d.fillCircle((float) event.getX(), (float) event.getY(), 10);
+            }
+        });
+        esTouch = EventSource.create(ctx, "canvas", true);
+        esTouch.addEventHandler(TouchEvent.ANY, new EventHandler<TouchEvent>() {
+            @Override
+            public void handle(TouchEvent event) {
+                GraphicsContext2D g2d = (GraphicsContext2D) event.getSource();
+                g2d.setFillStyle(g2d.getWebColor("orange"));
+                g2d.fillCircle((float) event.getPrimaryTouch().getX(), (float) event.getPrimaryTouch().getY(), 10);
             }
         });
     }
