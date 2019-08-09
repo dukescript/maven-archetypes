@@ -424,7 +424,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         assertTrue(new File(and, "pom.xml").isFile(), "Pom file is in there");
 
         String sdk = System.getProperty("android.sdk.path");
-        if (sdk == null) {
+        if (sdk == null || !new File(sdk).isDirectory()) {
             throw new SkipException("No android.sdk.path set, skipping the test");
         }
 
