@@ -15,7 +15,7 @@ node ('Mac') {
         if (pom.contains('-SNAPSHOT</version>')) {
             mvnargs = ""
         } else {
-            mvnargs = "-DskipTests=true"
+            mvnargs = "-DskipTests=true -Prelease"
         }
 
         withMaven(
@@ -33,7 +33,7 @@ node ('Mac') {
                         sh "${env.GPG_PASSPHRASE} --preset --passphrase ${GPG_PASSWD} ${GPG_ID}"
                     }
                 }
-                sh "mvn ${mvnargs} clean deploy -Prelease -Dgpg.useagent=true"
+                sh "mvn ${mvnargs} clean deploy -Dgpg.useagent=true"
             }
         }
     }
