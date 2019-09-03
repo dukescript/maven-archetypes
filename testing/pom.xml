@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.dukescript.archetype</groupId>
         <artifactId>pom</artifactId>
-        <version>0.29</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>testing</artifactId>
     <name>Shared Testing Infrastructure</name>
