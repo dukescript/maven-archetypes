@@ -103,6 +103,7 @@
                     <header>COPYING</header>
                     <strictCheck>true</strictCheck>
                     <excludes>
+                        <exclude>*/nb-configuration.xml</exclude>
                         <exclude>*-archetype/src/main/resources/archetype-resources/**</exclude>
                         <exclude>*</exclude>
                         <exclude>.*/**</exclude>
