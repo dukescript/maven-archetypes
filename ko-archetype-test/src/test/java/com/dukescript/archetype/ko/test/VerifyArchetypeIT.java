@@ -903,12 +903,7 @@ public class VerifyArchetypeIT extends VerifyBase {
             );
             w.close();
 
-            final List<String>  finalGoals;
-            if (isJDK11Plus()) {
-                finalGoals = Arrays.asList("package", "nbm:cluster");
-            } else {
-                finalGoals = Arrays.asList("package", "nbm:cluster", "nbm:run-platform");
-            }
+            final List<String>  finalGoals = Arrays.asList("package", "nbm:cluster", "nbm:run-platform");
 
             Verifier v = createVerifier(nb.getAbsolutePath());
             v.getCliOptions().add("-Denforcer.fail=true");
