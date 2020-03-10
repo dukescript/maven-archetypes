@@ -36,7 +36,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <net.java.html.version>1.7</net.java.html.version>
         <openjfx.version>11</openjfx.version>
-        <presenters.version>1.7</presenters.version>
+        <presenters.version>1.7.1</presenters.version>
         <android.plugin.version>4.6.0</android.plugin.version>
         <retrolamda.version>2.5.5</retrolamda.version>
         <robovm.version>2.3.5</robovm.version>
