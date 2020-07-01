@@ -13,7 +13,7 @@ before_script:
   - sleep 3
 script:
   - mvn install -DskipTests
-  - mvn -f $TEST_SUITE-archetype-test verify
+  - mvn -f $TEST_SUITE-archetype-test -DskipMoe=true verify
 matrix:
   include:
     - os: linux

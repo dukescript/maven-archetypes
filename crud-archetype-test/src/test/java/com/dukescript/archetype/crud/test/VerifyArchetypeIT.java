@@ -224,6 +224,9 @@ public class VerifyArchetypeIT extends VerifyBase {
 
     @Test
     public void moeProjectCompiles() throws Exception {
+        if (Boolean.getBoolean("skipMoe")) {
+            throw new SkipException("Not executing moe test");
+        }
         final File dir = new File("target/tests/moecompile/").getAbsoluteFile();
         File created = generateFromArchetype("o-b-test", dir, "-Dmoepath=client-moe");
 
