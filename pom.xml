@@ -44,7 +44,7 @@
         <moe.maven.version>1.4.1</moe.maven.version>
         <gradle.version>4.10.2</gradle.version>
         <bck2brwsr.version>0.32</bck2brwsr.version>
-        <netbeans.version>RELEASE112</netbeans.version>
+        <netbeans.version>RELEASE120-1</netbeans.version>
         <teavm.version>0.4.0</teavm.version>
         <jersey.version>2.13</jersey.version>
         <junit.browser.version>1.0</junit.browser.version>
