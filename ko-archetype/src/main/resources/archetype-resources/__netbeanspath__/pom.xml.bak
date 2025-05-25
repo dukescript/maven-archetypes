@@ -51,7 +51,7 @@
                 </executions>
                 <configuration>
                     <source>8</source>
-                    <target>8</target>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -165,11 +165,6 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-util-ui</artifactId>
-            <version>\${netbeans.version}</version>
-        </dependency>
-        <dependency>
             <groupId>\${groupId}</groupId>
             <artifactId>\${artifactId}</artifactId>
             <version>\${project.version}</version>
@@ -219,6 +214,21 @@
             <artifactId>platform</artifactId>
             <version>\${netbeans.version}</version>
             <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util</artifactId>
+            <version>\${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util-ui</artifactId>
+            <version>\${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>\${project.groupId}</groupId>
+            <artifactId>\${artifactId}-js</artifactId>
+            <version>\${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.netbeans.modules</groupId>

@@ -285,9 +285,6 @@ public abstract class VerifyBase {
                 foundError = line;
                 continue;
             }
-            if (line.contains("System artifact: moe.sdk:moe.sdk.java8support:jar:1.0:system has no file attached")) {
-                foundError = null;
-            }
             if (foundError != null) {
                 fail("Found error in the log: " + foundError);
             }

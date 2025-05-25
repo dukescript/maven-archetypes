@@ -43,7 +43,7 @@
                 <version>2.3.2</version>
                 <configuration>
                     <source>8</source>
-                    <target>8</target>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -72,7 +72,7 @@
                     <includes>*/**</includes>
                     <includeGroupIds>\${project.groupId}</includeGroupIds>
                 </configuration>
-            </plugin>            
+            </plugin>
             <plugin>
                 <groupId>com.filmon.maven</groupId>
                 <artifactId>image-maven-plugin</artifactId>

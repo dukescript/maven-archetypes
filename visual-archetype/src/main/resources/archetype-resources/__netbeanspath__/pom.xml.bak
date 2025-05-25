@@ -50,8 +50,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -132,6 +132,7 @@
                     <cluster>\${artifactId}</cluster>
                     <verifyIntegrity>false</verifyIntegrity>
                     <nbmBuildDir>\${project.build.directory}</nbmBuildDir>
+                    <additionalArguments>-J-Xmx512M -J-Dprism.order=sw</additionalArguments>
                 </configuration>
             </plugin>
             <plugin>

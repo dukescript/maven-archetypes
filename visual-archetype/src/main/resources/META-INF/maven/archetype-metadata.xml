@@ -29,9 +29,6 @@
     <requiredProperty key="iospath">
         <defaultValue>target/client-ios</defaultValue>
     </requiredProperty>
-    <requiredProperty key="moepath">
-        <defaultValue>target/client-moe</defaultValue>
-    </requiredProperty>
     <requiredProperty key="androidpath">
         <defaultValue>target/client-android</defaultValue>
     </requiredProperty>
@@ -196,43 +193,6 @@
       <includes>
         <include>**/*.java</include>
       </includes>
-    </fileSet>
-    <fileSet filtered="true">
-        <directory>__moepath__</directory>
-        <includes>
-            <include>nbactions*.xml</include>
-            <include>pom.xml</include>
-            <include>build.gradle</include>
-            <include>proguard.append.cfg</include>
-        </includes>
-    </fileSet>
-    <fileSet filtered="true">
-        <directory>__moepath__</directory>
-        <includes>
-            <include>xcode/**/*.plist</include>
-            <include>xcode/**/*.pbxproj</include>
-        </includes>
-        <excludes>
-            <exclude>xcode/**/*.txt</exclude>
-        </excludes>
-    </fileSet>
-    <fileSet filtered="false">
-        <directory>__moepath__</directory>
-        <includes>
-            <include>xcode/**/*</include>
-            <include>gradle/**/*</include>
-        </includes>
-        <excludes>
-            <exclude>xcode/**/*.plist</exclude>
-            <exclude>xcode/**/*.pbxproj</exclude>
-            <exclude>xcode/**/*.txt</exclude>
-        </excludes>
-    </fileSet>
-    <fileSet filtered="true" packaged="true">
-        <directory>__moepath__/src/main/java</directory>
-        <includes>
-            <include>**/*.java</include>
-        </includes>
-    </fileSet>    
+    </fileSet>s 
   </fileSets>    
 </archetype-descriptor>
