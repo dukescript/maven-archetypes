@@ -35,7 +35,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <net.java.html.version>1.8.1</net.java.html.version>
-        <openjfx.version>11</openjfx.version>
+        <openjfx.version>21.0.2</openjfx.version>
         <presenters.version>1.7.1</presenters.version>
         <android.plugin.version>4.6.0</android.plugin.version>
         <retrolamda.version>2.5.5</retrolamda.version>
