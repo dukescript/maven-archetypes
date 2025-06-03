@@ -41,7 +41,7 @@
         <retrolamda.version>2.5.5</retrolamda.version>
         <robovm.version>2.3.5</robovm.version>
         <gradle.version>4.10.2</gradle.version>
-        <bck2brwsr.version>0.54</bck2brwsr.version>
+        <bck2brwsr.version>0.81</bck2brwsr.version>
         <netbeans.version>RELEASE120-1</netbeans.version>
         <teavm.version>0.4.0</teavm.version>
         <jersey.version>2.13</jersey.version>
