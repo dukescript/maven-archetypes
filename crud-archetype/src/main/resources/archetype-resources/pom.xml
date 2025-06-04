@@ -1,40 +1,40 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-  <groupId>\${groupId}</groupId>
-  <artifactId>\${artifactId}-pom</artifactId>
-  <version>\${version}</version>
-  <packaging>pom</packaging>
+    <groupId>\${groupId}</groupId>
+    <artifactId>\${artifactId}-pom</artifactId>
+    <version>\${version}</version>
+    <packaging>pom</packaging>
 
-  <name>\${artifactId}</name>
+    <name>\${artifactId}</name>
 
     <modules>
         <module>shared</module>
         <module>client</module>
-#if ($webpath.indexOf("target/") != 0)
+        #if ($webpath.indexOf("target/") != 0)
         <module>$webpath</module>
-#end
-#if ($netbeanspath.indexOf("target/") != 0)
+        #end
+        #if ($netbeanspath.indexOf("target/") != 0)
         <module>$netbeanspath</module>
-#end
-#if ($androidpath.indexOf("target/") != 0)
+        #end
+        #if ($androidpath.indexOf("target/") != 0)
         <module>$androidpath</module>
-#end
-#if ($iospath.indexOf("target/") != 0)
+        #end
+        #if ($iospath.indexOf("target/") != 0)
         <module>$iospath</module>
-#end
+        #end
         <module>server</module>
         <module>js</module>
     </modules>
     <properties>
         <net.java.html.version>${net.java.html.version}</net.java.html.version>
         <openjfx.version>${openjfx.version}</openjfx.version>
-#if ($webpath.indexOf("target/") != 0)
+        #if ($webpath.indexOf("target/") != 0)
         <bck2brwsr.version>${bck2brwsr.version}</bck2brwsr.version>
         <bck2brwsr.obfuscationlevel>MINIMAL</bck2brwsr.obfuscationlevel>
-#end    
+        #end    
         <junit.browser.version>${junit.browser.version}</junit.browser.version>
         <jersey.version>${jersey.version}</jersey.version>
         <presenters.version>${presenters.version}</presenters.version>

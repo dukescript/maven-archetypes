@@ -22,9 +22,9 @@
         <browser.bootstrap>initialize bck2brwsr --&gt;
 &lt;script type="text/javascript" src="bck2brwsr.js"&gt;&lt;/script&gt;
 &lt;script&gt;
-    var vm = bck2brwsr('\${artifactId}.js');
-    var c = vm.loadClass('\${package}.BrowserMain');
-    c.invoke('main');
+            var vm = bck2brwsr('\${artifactId}.js');
+            var c = vm.loadClass('\${package}.BrowserMain');
+            c.invoke('main');
 &lt;/script&gt;
 &lt;!-- end of initialization </browser.bootstrap>
     </properties>
@@ -271,7 +271,7 @@
                 <browser.bootstrap>initialize TeaVM --&gt;
 &lt;script type="text/javascript" src="teavm.js"&gt;&lt;/script&gt;
 &lt;script&gt;
-    main();
+                    main();
 &lt;/script&gt;
 &lt;!-- end of initialization </browser.bootstrap>
             </properties>

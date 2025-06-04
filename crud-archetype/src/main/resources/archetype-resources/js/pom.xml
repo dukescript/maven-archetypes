@@ -99,7 +99,6 @@
         <artifactId>junit-browser-runner</artifactId>
         <scope>test</scope>
     </dependency>
-
     <!-- Nashorn presenter for BrowserRunner -->
     <dependency>
       <groupId>org.netbeans.html</groupId>
