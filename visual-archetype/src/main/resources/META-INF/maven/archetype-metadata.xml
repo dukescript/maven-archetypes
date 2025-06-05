@@ -193,6 +193,6 @@
       <includes>
         <include>**/*.java</include>
       </includes>
-    </fileSet>s 
+    </fileSet>
   </fileSets>    
 </archetype-descriptor>

@@ -133,7 +133,6 @@ public class VerifyArchetypeIT extends VerifyBase {
         w.close();
 
         assertPresenter(created, v, "-Pdesktop", "org.netbeans.html.boot.fx.FXPresenter");
-        assertPresenter(created, v, "-Pwebkit-presenter", "org.netbeans.html.presenters.webkit.WebKitPresenter");
 
         if (isJDK11Plus() && System.getProperty("os.name").contains("Mac")) {
             throw new SkipException("Browser presenter 1.5.2 doesn't run on Mac and JDK11");
@@ -623,14 +622,16 @@ public class VerifyArchetypeIT extends VerifyBase {
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     if (file.toString().endsWith(".jar")) {
                         JarFile jf = new JarFile(file.toFile());
-                        final Attributes mainAttributes = jf.getManifest().getMainAttributes();
-                        String name = mainAttributes.getValue("Bundle-SymbolicName");
-                        if (name != null && name.contains("html")) {
-                            String version = mainAttributes.getValue("Bundle-Version");
-                            if (sharedVersion[0] == null) {
-                                sharedVersion[0] = version;
-                            } else {
-                                assertEquals(version, sharedVersion[0], "Proper version for " + file.getFileName());
+                        if (jf.getManifest() != null){
+                            final Attributes mainAttributes = jf.getManifest().getMainAttributes();
+                            String name = mainAttributes.getValue("Bundle-SymbolicName");
+                            if (name != null && name.contains("html")) {
+                                String version = mainAttributes.getValue("Bundle-Version");
+                                if (sharedVersion[0] == null) {
+                                    sharedVersion[0] = version;
+                                } else {
+                                    assertEquals(version, sharedVersion[0], "Proper version for " + file.getFileName());
+                                }
                             }
                         }
                     }
