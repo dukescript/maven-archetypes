@@ -134,7 +134,6 @@ public class VerifyArchetypeIT extends VerifyBase {
         w.close();
 
         assertPresenter(created, v, "-Pdesktop", "org.netbeans.html.boot.fx.FXPresenter");
-        assertPresenter(created, v, "-Pwebkit-presenter", "org.netbeans.html.presenters.webkit.WebKitPresenter");
 
         if (isJDK11Plus() && System.getProperty("os.name").contains("Mac")) {
             throw new SkipException("Browser presenter 1.5.2 doesn't run on Mac and JDK11");

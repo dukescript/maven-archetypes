@@ -294,17 +294,6 @@
           </build>
       </profile>
       <profile>
-          <id>webkit-presenter</id>
-          <dependencies>
-              <dependency>
-                  <groupId>com.dukescript.presenters</groupId>
-                  <artifactId>webkit</artifactId>
-                  <version>\${netbeans.presenters.version}</version>
-                  <scope>runtime</scope>
-              </dependency>
-          </dependencies>
-      </profile>
-      <profile>
           <id>browser-presenter</id>
           <dependencies>
               <dependency>

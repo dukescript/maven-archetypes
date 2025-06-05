@@ -39,7 +39,6 @@
         <leaflet4j.version>0.7.7</leaflet4j.version>
         <jersey.version>${jersey.version}</jersey.version>
         <presenters.version>${presenters.version}</presenters.version>
-        <netbeans.presenters.version>${netbeans.presenters.version}</netbeans.presenters.version>
         <enforcer.fail>false</enforcer.fail>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
