@@ -287,7 +287,7 @@
                 <dependency>
                     <groupId>com.dukescript.presenters</groupId>
                     <artifactId>webkit</artifactId>
-                    <version>\${presenters.version}</version>
+                    <version>\${netbeans.presenters.version}</version>
                     <scope>runtime</scope>
                 </dependency>
             </dependencies>

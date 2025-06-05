@@ -18,8 +18,8 @@
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package com.dukescript.archetype.ko.test;
 
@@ -64,8 +64,8 @@ public class VerifyArchetypeIT extends VerifyBase {
         super("knockout4j-archetype");
     }
 
-    @Test
-    public void defaultProjectCompiles() throws Exception {
+
+    @Test public void defaultProjectCompiles() throws Exception {
         final File dir = new File("target/tests/fxcompile/").getAbsoluteFile();
         File created = generateFromArchetype("o-a-test", dir);
 
@@ -109,7 +109,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         jf.close();
 
         File dataModel = new File(new File(new File(new File(new File(new File(new File(new File(new File(
-                created, "client"), "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "DataModel.java"
+            created, "client"), "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "DataModel.java"
         );
         assertTrue(dataModel.isFile(), "Java file exists: " + dataModel);
         String mainSrc = Files.readFile(dataModel);
@@ -120,13 +120,13 @@ public class VerifyArchetypeIT extends VerifyBase {
 
         StringBuilder mainSb = new StringBuilder(mainSrc);
         mainSb.insert(bootMethodEnd, "\n"
-                + "ClassLoader loader = Main.class.getClassLoader();\n"
-                + "if (loader == ClassLoader.getSystemClassLoader()) {\n"
-                + "  System.out.println(\"Presenter: \" + org.netbeans.html.boot.spi.Fn.activePresenter().getClass().getName());\n"
-                + "  System.exit(0);\n"
-                + "} else {\n"
-                + "  throw new IllegalStateException(\"wrong classloader:\" + loader);\n"
-                + "}\n"
+          +  "ClassLoader loader = Main.class.getClassLoader();\n"
+          +  "if (loader == ClassLoader.getSystemClassLoader()) {\n"
+          + "  System.out.println(\"Presenter: \" + org.netbeans.html.boot.spi.Fn.activePresenter().getClass().getName());\n"
+          + "  System.exit(0);\n"
+          + "} else {\n"
+          + "  throw new IllegalStateException(\"wrong classloader:\" + loader);\n"
+          + "}\n"
         );
 
         FileWriter w = new FileWriter(dataModel);
@@ -163,8 +163,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         v.verifyTextInLog(t.replace('/', File.separatorChar));
     }
 
-    @Test
-    public void iosProjectCompiles() throws Exception {
+    @Test public void iosProjectCompiles() throws Exception {
         final File dir = new File("target/tests/icompile/").getAbsoluteFile();
         File created = generateFromArchetype("o-b-test", dir, "-Diospath=client-ios");
 
@@ -172,7 +171,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         assertTrue(new File(created, "pom.xml").isFile(), "Pom file is in there");
 
         File dataModel = new File(new File(new File(new File(new File(new File(new File(new File(new File(
-                created, "client"), "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "DataModel.java"
+            created, "client"), "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "DataModel.java"
         );
         assertTrue(dataModel.isFile(), "Java file exists: " + dataModel);
         String mainSrc = Files.readFile(dataModel);
@@ -231,8 +230,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         v2.assertFilePresent("target/images/Default-568h@2x-Landscape.png");
     }
 
-    @Test
-    public void iosVerifyRoboVMPlugin() throws Exception {
+    @Test public void iosVerifyRoboVMPlugin() throws Exception {
         final File dir = new File("target/tests/icompilecheck/").getAbsoluteFile();
         File created = generateFromArchetype("x-v-test", dir, "-Diospath=ios-client");
 
@@ -300,8 +298,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         }
     }
 
-    @Test
-    public void skipiosProjectCompiles() throws Exception {
+    @Test public void skipiosProjectCompiles() throws Exception {
         final File dir = new File("target/tests/noicompile/").getAbsoluteFile();
         File generated = generateFromArchetype("m-n-test", dir, "-Diospath=target/skip");
 
@@ -322,8 +319,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         assertFalse(Files.readFile(nbactions).contains("robovm"), "There should be no mention of robovm in " + nbactions);
     }
 
-    @Test
-    public void androidProjectCompiles() throws Exception {
+    @Test public void androidProjectCompiles() throws Exception {
         final File dir = new File("target/tests/androidcmp/").getAbsoluteFile();
         File generated = generateFromArchetype("d-l-test", dir, "-Dandroidpath=android-test");
 
@@ -333,7 +329,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         assertTrue(clientPom.isFile(), "Pom file is in there");
 
         File index = new File(new File(new File(new File(new File(
-                created, "src"), "main"), "webapp"), "pages"), "index.html");
+            created, "src"), "main"), "webapp"), "pages"), "index.html");
         assertTrue(index.exists(), "HTML page found " + index);
         File bin = new File(index.getParentFile(), "index.bin");
         writeBinary(bin);
@@ -349,23 +345,23 @@ public class VerifyArchetypeIT extends VerifyBase {
 
         {
             File main = new File(new File(new File(new File(new File(new File(new File(new File(
-                    created, "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "Main.java"
+                created, "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "Main.java"
             );
             String mainSrc = Files.readFile(main);
             int bootMethod = mainSrc.indexOf("onPageLoad()");
             StringBuilder mainSb = new StringBuilder(mainSrc.substring(0, bootMethod));
-            mainSb.append(""
-                    + "onPageLoad() throws Exception {\n"
-                    + "        java.util.concurrent.Callable<?> run = Main::loonPageLoad;\n"
-                    + "        run.call();\n"
-                    + "    }\n"
-                    + "\n"
-                    + "    private static Object loonPageLoad() throws Exception {\n"
-                    + "        DataModel.onPageLoad(" + (isUsingServices() ? "null" : "") + ");\n"
-                    + "        return null;\n"
-                    + "    }\n"
-                    + "\n"
-                    + "}"
+            mainSb.append("" +
+"onPageLoad() throws Exception {\n" +
+"        java.util.concurrent.Callable<?> run = Main::loonPageLoad;\n" +
+"        run.call();\n" +
+"    }\n" +
+"\n" +
+"    private static Object loonPageLoad() throws Exception {\n" +
+"        DataModel.onPageLoad(" + (isUsingServices()? "null" : "") + ");\n" +
+"        return null;\n" +
+"    }\n" +
+"\n" +
+"}"
             );
 
             FileWriter w = new FileWriter(main);
@@ -426,8 +422,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         jf.close();
     }
 
-    @Test
-    public void withoutAndroidProjectCompiles() throws Exception {
+    @Test public void withoutAndroidProjectCompiles() throws Exception {
         final File dir = new File("target/tests/wandroidcmp/").getAbsoluteFile();
         File gen = generateFromArchetype("w-d-test", dir, "-Dandroidpath=target/skip");
 
@@ -630,8 +625,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         assertNoTextInSubdir("boot.fx", genRoot);
     }
 
-    @Test
-    public void bck2brwsrAndNbrwsrProjectCompiles() throws Exception {
+    @Test public void bck2brwsrAndNbrwsrProjectCompiles() throws Exception {
         final File dir = new File("target/tests/BandN/").getAbsoluteFile();
         File gen = generateFromArchetype("b-n-test", dir, "-Dwebpath=for-web", "-Dnetbeanspath=for-nb");
 
@@ -701,7 +695,7 @@ public class VerifyArchetypeIT extends VerifyBase {
             final File netbeans = new File(new File(forNb, "target"), "netbeans");
             assertTrue(netbeans.isDirectory(), netbeans + " is in there");
 
-            final String[] sharedVersion = {null};
+            final String[] sharedVersion = { null };
             java.nio.file.Files.walkFileTree(netbeans.toPath(), new FileVisitor<Path>() {
                 public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                     return FileVisitResult.CONTINUE;
@@ -710,7 +704,7 @@ public class VerifyArchetypeIT extends VerifyBase {
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     if (file.toString().endsWith(".jar")) {
                         JarFile jf = new JarFile(file.toFile());
-                        if (jf.getManifest() != null) {
+                        if (jf.getManifest() !=null){
                             final Attributes mainAttributes = jf.getManifest().getMainAttributes();
                             String name = mainAttributes.getValue("Bundle-SymbolicName");
                             if (name != null && name.contains("html")) {
@@ -770,6 +764,7 @@ public class VerifyArchetypeIT extends VerifyBase {
             v.verifyErrorFreeLog();
         }
 
+
         {
             Verifier v = createVerifier(nb.getAbsolutePath());
             v.getCliOptions().add("-Denforcer.fail=true");
@@ -797,35 +792,35 @@ public class VerifyArchetypeIT extends VerifyBase {
 
         {
             File closeJava = new File(new File(new File(new File(new File(
-                    new File(new File(new File(nb, "src"), "main"), "java"),
-                    "org"), someuser), "test"), "" + oat + ""), "CloseTestApp.java"
+                new File(new File(new File(nb, "src"), "main"), "java"),
+                "org"), someuser), "test"), "" + oat + ""),"CloseTestApp.java"
             );
             FileWriter w = new FileWriter(closeJava);
             w.write(
-                    "package org." + someuser + ".test." + oat + ";\n"
-                    + "import java.lang.reflect.Method;\n"
-                    + "import org.openide.windows.OnShowing;\n"
-                    + "\n"
-                    + "@OnShowing\n"
-                    + "public final class CloseTestApp implements Runnable {\n"
-                    + "    @Override\n"
-                    + "    public void run() {\n"
-                    + "        try {\n"
-                    + "            Class<?> lm = Class.forName(\"org.openide.LifecycleManager\");\n"
-                    + "            Method gd = lm.getMethod(\"getDefault\");\n"
-                    + "            Method ex = lm.getMethod(\"exit\", int.class);\n"
-                    + "            Object lmInst = gd.invoke(null);\n"
-                    + "            ex.invoke(lmInst, 0);\n"
-                    + "        } catch (Exception ex) {\n"
-                    + "            throw new IllegalStateException(ex);\n"
-                    + "        }\n"
-                    + "    }\n"
-                    + "}\n"
-                    + "\n"
+"package org." + someuser + ".test." + oat + ";\n" +
+"import java.lang.reflect.Method;\n" +
+"import org.openide.windows.OnShowing;\n" +
+"\n" +
+"@OnShowing\n" +
+"public final class CloseTestApp implements Runnable {\n" +
+"    @Override\n" +
+"    public void run() {\n" +
+"        try {\n" +
+"            Class<?> lm = Class.forName(\"org.openide.LifecycleManager\");\n" +
+"            Method gd = lm.getMethod(\"getDefault\");\n" +
+"            Method ex = lm.getMethod(\"exit\", int.class);\n" +
+"            Object lmInst = gd.invoke(null);\n" +
+"            ex.invoke(lmInst, 0);\n" +
+"        } catch (Exception ex) {\n" +
+"            throw new IllegalStateException(ex);\n" +
+"        }\n" +
+"    }\n" +
+"}\n" +
+"\n"
             );
             w.close();
 
-            final List<String> finalGoals = Arrays.asList("package", "nbm:cluster", "nbm:run-platform");
+            final List<String>  finalGoals = Arrays.asList("package", "nbm:cluster", "nbm:run-platform");
 
             Verifier v = createVerifier(nb.getAbsolutePath());
             v.getCliOptions().add("-Denforcer.fail=true");
