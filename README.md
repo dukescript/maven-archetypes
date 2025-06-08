@@ -97,16 +97,14 @@ Read the [DukeScript book](https://leanpub.com/dukescript) to learn the details.
 
 ### iOS
 
-There are now two ways to support development for your **iOS** device. Either
-via Mobidevelop [RoboVM](https://github.com/MobiVM/robovm) or via Intel's 
-[Multi OS Engine](https://multi-os-engine.org/). Depending on which one you
-prefer, you shall specify either `iospath` or `moepath` property. Specifying
+To support development for your **iOS** device we use
+ Mobidevelop [RoboVM](https://github.com/MobiVM/robovm). To use it you need to specify the `iospath` property. Specifying
 ```
--Diospath=client-robovm -Dmoepath=client-moe
+-Diospath=client-robovm 
 ```
-would create two subdirectories `client-robovm` and `client-moe` which would
-contain their actions (consult the `nbactions.xml` file for details) to build,
-deploy, run and debug (in case of **MOE**) your **iOS** application.
+will create a subdirectory `client-robovm` which contains
+ their actions (consult the `nbactions.xml` file for details) to build,
+deploy, run and debug your **iOS** application.
 
 ### Browser (plugin-less one)
 

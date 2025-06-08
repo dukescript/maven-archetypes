@@ -22,9 +22,9 @@
         <browser.bootstrap>initialize bck2brwsr --&gt;
 &lt;script type="text/javascript" src="bck2brwsr.js"&gt;&lt;/script&gt;
 &lt;script&gt;
-    var vm = bck2brwsr('\${artifactId}.js');
-    var c = vm.loadClass('\${package}.BrowserMain');
-    c.invoke('main');
+            var vm = bck2brwsr('\${artifactId}.js');
+            var c = vm.loadClass('\${package}.BrowserMain');
+            c.invoke('main');
 &lt;/script&gt;
 &lt;!-- end of initialization </browser.bootstrap>
     </properties>
@@ -48,8 +48,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>8</source>
+                    <target>8</target>
                     <compilerArguments>
                         <bootclasspath>netbeans.ignore.jdk.bootclasspath</bootclasspath>
                     </compilerArguments>
@@ -271,7 +271,7 @@
                 <browser.bootstrap>initialize TeaVM --&gt;
 &lt;script type="text/javascript" src="teavm.js"&gt;&lt;/script&gt;
 &lt;script&gt;
-    main();
+                    main();
 &lt;/script&gt;
 &lt;!-- end of initialization </browser.bootstrap>
             </properties>

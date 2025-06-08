@@ -34,22 +34,21 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <net.java.html.version>1.7</net.java.html.version>
-        <openjfx.version>11</openjfx.version>
+        <net.java.html.version>1.8.1</net.java.html.version>
+        <openjfx.version>21.0.2</openjfx.version>
         <presenters.version>1.7.1</presenters.version>
         <android.plugin.version>4.6.0</android.plugin.version>
         <retrolamda.version>2.5.5</retrolamda.version>
         <robovm.version>2.3.5</robovm.version>
-        <moe.version>1.4</moe.version>
-        <moe.maven.version>1.4.1</moe.maven.version>
         <gradle.version>4.10.2</gradle.version>
-        <bck2brwsr.version>0.32</bck2brwsr.version>
-        <netbeans.version>RELEASE120-1</netbeans.version>
+        <bck2brwsr.version>0.81</bck2brwsr.version>
+        <netbeans.version>RELEASE260</netbeans.version>
         <teavm.version>0.4.0</teavm.version>
         <jersey.version>2.13</jersey.version>
         <junit.browser.version>1.0</junit.browser.version>
         <license>COPYING</license>
         <netbeans.compile.on.save>none</netbeans.compile.on.save>
+        <nashorn.version>15.4</nashorn.version>
     </properties>
     <modules>
         <module>crud-archetype</module>
@@ -127,8 +126,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
         </plugins>

@@ -125,16 +125,6 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>\${groupId}</groupId>
-            <artifactId>\${artifactId}-js</artifactId>
-            <version>\${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>\${groupId}</groupId>
-            <artifactId>\${artifactId}-shared</artifactId>
-            <version>\${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.netbeans.html</groupId>
             <artifactId>net.java.html</artifactId>
             <version>\${net.java.html.version}</version>
@@ -161,16 +151,23 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <groupId>\${groupId}</groupId>
+            <artifactId>\${artifactId}-js</artifactId>
+            <version>\${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.netbeans.html</groupId>
             <artifactId>net.java.html.boot.fx</artifactId>
             <version>\${net.java.html.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>\${groupId}</groupId>
-            <artifactId>\${artifactId}-js</artifactId>
-            <version>\${project.version}</version>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>\${openjfx.version}</version>
+            <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>com.dukescript.api</groupId>
             <artifactId>junit-osgi</artifactId>
@@ -181,33 +178,26 @@
             <artifactId>junit-browser-runner</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-web</artifactId>
-            <version>\${openjfx.version}</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Nashorn presenter for BrowserRunner
         <dependency>
-           <groupId>org.netbeans.html</groupId>
-           <artifactId>net.java.html.boot.script</artifactId>
-           <version>\${net.java.html.version}</version>
-           <scope>test</scope>
-           <type>jar</type>
-         </dependency>
+          <groupId>org.netbeans.html</groupId>
+          <artifactId>net.java.html.boot.script</artifactId>
+          <version>\${net.java.html.version}</version>
+          <scope>test</scope>
+          <type>jar</type>
+        </dependency>
         -->
         #if ($webpath.indexOf("target/") != 0)
 
         <!-- Bck2Brwsr VM presenter for BrowserRunner - - >
-         <dependency>
+        <dependency>
           <groupId>org.apidesign.bck2brwsr</groupId>
           <artifactId>launcher.http</artifactId>
           <version>\${bck2brwsr.version}</version>
           <scope>test</scope>
           <type>jar</type>
-         </dependency>
-         <dependency>
+        </dependency>
+        <dependency>
           <groupId>org.apidesign.bck2brwsr</groupId>
           <artifactId>ko-bck2brwsr</artifactId>
           <version>\${bck2brwsr.version}</version>
@@ -222,7 +212,7 @@
             <scope>test</scope>
             <classifier>bck2brwsr</classifier>
             <type>jar</type>
-         </dependency>
+        </dependency>
         < ! - - End of Bck2Brwsr VM presenter for BrowserRunner -->
         #end
     </dependencies>
@@ -285,9 +275,9 @@
             <id>browser-presenter</id>
             <dependencies>
                 <dependency>
-                    <groupId>org.netbeans.html</groupId>
+                    <groupId>com.dukescript.presenters</groupId>
                     <artifactId>browser</artifactId>
-                    <version>\${net.java.html.version}</version>
+                    <version>\${presenters.version}</version>
                     <scope>runtime</scope>
                 </dependency>
             </dependencies>

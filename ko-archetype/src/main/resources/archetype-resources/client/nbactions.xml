@@ -46,15 +46,4 @@
                 <activatedProfile>browser-presenter</activatedProfile>
             </activatedProfiles>
         </action>
-        <action>
-            <actionName>CUSTOM-WebKit-Presenter</actionName>
-            <displayName>Run with WebKit Presenter</displayName>
-            <goals>
-                <goal>process-classes</goal>
-                <goal>exec:exec</goal>
-            </goals>
-            <activatedProfiles>
-                <activatedProfile>webkit-presenter</activatedProfile>
-            </activatedProfiles>
-        </action>
 </actions>

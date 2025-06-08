@@ -50,8 +50,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -237,6 +237,11 @@
             <artifactId>org-netbeans-libs-javafx-linux</artifactId>
             <version>\${netbeans.version}</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-windows</artifactId>
+            <version>\${netbeans.version}</version>
         </dependency>
     </dependencies>
 </project>
