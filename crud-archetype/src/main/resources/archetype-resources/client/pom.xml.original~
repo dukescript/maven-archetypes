@@ -285,9 +285,9 @@
             <id>browser-presenter</id>
             <dependencies>
                 <dependency>
-                    <groupId>org.netbeans.html</groupId>
+                    <groupId>com.dukescript.presenters</groupId>
                     <artifactId>browser</artifactId>
-                    <version>\${net.java.html.version}</version>
+                    <version>\${presenters.version}</version>
                     <scope>runtime</scope>
                 </dependency>
             </dependencies>
