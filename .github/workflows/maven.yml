@@ -14,6 +14,7 @@ jobs:
         java: [ '21' ]
         os: ['ubuntu-22.04', 'windows-2022']
         archetype: ['ko', 'crud', 'visual']
+      fail-fast: false
 
     steps:
     - uses: actions/checkout@v2
