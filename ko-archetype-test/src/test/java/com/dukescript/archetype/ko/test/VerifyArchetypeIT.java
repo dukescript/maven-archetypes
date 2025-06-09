@@ -123,6 +123,7 @@ public class VerifyArchetypeIT extends VerifyBase {
           +  "ClassLoader loader = Main.class.getClassLoader();\n"
           +  "if (loader == ClassLoader.getSystemClassLoader()) {\n"
           + "  System.out.println(\"Presenter: \" + org.netbeans.html.boot.spi.Fn.activePresenter().getClass().getName());\n"
+          + "  try { Thread.sleep(5000); } catch (InterruptedException ex) {}\n"
           + "  System.exit(0);\n"
           + "} else {\n"
           + "  throw new IllegalStateException(\"wrong classloader:\" + loader);\n"
@@ -135,9 +136,6 @@ public class VerifyArchetypeIT extends VerifyBase {
 
         assertPresenter(created, v, "-Pdesktop", "org.netbeans.html.boot.fx.FXPresenter");
 
-        if (isJDK11Plus() && System.getProperty("os.name").contains("Mac")) {
-            throw new SkipException("Browser presenter 1.5.2 doesn't run on Mac and JDK11");
-        }
         assertPresenter(created, v, "-Pbrowser-presenter", "org.netbeans.html.presenters.spi.ProtoPresenterBuilder$GenPresenterWithExecutor");
     }
 
