@@ -25,7 +25,7 @@ There is a simple command to create a basic application:
 mvn archetype:generate \
 	-DarchetypeGroupId=com.dukescript.archetype \
 	-DarchetypeArtifactId=knockout4j-archetype \
-	-DarchetypeVersion=0.33 \
+	-DarchetypeVersion=0.41 \
 	-Dexample=true
 ```
 
@@ -37,7 +37,7 @@ code on both ends:
 mvn archetype:generate \
 	-DarchetypeGroupId=com.dukescript.archetype \
 	-DarchetypeArtifactId=crud4j-archetype \
-	-DarchetypeVersion=0.33
+	-DarchetypeVersion=0.41
 ```
 
 Yet another archetype provides skeleton showing how to embed various **UI** 
@@ -51,7 +51,7 @@ to your application:
 mvn archetype:generate \
 	-DarchetypeGroupId=com.dukescript.archetype \
 	-DarchetypeArtifactId=visual-archetype \
-	-DarchetypeVersion=0.33
+	-DarchetypeVersion=0.41
 ```
 
 ## Working with the Project
