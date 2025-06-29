@@ -21,8 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.dukescript.archetype.visual;
 
 /**
- * Knockout.js DukeScript archetype.
+ * Visual DukeScript archetype.
  */
-package com.dukescript.archetype.ko;
+public final class Archetype {
+    private Archetype() {
+    }
+}
