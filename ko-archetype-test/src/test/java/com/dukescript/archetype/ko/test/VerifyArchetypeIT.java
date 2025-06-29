@@ -35,6 +35,7 @@ import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.jar.Attributes;
@@ -147,13 +148,19 @@ public class VerifyArchetypeIT extends VerifyBase {
         }
         v3.executeGoals(Arrays.asList("process-classes", "exec:exec"));
 
+        List<String> lines = new ArrayList<>();
         for (String l : v3.loadFile(v3.getBasedir(), v3.getLogFileName(), false)) {
             if (l.startsWith("Presenter: ")) {
                 assertTrue(l.contains(presenter), "Right presenters is used in " + l);
                 return;
             }
+            if (lines.size() > 50) {
+                lines.removeFirst();
+            }
+            lines.add(l);
         }
-        fail("No line found in " + v3.getBasedir() + "/" + v3.getLogFileName());
+        String dump = " dump:\n" + String.join("\n", lines);
+        fail("No line found in " + v3.getBasedir() + "/" + v3.getLogFileName() + dump);
     }
 
     private void verifyFileInLog(Verifier v, final String t) throws VerificationException {
