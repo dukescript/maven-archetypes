@@ -100,14 +100,14 @@ public class VerifyArchetypeIT extends VerifyBase {
 
         final File webpages = new File(new File(new File(created, "client"), "target"), getClass().getSimpleName() + "-o-a-test-1.0-SNAPSHOT-webpages.zip");
         assertTrue(webpages.exists(), "Web pages file created: " + webpages);
-        JarFile jf = new JarFile(webpages);
-        ZipEntry indexHTML = jf.getEntry("index.html");
-        assertNotNull(indexHTML, "index.html in ZIP found");
-        InputStream is = jf.getInputStream(indexHTML);
-        assertHTMLContent(is);
-        assertPlatformServicesEmpty(dir);
-        is.close();
-        jf.close();
+        try (JarFile jf = new JarFile(webpages)) {
+            ZipEntry indexHTML = jf.getEntry("index.html");
+            assertNotNull(indexHTML, "index.html in ZIP found");
+            try (InputStream is = jf.getInputStream(indexHTML)) {
+                assertHTMLContent(is);
+                assertPlatformServicesEmpty(dir);
+            }
+        }
 
         File dataModel = new File(new File(new File(new File(new File(new File(new File(new File(new File(
             created, "client"), "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "DataModel.java"
@@ -417,15 +417,15 @@ public class VerifyArchetypeIT extends VerifyBase {
         File apk = new File(new File(and, "target"), getClass().getSimpleName() + "-d-l-test-android-1.0-SNAPSHOT.apk");
         assertTrue(apk.isFile(), "apk has been generated: " + apk);
 
-        JarFile jf = new JarFile(apk);
-        final ZipEntry indexHTML = jf.getEntry("assets/pages/index.html");
-        assertNotNull(indexHTML, "index.html is included in " + apk);
-        assertHTMLContent(jf.getInputStream(indexHTML));
-        assertPlatformServicesEmpty(generated);
-        ZipEntry indexBin = jf.getEntry("assets/pages/index.bin");
-        assertNotNull(indexBin, "binary file found in " + apk);
-        assertBinary(jf.getInputStream(indexBin));
-        jf.close();
+        try (JarFile jf = new JarFile(apk)) {
+            final ZipEntry indexHTML = jf.getEntry("assets/pages/index.html");
+            assertNotNull(indexHTML, "index.html is included in " + apk);
+            assertHTMLContent(jf.getInputStream(indexHTML));
+            assertPlatformServicesEmpty(generated);
+            ZipEntry indexBin = jf.getEntry("assets/pages/index.bin");
+            assertNotNull(indexBin, "binary file found in " + apk);
+            assertBinary(jf.getInputStream(indexBin));
+        }
     }
 
     @Test public void withoutAndroidProjectCompiles() throws Exception {
@@ -709,16 +709,17 @@ public class VerifyArchetypeIT extends VerifyBase {
 
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     if (file.toString().endsWith(".jar")) {
-                        JarFile jf = new JarFile(file.toFile());
-                        if (jf.getManifest() !=null){
-                            final Attributes mainAttributes = jf.getManifest().getMainAttributes();
-                            String name = mainAttributes.getValue("Bundle-SymbolicName");
-                            if (name != null && name.contains("html")) {
-                                String version = mainAttributes.getValue("Bundle-Version");
-                                if (sharedVersion[0] == null) {
-                                    sharedVersion[0] = version;
-                                } else {
-                                    assertEquals(version, sharedVersion[0], "Proper version for " + file.getFileName());
+                        try (JarFile jf = new JarFile(file.toFile())) {
+                            if (jf.getManifest() !=null){
+                                final Attributes mainAttributes = jf.getManifest().getMainAttributes();
+                                String name = mainAttributes.getValue("Bundle-SymbolicName");
+                                if (name != null && name.contains("html")) {
+                                    String version = mainAttributes.getValue("Bundle-Version");
+                                    if (sharedVersion[0] == null) {
+                                        sharedVersion[0] = version;
+                                    } else {
+                                        assertEquals(version, sharedVersion[0], "Proper version for " + file.getFileName());
+                                    }
                                 }
                             }
                         }
@@ -785,9 +786,10 @@ public class VerifyArchetypeIT extends VerifyBase {
 
         File jar = new File(new File(nb, "target"), getClass().getSimpleName() + "-n-p-test-nb-1.0-SNAPSHOT.jar");
         assertTrue(jar.exists(), "File is created: " + jar);
-        JarFile jf = new JarFile(jar);
-        String cp = jf.getManifest().getMainAttributes().getValue("Class-Path");
-        assertNull(cp, "Classpath found: " + cp);
+        try (JarFile jf = new JarFile(jar)) {
+            String cp = jf.getManifest().getMainAttributes().getValue("Class-Path");
+            assertNull(cp, "Classpath found: " + cp);
+        }
 
         File nbactions = new File(nb, "nbactions.xml");
         assertTrue(nbactions.isFile(), "Actions file is in there");
