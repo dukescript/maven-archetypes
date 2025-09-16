@@ -456,7 +456,12 @@ public class VerifyArchetypeIT extends VerifyBase {
     @Test
     public void webProjectCompiles() throws Exception {
         final File dir = new File("target/tests/b2bcmp/").getAbsoluteFile();
-        File gen = generateFromArchetype("b-p-test", dir, "-Dwebpath=test-web");
+        final File gen = generateFromArchetype("b-p-test", dir, "-Dwebpath=test-web");
+        final File target = new File(gen, "target");
+        assertTrue(target.exists(), "target dir created with debris: " + target);
+        final File bak = new File(gen, "target.bak");
+        final boolean moveAway = target.renameTo(bak);
+        assertTrue(moveAway, "Move away to " + bak + " succeeded");
 
         File created = new File(gen, "client");
         assertTrue(created.isDirectory(), "Project created");
