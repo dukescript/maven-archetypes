@@ -131,9 +131,9 @@ public class VerifyArchetypeIT extends VerifyBase {
           + "}\n"
         );
 
-        FileWriter w = new FileWriter(dataModel);
-        w.write(mainSb.toString());
-        w.close();
+        try (FileWriter w = new FileWriter(dataModel)) {
+            w.write(mainSb.toString());
+        }
 
         assertPresenter(created, v, "-Pdesktop", "org.netbeans.html.boot.fx.FXPresenter");
 
@@ -142,8 +142,9 @@ public class VerifyArchetypeIT extends VerifyBase {
         // assertPresenter(created, v, "-Pbrowser-presenter", "org.netbeans.html.presenters.spi.ProtoPresenterBuilder$GenPresenterWithExecutor");
     }
 
-    private void assertPresenter(File created, Verifier v, String option, String presenter) throws VerificationException {
-        Verifier v3 = createVerifier(new File(created.getAbsoluteFile(), "client").getPath());
+    protected void assertPresenter(File created, Verifier v, String option, String presenter) throws VerificationException {
+        final File client = new File(created.getAbsoluteFile(), "client");
+        Verifier v3 = createVerifier(client.getPath());
         v3.localRepo = v.localRepo;
         if (option != null) {
             v3.addCliOption(option);
@@ -889,7 +890,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         return false;
     }
 
-    private static String readFile(File file) throws IOException {
+    static String readFile(File file) throws IOException {
         return Files.readString(file.toPath());
     }
 }
