@@ -32,6 +32,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
@@ -56,7 +57,6 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 import org.testng.SkipException;
 import org.testng.annotations.Test;
-import org.testng.reporters.Files;
 import org.w3c.dom.Document;
 
 /**
@@ -104,7 +104,7 @@ public class VerifyArchetypeIT extends VerifyBase {
             created, "client"), "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "UIModel.java"
         );
         assertTrue(dataModel.isFile(), "Java file exists: " + dataModel);
-        String mainSrc = Files.readFile(dataModel);
+        String mainSrc = readFile(dataModel);
         int bootMethod = mainSrc.lastIndexOf("onPageLoad(");
         assertNotEquals(bootMethod, -1, "onPageLoad method present: " + mainSrc);
         int bootMethodEnd = mainSrc.indexOf("}", bootMethod);
@@ -163,7 +163,7 @@ public class VerifyArchetypeIT extends VerifyBase {
             created, "client"), "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "UIModel.java"
         );
         assertTrue(dataModel.isFile(), "Java file exists: " + dataModel);
-        String mainSrc = Files.readFile(dataModel);
+        String mainSrc = readFile(dataModel);
         int bootMethod = mainSrc.lastIndexOf("onPageLoad(");
         assertNotEquals(bootMethod, -1, "onPageLoad method present: " + mainSrc);
         int bootMethodEnd = mainSrc.indexOf("}", bootMethod);
@@ -203,7 +203,7 @@ public class VerifyArchetypeIT extends VerifyBase {
 
         File nbactions = new File(client, "nbactions.xml");
         assertTrue(nbactions.isFile(), "Actions file is in there");
-        assertTrue(Files.readFile(nbactions).contains("robovm"), "There should robovm goals in " + nbactions);
+        assertTrue(readFile(nbactions).contains("robovm"), "There should robovm goals in " + nbactions);
 
         v2.assertFilePresent("target/images/Icon.png");
         v2.assertFilePresent("target/images/Icon@2.png");
@@ -294,7 +294,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         assertTrue(created.isDirectory(), "Project created");
         File pom = new File(created, "pom.xml");
         assertTrue(pom.isFile(), "Pom file is in there");
-        assertFalse(Files.readFile(pom).contains("ios"), "There should be no mention of ios in " + pom);
+        assertFalse(readFile(pom).contains("ios"), "There should be no mention of ios in " + pom);
 
         Verifier v = createVerifier(created.getParent());
         v.getCliOptions().add("-Denforcer.fail=true");
@@ -304,7 +304,7 @@ public class VerifyArchetypeIT extends VerifyBase {
 
         File nbactions = new File(created, "nbactions.xml");
         assertTrue(nbactions.isFile(), "Actions file is in there");
-        assertFalse(Files.readFile(nbactions).contains("robovm"), "There should be no mention of robovm in " + nbactions);
+        assertFalse(readFile(nbactions).contains("robovm"), "There should be no mention of robovm in " + nbactions);
     }
 
     @Test public void androidProjectCompiles() throws Exception {
@@ -335,7 +335,7 @@ public class VerifyArchetypeIT extends VerifyBase {
             File main = new File(new File(new File(new File(new File(new File(new File(new File(
                 created, "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "Main.java"
             );
-            String mainSrc = Files.readFile(main);
+            String mainSrc = readFile(main);
             int bootMethod = mainSrc.indexOf("onPageLoad()");
             StringBuilder mainSb = new StringBuilder(mainSrc.substring(0, bootMethod));
             mainSb.append("" +
@@ -356,7 +356,7 @@ public class VerifyArchetypeIT extends VerifyBase {
             w.write(mainSb.toString());
             w.close();
 
-            String pomSrc = Files.readFile(clientPom);
+            String pomSrc = readFile(clientPom);
             pomSrc = assertReplace(pomSrc, "<source>1.7</source>", "<source>1.8</source>");
             pomSrc = assertReplace(pomSrc, "<target>1.7</target>", "<target>1.8</target>");
 
@@ -399,12 +399,12 @@ public class VerifyArchetypeIT extends VerifyBase {
         File apk = new File(new File(and, "target"), base.getName() + "-android-1.0-SNAPSHOT.apk");
         assertTrue(apk.isFile(), "apk has been generated: " + apk);
 
-        JarFile jf = new JarFile(apk);
-        assertNotNull(jf.getEntry("assets/pages/index.html"), "index.html is included in " + apk);
-        ZipEntry indexBin = jf.getEntry("assets/pages/index.bin");
-        assertNotNull(indexBin, "binary file found in " + apk);
-        assertBinary(jf.getInputStream(indexBin));
-        jf.close();
+        try (JarFile jf = new JarFile(apk)) {
+            assertNotNull(jf.getEntry("assets/pages/index.html"), "index.html is included in " + apk);
+            ZipEntry indexBin = jf.getEntry("assets/pages/index.bin");
+            assertNotNull(indexBin, "binary file found in " + apk);
+            assertBinary(jf.getInputStream(indexBin));
+        }
     }
 
     @Test public void withoutAndroidProjectCompiles() throws Exception {
@@ -415,7 +415,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         assertTrue(created.isDirectory(), "Project created");
         final File pom = new File(created, "pom.xml");
         assertTrue(pom.isFile(), "Pom file is in there");
-        assertFalse(Files.readFile(pom).contains("android"), "There should be no mention of android in " + pom);
+        assertFalse(readFile(pom).contains("android"), "There should be no mention of android in " + pom);
 
         {
             Verifier v = createVerifier(created.getParent());
@@ -435,7 +435,12 @@ public class VerifyArchetypeIT extends VerifyBase {
     @Test
     public void webProjectCompiles() throws Exception {
         final File dir = new File("target/tests/b2bcmp/").getAbsoluteFile();
-        File gen = generateFromArchetype("b-p-test", dir, "-Dwebpath=test-web");
+        final File gen = generateFromArchetype("b-p-test", dir, "-Dwebpath=test-web");
+        final File target = new File(gen, "target");
+        assertTrue(target.exists(), "target dir created with debris: " + target);
+        final File bak = new File(gen, "target.bak");
+        final boolean moveAway = target.renameTo(bak);
+        assertTrue(moveAway, "Move away to " + bak + " succeeded");
 
         File created = new File(gen, "client");
         assertTrue(created.isDirectory(), "Project created");
@@ -452,7 +457,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         assertTrue(web.isDirectory(), "Project created");
         assertTrue(new File(web, "pom.xml").isFile(), "Pom file is in there");
 
-        String indexContent = Files.readFile(index);
+        String indexContent = readFile(index);
         assertTrue(indexContent.contains("${browser.bootstrap}"), "There should be bck2brwsr.js placeholder in " + index);
 
         File jsDir = new File(gen, "js");
@@ -461,7 +466,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         File jsFile = new File(new File(new File(new File(new File(new File(new File(new File(new File(jsDir, "src"), "main"), "java"), "org"), someuser), "test"), "" + oat + ""), "js"), "Dialogs.java");
         assertTrue(jsFile.isFile(), "File found");
 
-        String jsCode = Files.readFile(jsFile);
+        String jsCode = readFile(jsFile);
         final String replace = "confirm(msg);";
         int where = jsCode.indexOf(replace);
         jsCode = jsCode.substring(0, where) + "window.confirm(msg);window.reallyNonExistingAttr;" + jsCode.substring(where + replace.length());
@@ -502,15 +507,15 @@ public class VerifyArchetypeIT extends VerifyBase {
 
         File nbactions = new File(web, "nbactions.xml");
         assertTrue(nbactions.isFile(), "Actions file is in there");
-        assertTrue(Files.readFile(nbactions).contains("bck2brwsr"), "There should bck2brwsr goal in " + nbactions);
+        assertTrue(readFile(nbactions).contains("bck2brwsr"), "There should bck2brwsr goal in " + nbactions);
 
         File genJSLib = new File(new File(genRoot, "lib"), gen.getName() + "-js-1.0-SNAPSHOT.js");
         assertTrue(genJSLib.exists(), "JsLib file found: " + genJSLib);
-        String genJSCode = Files.readFile(genJSLib);
+        String genJSCode = readFile(genJSLib);
         assertTrue(genJSCode.contains("w.reallyNonExistingAttr"), "w.reallyNonExistingAttr found in\n" + genJSCode);
 
         File indexGen = new File(genRoot, "index.html");
-        String indexGenContent = Files.readFile(indexGen);
+        String indexGenContent = readFile(indexGen);
         assertTrue(indexGenContent.contains("src=\"bck2brwsr.js\""), "There should be bck2brwsr.js reference in " + indexGen);
 
         for (String line : v.loadFile(v.getBasedir(), v.getLogFileName(), false)) {
@@ -540,7 +545,7 @@ public class VerifyArchetypeIT extends VerifyBase {
         File pages = new File(new File(main, "webapp"), "pages");
         File index = new File(pages, "index.html");
 
-        String indexContent = Files.readFile(index);
+        String indexContent = readFile(index);
         assertTrue(indexContent.contains("${browser.bootstrap}"), "There should be bck2brwsr.js placeholder in " + index);
 
         {
@@ -573,12 +578,12 @@ public class VerifyArchetypeIT extends VerifyBase {
 
             File genRoot = new File(new File(new File(forWeb, "target"), gen.getName() + "-web-1.0-SNAPSHOT-bck2brwsr"), "public_html");
             File indexGen = new File(genRoot, "index.html");
-            String indexGenContent = Files.readFile(indexGen);
+            String indexGenContent = readFile(indexGen);
             assertTrue(indexGenContent.contains("src=\"bck2brwsr.js\""), "There should be bck2brwsr.js reference in " + indexGen);
 
             File nbactions = new File(forWeb, "nbactions.xml");
             assertTrue(nbactions.isFile(), "Actions file is in there");
-            final String cntnt = Files.readFile(nbactions);
+            final String cntnt = readFile(nbactions);
             assertTrue(cntnt.contains("bck2brwsr"), "There should bck2brwsr goal in " + nbactions);
             assertTrue(cntnt.contains("CUSTOM-bck2brwsr-web"), "An action to generate a web in " + nbactions);
         }
@@ -602,16 +607,17 @@ public class VerifyArchetypeIT extends VerifyBase {
 
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     if (file.toString().endsWith(".jar")) {
-                        JarFile jf = new JarFile(file.toFile());
-                        if (jf.getManifest()!=null){
-                            final Attributes mainAttributes = jf.getManifest().getMainAttributes();
-                            String name = mainAttributes.getValue("Bundle-SymbolicName");
-                            if (name != null && name.contains("html")) {
-                                String version = mainAttributes.getValue("Bundle-Version");
-                                if (sharedVersion[0] == null) {
-                                    sharedVersion[0] = version;
-                                } else {
-                                    assertEquals(version, sharedVersion[0], "Proper version for " + file.getFileName());
+                        try (JarFile jf = new JarFile(file.toFile())) {
+                            if (jf.getManifest()!=null) {
+                                final Attributes mainAttributes = jf.getManifest().getMainAttributes();
+                                String name = mainAttributes.getValue("Bundle-SymbolicName");
+                                if (name != null && name.contains("html")) {
+                                    String version = mainAttributes.getValue("Bundle-Version");
+                                    if (sharedVersion[0] == null) {
+                                        sharedVersion[0] = version;
+                                    } else {
+                                        assertEquals(version, sharedVersion[0], "Proper version for " + file.getFileName());
+                                    }
                                 }
                             }
                         }
@@ -678,13 +684,14 @@ public class VerifyArchetypeIT extends VerifyBase {
 
         File jar = new File(new File(nb, "target"), base.getName() + "-nb-1.0-SNAPSHOT.jar");
         assertTrue(jar.exists(), "File is created: " + jar);
-        JarFile jf = new JarFile(jar);
-        String cp = jf.getManifest().getMainAttributes().getValue("Class-Path");
-        assertNull(cp, "Classpath found: " + cp);
+        try (JarFile jf = new JarFile(jar)) {
+            String cp = jf.getManifest().getMainAttributes().getValue("Class-Path");
+            assertNull(cp, "Classpath found: " + cp);
+        }
 
         File nbactions = new File(nb, "nbactions.xml");
         assertTrue(nbactions.isFile(), "Actions file is in there");
-        final String nbActionsContent = Files.readFile(nbactions);
+        final String nbActionsContent = readFile(nbactions);
         assertTrue(nbActionsContent.contains("nbm"), "There should nbm goal in " + nbactions);
         assertTrue(nbActionsContent.contains("nbm:cluster"), "There should nbm:cluster goal in " + nbactions);
         assertTrue(nbActionsContent.contains("nbm:run-platform"), "There should nbm:run-platform goal in " + nbactions);
@@ -765,5 +772,9 @@ public class VerifyArchetypeIT extends VerifyBase {
         v.assertFilePresent("target/classes/org/" + someuser + "/test/" + oat + "/plus.css");
         v.assertFilePresent("target/classes/org/" + someuser + "/test/" + oat + "/icon.png");
         v.assertFilePresent("target/classes/org/" + someuser + "/test/" + oat + "/icon24.png");
+    }
+
+    static String readFile(File file) throws IOException {
+        return Files.readString(file.toPath());
     }
 }
