@@ -29,7 +29,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
-import static org.testng.Assert.*;
+import org.apache.maven.it.VerificationException;
+import org.apache.maven.it.Verifier;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
+import org.testng.annotations.Test;
 import org.testng.reporters.Files;
 
 /**
@@ -67,7 +72,7 @@ public class VerifyNoExampleIT extends VerifyArchetypeIT {
         StringBuilder sb = new StringBuilder();
         File dialogs = findDialogs(dir, sb);
         assertNotNull(dialogs, "PlatformServices file found");
-        String text = Files.readFile(dialogs);
+        String text = readFile(dialogs);
         assertEquals(text.indexOf("confirmByUser"), -1, "Do method confirmByUser in the file: " + dialogs);
         assertEquals(text.indexOf("screenSize"), -1, "Do method screenSize in the file: " + dialogs);
         assertEquals(sb.length(), 0, sb.toString());
@@ -95,6 +100,17 @@ public class VerifyNoExampleIT extends VerifyArchetypeIT {
                 }
             }
             return null;
+        }
+    }
+
+    @Override
+    protected void assertPresenter(File created, Verifier v, String option, String presenter) throws VerificationException {
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            // skip the check as: Failed to delete
+            // maven-archetypes\ko-archetype-test\target\tests\fxcompile\VerifyNoExampleIT-o-a-test\client\target\generated-sources\annotations\org\someuserf5107982\test\oat7\Data.java
+            return;
+        } else {
+            super.assertPresenter(created, v, option, presenter);
         }
     }
 }

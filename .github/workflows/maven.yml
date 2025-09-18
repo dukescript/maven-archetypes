@@ -1,0 +1,46 @@
+name: DukeScript Archetypes
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        java: [ '21' ]
+        os: ['ubuntu-22.04', 'windows-2022']
+        archetype: ['ko', 'crud', 'visual']
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'zulu'
+        java-version: ${{ matrix.java }}
+
+    - name: Build Archetypes
+      run: mvn clean install -DskipTests
+
+    - name: Setup Xvfb
+      if: contains(matrix.os, 'ubuntu') && success()
+      run: |
+        echo "DISPLAY=:66.0" >> $GITHUB_ENV
+        Xvfb :66 -screen 0 1024x768x24 > /dev/null 2>&1 &
+
+    - name: Setup Browser
+      if: contains(matrix.os, 'ubuntu') && success()
+      run: |
+        xdg-open http://dukescript.com &
+        sleep 5
+        ps -Af
+
+    - name: Test Archetypes
+      run: |
+        mvn install -f ${{ matrix.archetype }}-archetype-test
