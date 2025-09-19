@@ -22,9 +22,9 @@
         <browser.bootstrap>initialize bck2brwsr --&gt;
 &lt;script type="text/javascript" src="bck2brwsr.js"&gt;&lt;/script&gt;
 &lt;script&gt;
-    var vm = bck2brwsr('\${artifactId}.js');
-    var c = vm.loadClass('\${package}.BrowserMain');
-    c.invoke('main');
+            var vm = bck2brwsr('\${artifactId}.js');
+            var c = vm.loadClass('\${package}.BrowserMain');
+            c.invoke('main');
 &lt;/script&gt;
 &lt;!-- end of initialization </browser.bootstrap>
     </properties>
@@ -46,13 +46,21 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.13.0</version>
                 <configuration>
                     <source>8</source>
                     <target>8</target>
                     <compilerArguments>
                         <bootclasspath>netbeans.ignore.jdk.bootclasspath</bootclasspath>
                     </compilerArguments>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.netbeans.html</groupId>
+                            <artifactId>net.java.html.json</artifactId>
+                            <version>\${net.java.html.version}</version>
+                            <classifier>processor</classifier>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
