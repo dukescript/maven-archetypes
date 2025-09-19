@@ -49,6 +49,7 @@
         <license>COPYING</license>
         <netbeans.compile.on.save>none</netbeans.compile.on.save>
         <nashorn.version>15.4</nashorn.version>
+        <graaljs.version>24.1.1</graaljs.version>
     </properties>
     <modules>
         <module>crud-archetype</module>
