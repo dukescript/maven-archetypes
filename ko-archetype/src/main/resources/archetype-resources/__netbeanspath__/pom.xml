@@ -69,6 +69,11 @@
                             <artifactId>org-openide-util-lookup</artifactId>
                             <version>\${netbeans.version}</version>
                         </path>
+                        <path>
+                            <groupId>org.netbeans.api</groupId>
+                            <artifactId>org-openide-filesystems</artifactId>
+                            <version>\${netbeans.version}</version>
+                        </path>
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
