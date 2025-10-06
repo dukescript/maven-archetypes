@@ -54,14 +54,14 @@
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.netbeans.html</groupId>
-                            <artifactId>net.java.html.js</artifactId>
+                            <artifactId>net.java.html.json</artifactId>
                             <version>\${net.java.html.version}</version>
                         </path>
                     </annotationProcessorPaths>
                     <testAnnotationProcessorPaths>
                         <path>
                             <groupId>org.netbeans.html</groupId>
-                            <artifactId>net.java.html.js</artifactId>
+                            <artifactId>net.java.html.json</artifactId>
                             <version>\${net.java.html.version}</version>
                         </path>
                     </testAnnotationProcessorPaths>
