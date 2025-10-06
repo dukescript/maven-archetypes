@@ -37,17 +37,9 @@
                 <version>\${net.java.html.version}</version>
                 <executions>
                     <execution>
-                        <id>process-js-annotations</id>
-                        <phase>process-classes</phase>
+                        <id>js-classes</id>
                         <goals>
                             <goal>process-js-annotations</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>process-test-js-annotations</id>
-                        <phase>process-test-classes</phase>
-                        <goals>
-                            <goal>process-test-js-annotations</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -59,6 +51,20 @@
                 <configuration>
                     <source>8</source>
                     <target>8</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.netbeans.html</groupId>
+                            <artifactId>net.java.html.js</artifactId>
+                            <version>\${net.java.html.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <testAnnotationProcessorPaths>
+                        <path>
+                            <groupId>org.netbeans.html</groupId>
+                            <artifactId>net.java.html.js</artifactId>
+                            <version>${net.java.html.version}</version>
+                        </path>
+                    </testAnnotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
