@@ -37,9 +37,17 @@
                 <version>\${net.java.html.version}</version>
                 <executions>
                     <execution>
-                        <id>js-classes</id>
+                        <id>process-js-annotations</id>
+                        <phase>process-classes</phase>
                         <goals>
                             <goal>process-js-annotations</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>process-test-js-annotations</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>process-test-js-annotations</goal>
                         </goals>
                     </execution>
                 </executions>
