@@ -58,6 +58,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
+                    <useModulePath>false</useModulePath>
                     <junitArtifactName>com.dukescript.api:junit-osgi</junitArtifactName>
                     <systemPropertyVariables>
                         <fxpresenter.headless>true</fxpresenter.headless>
@@ -102,9 +103,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.graalvm.js</groupId>
-            <artifactId>js-scriptengine</artifactId>
-            <version>\${graaljs.version}</version>
+            <groupId>org.openjdk.nashorn</groupId>
+            <artifactId>nashorn-core</artifactId>
+            <version>\${nashorn.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- Nashorn presenter for BrowserRunner -->

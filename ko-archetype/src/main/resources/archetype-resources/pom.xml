@@ -37,9 +37,7 @@
         <presenters.version>${presenters.version}</presenters.version>
         <enforcer.fail>false</enforcer.fail>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!--<nashorn.version>${nashorn.version}</nashorn.version>-->
-        <graaljs.version>${graaljs.version}</graaljs.version>
-
+        <nashorn.version>${nashorn.version}</nashorn.version>
     </properties>
     <dependencyManagement>
         <dependencies>
