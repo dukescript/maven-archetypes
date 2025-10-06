@@ -39,7 +39,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.14.1</version>
                 <executions>
                     <execution>
                         <id>default-compile</id>
@@ -66,6 +66,11 @@
                         <path>
                             <groupId>org.netbeans.api</groupId>
                             <artifactId>org-openide-util-lookup</artifactId>
+                            <version>\${netbeans.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.netbeans.api</groupId>
+                            <artifactId>org-openide-filesystems</artifactId>
                             <version>\${netbeans.version}</version>
                         </path>
                     </annotationProcessorPaths>
