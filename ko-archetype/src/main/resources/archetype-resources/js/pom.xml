@@ -62,7 +62,7 @@
                         <path>
                             <groupId>org.netbeans.html</groupId>
                             <artifactId>net.java.html.js</artifactId>
-                            <version>${net.java.html.version}</version>
+                            <version>\${net.java.html.version}</version>
                         </path>
                     </testAnnotationProcessorPaths>
                 </configuration>
